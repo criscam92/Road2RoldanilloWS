@@ -77,8 +77,14 @@ div#acciones button.ui-button {
     margin-right: 5px;
 }
 
-.ui-menu.ui-widget li > .ui-menuitem-link.ui-state-hover{
-    color:#ffffff;
+div.ui-dialog{
+    
+}
+
+.ui-menu.ui-widget li > .ui-menuitem-link.ui-state-hover,
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight,
+div.ui-dialog div.ui-dialog-titlebar{
+    color: #FFFFFF;
     text-decoration:none;
     background-color:#e52b2b;
     background-color: #d52828;
@@ -92,19 +98,6 @@ div#acciones button.ui-button {
     filter:progid:dximagetransform.microsoft.gradient(startColorstr='#ffe52b2b', endColorstr='#ffbf2525', GradientType=0);
 }
 
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
-    text-decoration:none;
-    background-color:#e52b2b;
-    background-color:#d52828;
-    background-position:0px;
-    background-image:-moz-linear-gradient(top, #e52b2b, #bf2525);
-    background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#e52b2b), to(#bf2525));
-    background-image:-webkit-linear-gradient(top, #e52b2b, #bf2525);
-    background-image:-o-linear-gradient(top, #e52b2b, #bf2525);
-    background-image: linear-gradient(to bottom, #CC002E, #B3001B);
-    background-repeat:repeat-x;
-    filter:progid:dximagetransform.microsoft.gradient(startColorstr='#ffe52b2b', endColorstr='#ffbf2525', GradientType=0);
-}
 
 div.ui-menubar ul.ui-menu-list li.menuPrincipal,
 div.ui-menubar ul.ui-menu-list li.ui-menuitem{

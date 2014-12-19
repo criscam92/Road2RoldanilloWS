@@ -1,4 +1,4 @@
-package r2r.util;
+package r2r.persistencia.controller.util;
 
 import java.util.List;
 import javax.faces.application.FacesMessage;

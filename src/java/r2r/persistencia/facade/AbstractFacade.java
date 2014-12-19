@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package r2r.persistencia.controller;
+package r2r.persistencia.facade;
 
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,11 +11,9 @@ import javax.persistence.EntityManager;
 /**
  *
  * @author CRISTIAN
- * @param <T>
  */
 public abstract class AbstractFacade<T> {
-
-    private final Class<T> entityClass;
+    private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -61,5 +59,5 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-
+    
 }

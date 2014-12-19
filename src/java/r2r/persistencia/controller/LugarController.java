@@ -1,9 +1,9 @@
 package r2r.persistencia.controller;
 
-import r2r.persistencia.entidades.Categoria;
+import r2r.persistencia.entidades.Lugar;
 import r2r.persistencia.controller.util.JsfUtil;
 import r2r.persistencia.controller.util.JsfUtil.PersistAction;
-import r2r.persistencia.facade.CategoriaFacade;
+import r2r.persistencia.facade.LugarFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name = "categoriaController")
+@ManagedBean(name = "lugarController")
 @SessionScoped
-public class CategoriaController implements Serializable {
+public class LugarController implements Serializable {
 
     @EJB
-    private r2r.persistencia.facade.CategoriaFacade ejbFacade;
-    private List<Categoria> items = null;
-    private Categoria selected;
+    private r2r.persistencia.facade.LugarFacade ejbFacade;
+    private List<Lugar> items = null;
+    private Lugar selected;
 
-    public CategoriaController() {
+    public LugarController() {
     }
 
-    public Categoria getSelected() {
+    public Lugar getSelected() {
         return selected;
     }
 
-    public void setSelected(Categoria selected) {
+    public void setSelected(Lugar selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class CategoriaController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private CategoriaFacade getFacade() {
+    private LugarFacade getFacade() {
         return ejbFacade;
     }
 
-    public Categoria prepareCreate() {
-        selected = new Categoria();
+    public Lugar prepareCreate() {
+        selected = new Lugar();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LugarUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CategoriaDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("LugarDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Categoria> getItems() {
+    public List<Lugar> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,24 +109,24 @@ public class CategoriaController implements Serializable {
         }
     }
 
-    public List<Categoria> getItemsAvailableSelectMany() {
+    public List<Lugar> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Categoria> getItemsAvailableSelectOne() {
+    public List<Lugar> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Categoria.class)
-    public static class CategoriaControllerConverter implements Converter {
+    @FacesConverter(forClass = Lugar.class)
+    public static class LugarControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            CategoriaController controller = (CategoriaController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "categoriaController");
+            LugarController controller = (LugarController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "lugarController");
             return controller.getFacade().find(getKey(value));
         }
 
@@ -147,11 +147,11 @@ public class CategoriaController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Categoria) {
-                Categoria o = (Categoria) object;
+            if (object instanceof Lugar) {
+                Lugar o = (Lugar) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Categoria.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Lugar.class.getName()});
                 return null;
             }
         }

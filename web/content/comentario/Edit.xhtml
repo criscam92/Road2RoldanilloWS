@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComentarioEditDlg" widgetVar="ComentarioEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditComentarioTitle}">
+            <h:form id="ComentarioEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{comentarioController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditComentarioLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{comentarioController.selected.id}" title="#{bundle.EditComentarioTitle_id}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditComentarioLabel_detalle}" for="detalle" />
+                        <p:inputText id="detalle" value="#{comentarioController.selected.detalle}" title="#{bundle.EditComentarioTitle_detalle}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_detalle}"/>
+                        <p:outputLabel value="#{bundle.EditComentarioLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{comentarioController.selected.fecha}" title="#{bundle.EditComentarioTitle_fecha}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditComentarioLabel_puntaje}" for="puntaje" />
+                        <p:inputText id="puntaje" value="#{comentarioController.selected.puntaje}" title="#{bundle.EditComentarioTitle_puntaje}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_puntaje}"/>
+                        <p:outputLabel value="#{bundle.EditComentarioLabel_lugar}" for="lugar" />
+                        <p:selectOneMenu id="lugar" value="#{comentarioController.selected.lugar}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_lugar}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{lugarController.itemsAvailableSelectOne}"
+                                           var="lugarItem"
+                                           itemValue="#{lugarItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditComentarioLabel_usuario}" for="usuario" />
+                        <p:selectOneMenu id="usuario" value="#{comentarioController.selected.usuario}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_usuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="usuarioItem"
+                                           itemValue="#{usuarioItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{comentarioController.update}" value="#{bundle.Save}" update="display,:ComentarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ComentarioEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ComentarioEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

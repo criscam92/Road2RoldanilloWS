@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LugarCreateDlg" widgetVar="LugarCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateLugarTitle}">
+            <h:form id="LugarCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{lugarController.selected.id}" title="#{bundle.CreateLugarTitle_id}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{lugarController.selected.nombre}" title="#{bundle.CreateLugarTitle_nombre}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_nombre}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_latitud}" for="latitud" />
+                        <p:inputText id="latitud" value="#{lugarController.selected.latitud}" title="#{bundle.CreateLugarTitle_latitud}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_latitud}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_longitud}" for="longitud" />
+                        <p:inputText id="longitud" value="#{lugarController.selected.longitud}" title="#{bundle.CreateLugarTitle_longitud}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_longitud}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.CreateLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_descripcion}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_puntaje}" for="puntaje" />
+                        <p:inputText id="puntaje" value="#{lugarController.selected.puntaje}" title="#{bundle.CreateLugarTitle_puntaje}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_puntaje}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{lugarController.selected.direccion}" title="#{bundle.CreateLugarTitle_direccion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_direccion}"/>
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{lugarController.selected.telefono}" title="#{bundle.CreateLugarTitle_telefono}" />
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_sitio}" for="sitio" />
+                        <p:inputText id="sitio" value="#{lugarController.selected.sitio}" title="#{bundle.CreateLugarTitle_sitio}" />
+                        <p:outputLabel value="#{bundle.CreateLugarLabel_categoria}" for="categoria" />
+                        <p:selectOneMenu id="categoria" value="#{lugarController.selected.categoria}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_categoria}">
+                            <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
+                                           var="categoriaItem"
+                                           itemValue="#{categoriaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{lugarController.create}" value="#{bundle.Save}" update="display,:LugarListForm:datalist,:growl" oncomplete="handleSubmit(args,'LugarCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="LugarCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

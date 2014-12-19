@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package r2r.persistencia.entidades;
 
 import java.io.Serializable;
@@ -24,10 +19,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author CRISTIAN
- */
 @Entity
 @Table(catalog = "road2roldanillo", schema = "public")
 @XmlRootElement
@@ -35,8 +26,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c"),
     @NamedQuery(name = "Categoria.findById", query = "SELECT c FROM Categoria c WHERE c.id = :id"),
     @NamedQuery(name = "Categoria.findByNombre", query = "SELECT c FROM Categoria c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Categoria.findByIcono", query = "SELECT c FROM Categoria c WHERE c.icono = :icono")})
+    @NamedQuery(name = "Categoria.findByMDPI", query = "SELECT c FROM Categoria c WHERE c.mdpi = :mdpi"),
+    @NamedQuery(name = "Categoria.findByHDPI", query = "SELECT c FROM Categoria c WHERE c.hdpi = :hdpi"),
+    @NamedQuery(name = "Categoria.findByXHDPI", query = "SELECT c FROM Categoria c WHERE c.xhdpi = :xhdpi"),
+    @NamedQuery(name = "Categoria.findByXXHDPI", query = "SELECT c FROM Categoria c WHERE c.xxhdpi = :xxhdpi")})
 public class Categoria implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +47,22 @@ public class Categoria implements Serializable {
     @NotNull
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
-    private String icono;
+    private String mdpi;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(nullable = false, length = 100)
+    private String hdpi;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(nullable = false, length = 100)
+    private String xhdpi;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(nullable = false, length = 100)
+    private String xxhdpi;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
     private List<Lugar> lugarList;
 
@@ -63,10 +73,13 @@ public class Categoria implements Serializable {
         this.id = id;
     }
 
-    public Categoria(Integer id, String nombre, String icono) {
+    public Categoria(Integer id, String nombre, String mdpi, String hdpi, String xhdpi, String xxhdpi) {
         this.id = id;
         this.nombre = nombre;
-        this.icono = icono;
+        this.mdpi = mdpi;
+        this.hdpi = hdpi;
+        this.xhdpi = xhdpi;
+        this.xxhdpi = xxhdpi;
     }
 
     public Integer getId() {
@@ -85,12 +98,36 @@ public class Categoria implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getIcono() {
-        return icono;
+    public String getMDPI() {
+        return mdpi;
     }
 
-    public void setIcono(String icono) {
-        this.icono = icono;
+    public void setMDPI(String mdpi) {
+        this.mdpi = mdpi;
+    }
+
+    public String getHDPI() {
+        return hdpi;
+    }
+
+    public void setHDPI(String hdpi) {
+        this.hdpi = hdpi;
+    }
+
+    public String getXHDPI() {
+        return xhdpi;
+    }
+
+    public void setXHDPI(String xhdpi) {
+        this.xhdpi = xhdpi;
+    }
+
+    public String getXXHDPI() {
+        return xxhdpi;
+    }
+
+    public void setXXHDPI(String xxhdpi) {
+        this.xxhdpi = xxhdpi;
     }
 
     @XmlTransient
@@ -111,20 +148,16 @@ public class Categoria implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Categoria)) {
             return false;
         }
         Categoria other = (Categoria) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
         return "r2r.persistencia.controllers.Categoria[ id=" + id + " ]";
     }
-    
+
 }

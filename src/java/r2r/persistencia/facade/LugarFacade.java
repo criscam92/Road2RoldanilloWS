@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package r2r.persistencia.controller;
+package r2r.persistencia.facade;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import r2r.persistencia.entidades.Categoria;
+import r2r.persistencia.entidades.Lugar;
 
 /**
  *
  * @author CRISTIAN
  */
 @Stateless
-public class CategoriaFacade extends AbstractFacade<Categoria> {
+public class LugarFacade extends AbstractFacade<Lugar> {
     @PersistenceContext(unitName = "Road2RoldanilloWSPU")
     private EntityManager em;
 
@@ -24,8 +24,8 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
         return em;
     }
 
-    public CategoriaFacade() {
-        super(Categoria.class);
+    public LugarFacade() {
+        super(Lugar.class);
     }
     
 }

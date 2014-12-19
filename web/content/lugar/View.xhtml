@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LugarViewDlg" widgetVar="LugarViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewLugarTitle}">
+            <h:form id="LugarViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
+                        <h:outputText value="#{bundle.ViewLugarLabel_id}"/>
+                        <h:outputText value="#{lugarController.selected.id}" title="#{bundle.ViewLugarTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_nombre}"/>
+                        <h:outputText value="#{lugarController.selected.nombre}" title="#{bundle.ViewLugarTitle_nombre}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_latitud}"/>
+                        <h:outputText value="#{lugarController.selected.latitud}" title="#{bundle.ViewLugarTitle_latitud}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_longitud}"/>
+                        <h:outputText value="#{lugarController.selected.longitud}" title="#{bundle.ViewLugarTitle_longitud}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_descripcion}"/>
+                        <h:outputText value="#{lugarController.selected.descripcion}" title="#{bundle.ViewLugarTitle_descripcion}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_puntaje}"/>
+                        <h:outputText value="#{lugarController.selected.puntaje}" title="#{bundle.ViewLugarTitle_puntaje}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_direccion}"/>
+                        <h:outputText value="#{lugarController.selected.direccion}" title="#{bundle.ViewLugarTitle_direccion}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_telefono}"/>
+                        <h:outputText value="#{lugarController.selected.telefono}" title="#{bundle.ViewLugarTitle_telefono}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_sitio}"/>
+                        <h:outputText value="#{lugarController.selected.sitio}" title="#{bundle.ViewLugarTitle_sitio}"/>
+                        <h:outputText value="#{bundle.ViewLugarLabel_categoria}"/>
+                        <h:outputText value="#{lugarController.selected.categoria}" title="#{bundle.ViewLugarTitle_categoria}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="LugarViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComentarioViewDlg" widgetVar="ComentarioViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewComentarioTitle}">
+            <h:form id="ComentarioViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{comentarioController.selected != null}">
+                        <h:outputText value="#{bundle.ViewComentarioLabel_id}"/>
+                        <h:outputText value="#{comentarioController.selected.id}" title="#{bundle.ViewComentarioTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewComentarioLabel_detalle}"/>
+                        <h:outputText value="#{comentarioController.selected.detalle}" title="#{bundle.ViewComentarioTitle_detalle}"/>
+                        <h:outputText value="#{bundle.ViewComentarioLabel_fecha}"/>
+                        <h:outputText value="#{comentarioController.selected.fecha}" title="#{bundle.ViewComentarioTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewComentarioLabel_puntaje}"/>
+                        <h:outputText value="#{comentarioController.selected.puntaje}" title="#{bundle.ViewComentarioTitle_puntaje}"/>
+                        <h:outputText value="#{bundle.ViewComentarioLabel_lugar}"/>
+                        <h:outputText value="#{comentarioController.selected.lugar}" title="#{bundle.ViewComentarioTitle_lugar}"/>
+                        <h:outputText value="#{bundle.ViewComentarioLabel_usuario}"/>
+                        <h:outputText value="#{comentarioController.selected.usuario}" title="#{bundle.ViewComentarioTitle_usuario}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ComentarioViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

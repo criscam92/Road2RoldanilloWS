@@ -15,8 +15,14 @@
                         <h:outputText value="#{categoriaController.selected.id}" title="#{bundle.ViewCategoriaTitle_id}"/>
                         <h:outputText value="#{bundle.ViewCategoriaLabel_nombre}"/>
                         <h:outputText value="#{categoriaController.selected.nombre}" title="#{bundle.ViewCategoriaTitle_nombre}"/>
-                        <h:outputText value="#{bundle.ViewCategoriaLabel_icono}"/>
-                        <h:outputText value="#{categoriaController.selected.icono}" title="#{bundle.ViewCategoriaTitle_icono}"/>
+                        <h:outputText value="#{bundle.ViewCategoriaLabel_mdpi}"/>
+                        <h:outputText value="#{categoriaController.selected.MDPI}" title="#{bundle.ViewCategoriaTitle_mdpi}"/>
+                        <h:outputText value="#{bundle.ViewCategoriaLabel_hdpi}"/>
+                        <h:outputText value="#{categoriaController.selected.HDPI}" title="#{bundle.ViewCategoriaTitle_hdpi}"/>
+                        <h:outputText value="#{bundle.ViewCategoriaLabel_xhdpi}"/>
+                        <h:outputText value="#{categoriaController.selected.XHDPI}" title="#{bundle.ViewCategoriaTitle_xhdpi}"/>
+                        <h:outputText value="#{bundle.ViewCategoriaLabel_xxhdpi}"/>
+                        <h:outputText value="#{categoriaController.selected.XXHDPI}" title="#{bundle.ViewCategoriaTitle_xxhdpi}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="CategoriaViewDialog.hide()"/>
                 </h:panelGroup>

@@ -1,6 +1,9 @@
+.ui-dialog .ui-dialog-content, .ui-dialog.ui-widget-content .ui-dialog-content{
+    overflow: hidden;
+    padding-bottom: 0;
+}
+
 button.ui-button:focus{
-    /*    outline:5px auto;*/
-    /*    outline-offset:-2px;*/
     outline-color: rgb(229,43,43);
 }
 .ui-inputfield.ui-state-error,.ui-widget-header .ui-inputfield.ui-state-error,.ui-widget-content .ui-inputfield.ui-state-error {
@@ -77,13 +80,29 @@ div#acciones button.ui-button {
     margin-right: 5px;
 }
 
-div.ui-dialog{
-    
+table.ui-panelgrid tbody tr.ui-widget-content, 
+table.ui-panelgrid tbody tr.ui-widget-content td.ui-panelgrid-cell{
+    border: none;
+    border-style: none;
+}
+
+div.botonesDialog{
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-top: 13px;
+    padding: 15px 0px 0px 23px;
+    border-top: 1px solid #eee;
+    height: 42px;
+}
+
+div.botonesDialog button{
+    margin-right: 5px;
 }
 
 .ui-menu.ui-widget li > .ui-menuitem-link.ui-state-hover,
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight,
-div.ui-dialog div.ui-dialog-titlebar{
+div.ui-dialog div.ui-dialog-titlebar,
+div.botonesDialog{
     color: #FFFFFF;
     text-decoration:none;
     background-color:#e52b2b;
@@ -112,4 +131,97 @@ div.ui-menubar ul.ui-menu-list li.ui-menuitem a.menuPrincipal{
 
 div.ui-menubar ul.ui-menu-list li.menuPrincipal ul.ui-menu-child{
     padding-right: 15px;
+}
+
+//======================================FILE UPLOAD==============================
+
+.customFileInput  {
+    display: block;
+    border: solid 1px #ccc;
+    width: 100%;
+    line-height: 1.6em;
+    vertical-align: middle;
+    height: 12px;
+}
+
+.customFileInput input.text {
+    opacity: 0;
+}
+
+.inputWithButton .text, .inputWithButton .bt {
+    width: 15%;
+    position: absolute;
+    margin-top: -24px;
+    height: 22px;
+    margin-left: 113px;
+    cursor: pointer;
+}
+
+.inputWithButton_150 {
+    width: 109px;
+    height: 23px;
+}
+
+.inputWithButton_150 .btWrap {
+    margin-top: 0px;
+    width: 111px;
+    margin-left: 0px;
+    height: 0px;
+    float: right;
+}
+
+.bt {
+    text-decoration: none;
+    text-align: center;
+    font-size: 17px;
+    border-width: 0;
+    color: #333333;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    background-color: #f5f5f5;
+    background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: linear-gradient(top, #ffffff, #e6e6e6);
+    background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+    background-repeat: repeat-x;
+    border: 1px solid #cccccc;
+    border-bottom-color: #b3b3b3;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+    filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bt:hover {
+    background-color: #3b96f9;
+    color: #fff;
+}
+.bt.nm {
+    margin-bottom: 0;
+}
+.bt.bt_small {
+    font-size: 80%;
+    padding: .5em 1em;
+}
+.bt.bt_large {
+    font-size: 120%;
+    padding: .9em 2em;
+}
+
+input.bt.db {
+    width: 100%;
+}
+
+.bt.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    background-color: #ccc;
+    color: #aaaaaa;
 }

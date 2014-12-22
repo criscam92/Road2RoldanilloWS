@@ -10,23 +10,63 @@
         <p:dialog id="CategoriaCreateDlg" widgetVar="CategoriaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCategoriaTitle}">
             <h:form id="CategoriaCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{categoriaController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{categoriaController.selected.id}" title="#{bundle.CreateCategoriaTitle_id}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_id}"/>
+                    <p:panelGrid columns="2" rendered="#{categoriaController.selected != null}">                        
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{categoriaController.selected.nombre}" title="#{bundle.CreateCategoriaTitle_nombre}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_nombre}"/>
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_mdpi}" for="mdpi" />
-                        <p:inputText id="mdpi" value="#{categoriaController.selected.MDPI}" title="#{bundle.CreateCategoriaTitle_mdpi}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_mdpi}"/>
+                        <p:panelGrid id="mdpi">
+
+                            <div class="customFileInput inputWithButton inputWithButton_150">
+                                <p:inputText readonly="true" placeholder="48x48" value="#{categoriaController.selected.MDPI}" title="#{bundle.CreateCategoriaTitle_mdpi}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_mdpi}" />
+                                <div class="btWrap">
+                                    <a class="bt" href="#">...</a>
+                                </div>
+                                <p:fileUpload mode="simple" styleClass="text"/>
+                            </div>
+
+                        </p:panelGrid>                                                          
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_hdpi}" for="hdpi" />
-                        <p:inputText id="hdpi" value="#{categoriaController.selected.HDPI}" title="#{bundle.CreateCategoriaTitle_hdpi}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_hdpi}"/>
+                        <p:panelGrid id="hdpi">
+
+                            <div class="customFileInput inputWithButton inputWithButton_150">
+                                <p:inputText  readonly="true" placeholder="72x72" value="#{categoriaController.selected.HDPI}" title="#{bundle.CreateCategoriaTitle_hdpi}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_hdpi}" />
+                                <div class="btWrap">
+                                    <a class="bt" href="#">...</a>
+                                </div>
+                                <p:fileUpload mode="simple" styleClass="text"/>
+                            </div>
+
+                        </p:panelGrid>   
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_xhdpi}" for="xhdpi" />
-                        <p:inputText id="xhdpi" value="#{categoriaController.selected.XHDPI}" title="#{bundle.CreateCategoriaTitle_xhdpi}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_xhdpi}"/>
-                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_xxhdpi}" for="xxhdpi" />
-                        <p:inputText id="xxhdpi" value="#{categoriaController.selected.XXHDPI}" title="#{bundle.CreateCategoriaTitle_xxhdpi}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_xxhdpi}"/>
+                        <p:panelGrid id="xhdpi">
+
+                            <div class="customFileInput inputWithButton inputWithButton_150">
+                                <p:inputText readonly="true" placeholder="96x96" value="#{categoriaController.selected.XHDPI}" title="#{bundle.CreateCategoriaTitle_xhdpi}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_xhdpi}" />
+                                <div class="btWrap">
+                                    <a class="bt" href="#">...</a>
+                                </div>
+                                <p:fileUpload mode="simple" styleClass="text"/>
+                            </div>
+
+                        </p:panelGrid>   
+                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_xxhdpi}" for="xxhdpi"/>
+                        <p:panelGrid id="xxhdpi">
+
+                            <div class="customFileInput inputWithButton inputWithButton_150">
+                                <p:inputText readonly="true" placeholder="180x180" value="#{categoriaController.selected.XXHDPI}" title="#{bundle.CreateCategoriaTitle_xxhdpi}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_xxhdpi}" />
+                                <div class="btWrap">
+                                    <a class="bt" href="#">...</a>
+                                </div>
+                                <p:fileUpload mode="simple" class="text"/>
+                            </div>
+
+                        </p:panelGrid>   
                     </p:panelGrid>
+                </h:panelGroup>
+                <div class="botonesDialog">
                     <p:commandButton actionListener="#{categoriaController.create}" value="#{bundle.Save}" update="display,:CategoriaListForm:datalist,:growl" oncomplete="handleSubmit(args,'CategoriaCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="CategoriaCreateDialog.hide()"/>
-                </h:panelGroup>
+                </div>
             </h:form>
         </p:dialog>
 

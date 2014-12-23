@@ -12,31 +12,19 @@
             <h:form id="ComentarioEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{comentarioController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditComentarioLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{comentarioController.selected.id}" title="#{bundle.EditComentarioTitle_id}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_id}"/>
-                        <p:outputLabel value="#{bundle.EditComentarioLabel_detalle}" for="detalle" />
-                        <p:inputText id="detalle" value="#{comentarioController.selected.detalle}" title="#{bundle.EditComentarioTitle_detalle}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_detalle}"/>
-                        <p:outputLabel value="#{bundle.EditComentarioLabel_fecha}" for="fecha" />
-                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{comentarioController.selected.fecha}" title="#{bundle.EditComentarioTitle_fecha}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_fecha}" showOn="button"/>
-                        <p:outputLabel value="#{bundle.EditComentarioLabel_puntaje}" for="puntaje" />
-                        <p:inputText id="puntaje" value="#{comentarioController.selected.puntaje}" title="#{bundle.EditComentarioTitle_puntaje}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_puntaje}"/>
                         <p:outputLabel value="#{bundle.EditComentarioLabel_lugar}" for="lugar" />
                         <p:selectOneMenu id="lugar" value="#{comentarioController.selected.lugar}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_lugar}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{lugarController.itemsAvailableSelectOne}"
-                                           var="lugarItem"
-                                           itemValue="#{lugarItem}"/>
+                            <f:selectItems value="#{lugarController.itemsAvailableSelectOne}" var="lugarItem" itemValue="#{lugarItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditComentarioLabel_usuario}" for="usuario" />
-                        <p:selectOneMenu id="usuario" value="#{comentarioController.selected.usuario}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_usuario}">
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
-                                           var="usuarioItem"
-                                           itemValue="#{usuarioItem}"/>
-                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.EditComentarioLabel_detalle}" for="detalle" />
+                        <p:inputTextarea id="detalle" value="#{comentarioController.selected.detalle}" title="#{bundle.EditComentarioTitle_detalle}" required="true" requiredMessage="#{bundle.EditComentarioRequiredMessage_detalle}"/>                        
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{comentarioController.update}" value="#{bundle.Save}" update="display,:ComentarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ComentarioEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="ComentarioEditDialog.hide()"/>
+                    <div class="botonesDialog">
+                        <p:commandButton actionListener="#{comentarioController.update}" value="#{bundle.Save}" update="display,:ComentarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ComentarioEditDialog');"/>
+                        <p:commandButton value="#{bundle.Cancel}" onclick="ComentarioEditDialog.hide()"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

@@ -36,7 +36,7 @@ button.ui-button:focus{
     margin-bottom: 5px;
 }
 
-div.tablaCategoria div.ui-datatable-header {
+div.tabla div.ui-datatable-header {
     height: 27px;
 }
 
@@ -224,4 +224,12 @@ input.bt.db {
     filter: alpha(opacity=50);
     background-color: #ccc;
     color: #aaaaaa;
+}
+
+.categoriaVista{
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+/*    width: 50px;*/
 }

@@ -1,12 +1,12 @@
-package r2r.persistencia.facade;
+package r2r.persistencia.facades;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import r2r.persistencia.entidades.Categoria;
+import r2r.persistencia.entidades.Foto;
 
 @Stateless
-public class CategoriaFacade extends AbstractFacade<Categoria> {
+public class FotoFacade extends AbstractFacade<Foto> {
     @PersistenceContext(unitName = "Road2RoldanilloWSPU")
     private EntityManager em;
 
@@ -15,8 +15,8 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
         return em;
     }
 
-    public CategoriaFacade() {
-        super(Categoria.class);
+    public FotoFacade() {
+        super(Foto.class);
     }
     
 }

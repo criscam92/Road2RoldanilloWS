@@ -1,9 +1,9 @@
-package r2r.persistencia.controller;
+package r2r.persistencia.controllers;
 
-import r2r.persistencia.entidades.Comentario;
-import r2r.persistencia.controller.util.JsfUtil;
-import r2r.persistencia.controller.util.JsfUtil.PersistAction;
-import r2r.persistencia.facade.ComentarioFacade;
+import r2r.persistencia.entidades.Usuario;
+import r2r.util.JsfUtil;
+import r2r.util.JsfUtil.PersistAction;
+import r2r.persistencia.facades.UsuarioFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name = "comentarioController")
+@ManagedBean(name = "usuarioController")
 @SessionScoped
-public class ComentarioController implements Serializable {
+public class UsuarioController implements Serializable {
 
     @EJB
-    private r2r.persistencia.facade.ComentarioFacade ejbFacade;
-    private List<Comentario> items = null;
-    private Comentario selected;
+    private r2r.persistencia.facades.UsuarioFacade ejbFacade;
+    private List<Usuario> items = null;
+    private Usuario selected;
 
-    public ComentarioController() {
+    public UsuarioController() {
     }
 
-    public Comentario getSelected() {
+    public Usuario getSelected() {
         return selected;
     }
 
-    public void setSelected(Comentario selected) {
+    public void setSelected(Usuario selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class ComentarioController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private ComentarioFacade getFacade() {
+    private UsuarioFacade getFacade() {
         return ejbFacade;
     }
 
-    public Comentario prepareCreate() {
-        selected = new Comentario();
+    public Usuario prepareCreate() {
+        selected = new Usuario();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ComentarioCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ComentarioUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ComentarioDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UsuarioDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Comentario> getItems() {
+    public List<Usuario> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,24 +109,24 @@ public class ComentarioController implements Serializable {
         }
     }
 
-    public List<Comentario> getItemsAvailableSelectMany() {
+    public List<Usuario> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Comentario> getItemsAvailableSelectOne() {
+    public List<Usuario> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Comentario.class)
-    public static class ComentarioControllerConverter implements Converter {
+    @FacesConverter(forClass = Usuario.class)
+    public static class UsuarioControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            ComentarioController controller = (ComentarioController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "comentarioController");
+            UsuarioController controller = (UsuarioController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "usuarioController");
             return controller.getFacade().find(getKey(value));
         }
 
@@ -147,11 +147,11 @@ public class ComentarioController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Comentario) {
-                Comentario o = (Comentario) object;
+            if (object instanceof Usuario) {
+                Usuario o = (Usuario) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Comentario.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Usuario.class.getName()});
                 return null;
             }
         }

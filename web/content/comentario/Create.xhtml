@@ -33,8 +33,10 @@
                                            itemValue="#{usuarioItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
+                    <div class="botonesDialog">
                     <p:commandButton actionListener="#{comentarioController.create}" value="#{bundle.Save}" update="display,:ComentarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'ComentarioCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ComentarioCreateDialog.hide()"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

@@ -1,9 +1,9 @@
-package r2r.persistencia.controller;
+package r2r.persistencia.controllers;
 
-import r2r.persistencia.entidades.Lugar;
-import r2r.persistencia.controller.util.JsfUtil;
-import r2r.persistencia.controller.util.JsfUtil.PersistAction;
-import r2r.persistencia.facade.LugarFacade;
+import r2r.persistencia.entidades.Comentario;
+import r2r.util.JsfUtil;
+import r2r.util.JsfUtil.PersistAction;
+import r2r.persistencia.facades.ComentarioFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,23 +19,23 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name = "lugarController")
+@ManagedBean(name = "comentarioController")
 @SessionScoped
-public class LugarController implements Serializable {
+public class ComentarioController implements Serializable {
 
     @EJB
-    private r2r.persistencia.facade.LugarFacade ejbFacade;
-    private List<Lugar> items = null;
-    private Lugar selected;
+    private r2r.persistencia.facades.ComentarioFacade ejbFacade;
+    private List<Comentario> items = null;
+    private Comentario selected;
 
-    public LugarController() {
+    public ComentarioController() {
     }
 
-    public Lugar getSelected() {
+    public Comentario getSelected() {
         return selected;
     }
 
-    public void setSelected(Lugar selected) {
+    public void setSelected(Comentario selected) {
         this.selected = selected;
     }
 
@@ -45,36 +45,36 @@ public class LugarController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private LugarFacade getFacade() {
+    private ComentarioFacade getFacade() {
         return ejbFacade;
     }
 
-    public Lugar prepareCreate() {
-        selected = new Lugar();
+    public Comentario prepareCreate() {
+        selected = new Comentario();
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ComentarioCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LugarUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("ComentarioUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("LugarDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("ComentarioDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Lugar> getItems() {
+    public List<Comentario> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -109,24 +109,24 @@ public class LugarController implements Serializable {
         }
     }
 
-    public List<Lugar> getItemsAvailableSelectMany() {
+    public List<Comentario> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Lugar> getItemsAvailableSelectOne() {
+    public List<Comentario> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Lugar.class)
-    public static class LugarControllerConverter implements Converter {
+    @FacesConverter(forClass = Comentario.class)
+    public static class ComentarioControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            LugarController controller = (LugarController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "lugarController");
+            ComentarioController controller = (ComentarioController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "comentarioController");
             return controller.getFacade().find(getKey(value));
         }
 
@@ -147,11 +147,11 @@ public class LugarController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Lugar) {
-                Lugar o = (Lugar) object;
+            if (object instanceof Comentario) {
+                Comentario o = (Comentario) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Lugar.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Comentario.class.getName()});
                 return null;
             }
         }

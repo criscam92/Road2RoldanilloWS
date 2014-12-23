@@ -3,28 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition>
 
         <p:dialog id="CategoriaViewDlg" widgetVar="CategoriaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCategoriaTitle}">
             <h:form id="CategoriaViewForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{categoriaController.selected != null}">
-                        <h:outputText value="#{bundle.ViewCategoriaLabel_id}"/>
-                        <h:outputText value="#{categoriaController.selected.id}" title="#{bundle.ViewCategoriaTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewCategoriaLabel_nombre}"/>
-                        <h:outputText value="#{categoriaController.selected.nombre}" title="#{bundle.ViewCategoriaTitle_nombre}"/>
-                        <h:outputText value="#{bundle.ViewCategoriaLabel_mdpi}"/>
-                        <h:outputText value="#{categoriaController.selected.MDPI}" title="#{bundle.ViewCategoriaTitle_mdpi}"/>
-                        <h:outputText value="#{bundle.ViewCategoriaLabel_hdpi}"/>
-                        <h:outputText value="#{categoriaController.selected.HDPI}" title="#{bundle.ViewCategoriaTitle_hdpi}"/>
-                        <h:outputText value="#{bundle.ViewCategoriaLabel_xhdpi}"/>
-                        <h:outputText value="#{categoriaController.selected.XHDPI}" title="#{bundle.ViewCategoriaTitle_xhdpi}"/>
-                        <h:outputText value="#{bundle.ViewCategoriaLabel_xxhdpi}"/>
-                        <h:outputText value="#{categoriaController.selected.XXHDPI}" title="#{bundle.ViewCategoriaTitle_xxhdpi}"/>
-                    </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="CategoriaViewDialog.hide()"/>
+                    <c:if test="#{categoriaController.selected != null}">
+                        <div class="categoriaVista">
+                            <p:graphicImage name="#{categoriaController.selected.XXHDPI}"/><br />
+                            <h:outputText styleClass="categoriaTitle" value="#{categoriaController.selected.nombre}" title="#{bundle.ViewCategoriaTitle_nombre}"/>
+                        </div>
+                    </c:if>
+                    <div class="botonesDialog">
+                        <p:commandButton value="#{bundle.Close}" onclick="CategoriaViewDialog.hide()"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

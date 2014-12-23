@@ -1,9 +1,9 @@
-package r2r.persistencia.controller;
+package r2r.persistencia.controllers;
 
-import r2r.persistencia.entidades.Usuario;
-import r2r.persistencia.controller.util.JsfUtil;
-import r2r.persistencia.controller.util.JsfUtil.PersistAction;
-import r2r.persistencia.facade.UsuarioFacade;
+import r2r.persistencia.entidades.Lugar;
+import r2r.util.JsfUtil;
+import r2r.util.JsfUtil.PersistAction;
+import r2r.persistencia.facades.LugarFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,24 +19,24 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name = "usuarioController")
+@ManagedBean(name = "lugarController")
 @SessionScoped
-public class UsuarioController implements Serializable {
+public class LugarController implements Serializable {
 
     @EJB
-    private r2r.persistencia.facade.UsuarioFacade ejbFacade;
-    private List<Usuario> items = null;
-    private Usuario selected;
+    private LugarFacade lugarFacade;
+    private List<Lugar> items = null;
+    private Lugar lugar;
 
-    public UsuarioController() {
+    public LugarController() {
     }
 
-    public Usuario getSelected() {
-        return selected;
+    public Lugar getLugar() {
+        return lugar;
     }
 
-    public void setSelected(Usuario selected) {
-        this.selected = selected;
+    public void setLugar(Lugar lugar) {
+        this.lugar = lugar;
     }
 
     protected void setEmbeddableKeys() {
@@ -45,36 +45,40 @@ public class UsuarioController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private UsuarioFacade getFacade() {
-        return ejbFacade;
+    private LugarFacade getFacade() {
+        return lugarFacade;
     }
 
-    public Usuario prepareCreate() {
-        selected = new Usuario();
+    public Double getPuntaje(Integer id) {
+        return getFacade().getPuntaje(id);
+    }
+
+    public Lugar prepareCreate() {
+        lugar = new Lugar();
         initializeEmbeddableKey();
-        return selected;
+        return lugar;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LugarUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("UsuarioDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("LugarDeleted"));
         if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
+            lugar = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Usuario> getItems() {
+    public List<Lugar> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -82,13 +86,13 @@ public class UsuarioController implements Serializable {
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
+        if (lugar != null) {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    getFacade().edit(lugar);
                 } else {
-                    getFacade().remove(selected);
+                    getFacade().remove(lugar);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
@@ -109,24 +113,24 @@ public class UsuarioController implements Serializable {
         }
     }
 
-    public List<Usuario> getItemsAvailableSelectMany() {
+    public List<Lugar> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Usuario> getItemsAvailableSelectOne() {
+    public List<Lugar> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Usuario.class)
-    public static class UsuarioControllerConverter implements Converter {
+    @FacesConverter(forClass = Lugar.class)
+    public static class LugarControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            UsuarioController controller = (UsuarioController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "usuarioController");
+            LugarController controller = (LugarController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "lugarController");
             return controller.getFacade().find(getKey(value));
         }
 
@@ -147,11 +151,11 @@ public class UsuarioController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Usuario) {
-                Usuario o = (Usuario) object;
+            if (object instanceof Lugar) {
+                Lugar o = (Lugar) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Usuario.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Lugar.class.getName()});
                 return null;
             }
         }

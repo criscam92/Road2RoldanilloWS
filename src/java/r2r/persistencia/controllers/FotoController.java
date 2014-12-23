@@ -1,9 +1,9 @@
-package r2r.persistencia.controller;
+package r2r.persistencia.controllers;
 
 import r2r.persistencia.entidades.Foto;
-import r2r.persistencia.controller.util.JsfUtil;
-import r2r.persistencia.controller.util.JsfUtil.PersistAction;
-import r2r.persistencia.facade.FotoFacade;
+import r2r.util.JsfUtil;
+import r2r.util.JsfUtil.PersistAction;
+import r2r.persistencia.facades.FotoFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,7 +24,7 @@ import javax.faces.convert.FacesConverter;
 public class FotoController implements Serializable {
 
     @EJB
-    private r2r.persistencia.facade.FotoFacade ejbFacade;
+    private r2r.persistencia.facades.FotoFacade ejbFacade;
     private List<Foto> items = null;
     private Foto selected;
 

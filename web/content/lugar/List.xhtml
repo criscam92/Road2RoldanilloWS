@@ -17,7 +17,7 @@
             <h:form id="LugarListForm">
                 <p:panel header="#{bundle.ListLugarTitle}">
                     <p:dataTable id="datalist" value="#{lugarController.items}" var="item"
-                                 selectionMode="single" selection="#{lugarController.selected}"
+                                 selectionMode="single" selection="#{lugarController.lugar}"
                                  paginator="true"
                                  rowKey="#{item.id}"
                                  rows="10"
@@ -61,7 +61,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListLugarTitle_puntaje}"/>
                             </f:facet>
-                            <h:outputText value="#{item.puntaje}"/>
+                            <h:outputText value="#{lugarController.getPuntaje(item.id)}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -85,13 +85,13 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListLugarTitle_categoria}"/>
                             </f:facet>
-                            <h:outputText value="#{item.categoria}"/>
+                            <h:outputText value="#{item.categoria.nombre}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{lugarController.prepareCreate}" update=":LugarCreateForm" oncomplete="PF('LugarCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":LugarViewForm" oncomplete="PF('LugarViewDialog').show()" disabled="#{empty lugarController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LugarEditForm" oncomplete="PF('LugarEditDialog').show()" disabled="#{empty lugarController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{lugarController.destroy}" update=":growl,datalist" disabled="#{empty lugarController.selected}"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":LugarViewForm" oncomplete="PF('LugarViewDialog').show()" disabled="#{empty lugarController.lugar}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":LugarEditForm" oncomplete="PF('LugarEditDialog').show()" disabled="#{empty lugarController.lugar}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{lugarController.destroy}" update=":growl,datalist" disabled="#{empty lugarController.lugar}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

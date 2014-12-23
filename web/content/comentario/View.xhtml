@@ -12,22 +12,22 @@
             <h:form id="ComentarioViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{comentarioController.selected != null}">
-                        <h:outputText value="#{bundle.ViewComentarioLabel_id}"/>
-                        <h:outputText value="#{comentarioController.selected.id}" title="#{bundle.ViewComentarioTitle_id}"/>
                         <h:outputText value="#{bundle.ViewComentarioLabel_detalle}"/>
                         <h:outputText value="#{comentarioController.selected.detalle}" title="#{bundle.ViewComentarioTitle_detalle}"/>
                         <h:outputText value="#{bundle.ViewComentarioLabel_fecha}"/>
                         <h:outputText value="#{comentarioController.selected.fecha}" title="#{bundle.ViewComentarioTitle_fecha}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd - MMM - yyyy hh:mm aa" />
                         </h:outputText>
                         <h:outputText value="#{bundle.ViewComentarioLabel_puntaje}"/>
-                        <h:outputText value="#{comentarioController.selected.puntaje}" title="#{bundle.ViewComentarioTitle_puntaje}"/>
+                        <p:rating value="#{comentarioController.selected.puntaje}" readonly="true"/>
                         <h:outputText value="#{bundle.ViewComentarioLabel_lugar}"/>
-                        <h:outputText value="#{comentarioController.selected.lugar}" title="#{bundle.ViewComentarioTitle_lugar}"/>
+                        <h:outputText value="#{comentarioController.selected.lugar.nombre}" title="#{bundle.ViewComentarioTitle_lugar}"/>
                         <h:outputText value="#{bundle.ViewComentarioLabel_usuario}"/>
-                        <h:outputText value="#{comentarioController.selected.usuario}" title="#{bundle.ViewComentarioTitle_usuario}"/>
+                        <h:outputText value="#{comentarioController.selected.usuario.nombre} #{comentarioController.selected.usuario.apellido}" title="#{bundle.ViewComentarioTitle_usuario}"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="ComentarioViewDialog.hide()"/>
+                    <div class="botonesDialog">
+                        <p:commandButton value="#{bundle.Close}" onclick="ComentarioViewDialog.hide()"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

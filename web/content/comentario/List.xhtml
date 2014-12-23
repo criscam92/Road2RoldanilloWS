@@ -15,24 +15,32 @@
 
         <ui:define name="body">
             <h:form id="ComentarioListForm">
-                <p:panel header="#{bundle.ListComentarioTitle}">
-                    <p:dataTable id="datalist" value="#{comentarioController.items}" var="item"
+                <!--<p:panel header="#{bundle.ListComentarioTitle}">-->
+                    <p:dataTable styleClass="tabla" id="datalist" value="#{comentarioController.items}" var="item"
                                  selectionMode="single" selection="#{comentarioController.selected}"
                                  paginator="true"
                                  rowKey="#{item.id}"
-                                 rows="10"
+                                 paginatorPosition="bottom"
+                                 rows="20"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
+
+
+                        <f:facet name="header">
+                            <div id="titulo">
+                                Comentarios
+                            </div>
+                            <div id="acciones">
+                                <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{comentarioController.prepareCreate}" update=":ComentarioCreateForm" oncomplete="PF('ComentarioCreateDialog').show()"/>
+                                <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ComentarioViewForm" oncomplete="PF('ComentarioViewDialog').show()" disabled="#{empty comentarioController.selected}"/>
+                                <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ComentarioEditForm" oncomplete="PF('ComentarioEditDialog').show()" disabled="#{empty comentarioController.selected}"/>
+                                <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{comentarioController.destroy}" update=":growl,datalist" disabled="#{empty comentarioController.selected}"/>
+                            </div>                        
+                        </f:facet>
 
                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListComentarioTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListComentarioTitle_detalle}"/>
@@ -51,30 +59,23 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListComentarioTitle_puntaje}"/>
                             </f:facet>
-                            <h:outputText value="#{item.puntaje}"/>
+                            <p:rating value="#{item.puntaje}" readonly="true" />
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListComentarioTitle_lugar}"/>
                             </f:facet>
-                            <h:outputText value="#{item.lugar}"/>
+                            <h:outputText value="#{item.lugar.nombre}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListComentarioTitle_usuario}"/>
                             </f:facet>
-                            <h:outputText value="#{item.usuario}"/>
+                            <h:outputText value="#{item.usuario.nombre} #{item.usuario.apellido}"/>
                         </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{comentarioController.prepareCreate}" update=":ComentarioCreateForm" oncomplete="PF('ComentarioCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ComentarioViewForm" oncomplete="PF('ComentarioViewDialog').show()" disabled="#{empty comentarioController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":ComentarioEditForm" oncomplete="PF('ComentarioEditDialog').show()" disabled="#{empty comentarioController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{comentarioController.destroy}" update=":growl,datalist" disabled="#{empty comentarioController.selected}"/>
-                        </f:facet>
                     </p:dataTable>
-                </p:panel>
+                <!--</p:panel>-->
             </h:form>
-
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>

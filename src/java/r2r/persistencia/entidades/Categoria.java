@@ -157,7 +157,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "r2r.persistencia.controllers.Categoria[ id=" + id + " ]";
+        return nombre;
     }
 
 }

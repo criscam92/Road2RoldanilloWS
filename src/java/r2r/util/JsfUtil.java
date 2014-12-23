@@ -1,11 +1,15 @@
-package r2r.persistencia.controller.util;
+package r2r.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
+import org.primefaces.model.UploadedFile;
 
 public class JsfUtil {
 
@@ -37,9 +41,9 @@ public class JsfUtil {
     }
 
     public static void addErrorMessages(List<String> messages) {
-        for (String message : messages) {
+        messages.stream().forEach((message) -> {
             addErrorMessage(message);
-        }
+        });
     }
 
     public static void addErrorMessage(String msg) {
@@ -66,5 +70,28 @@ public class JsfUtil {
         CREATE,
         DELETE,
         UPDATE
+    }
+
+    public static String fileRename(UploadedFile file) {
+        return fileRename(file.getFileName());
+    }
+
+    public static String fileRename(String fileName) {
+        int corte = fileName.lastIndexOf(".");
+        int length = fileName.length();
+
+        String Name = fileName.substring(0, corte);
+        String Extention = fileName.substring(corte, length);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
+        Date date = new Date();
+
+        String newName = Name + "." + dateFormat.format(date) + Extention;
+
+        System.out.println("=======New name=========");
+        System.out.println("New name: " + newName);
+        System.out.println("=======New name=========");
+
+        return newName;
     }
 }

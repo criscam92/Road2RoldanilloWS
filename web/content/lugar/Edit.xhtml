@@ -11,27 +11,27 @@
         <p:dialog id="LugarEditDlg" widgetVar="LugarEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditLugarTitle}">
             <h:form id="LugarEditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{lugarController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{lugarController.lugar != null}">
                         <p:outputLabel value="#{bundle.EditLugarLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{lugarController.selected.id}" title="#{bundle.EditLugarTitle_id}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_id}"/>
+                        <p:inputText id="id" value="#{lugarController.lugar.id}" title="#{bundle.EditLugarTitle_id}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_id}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_nombre}" for="nombre" />
-                        <p:inputText id="nombre" value="#{lugarController.selected.nombre}" title="#{bundle.EditLugarTitle_nombre}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_nombre}"/>
+                        <p:inputText id="nombre" value="#{lugarController.lugar.nombre}" title="#{bundle.EditLugarTitle_nombre}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_nombre}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_latitud}" for="latitud" />
-                        <p:inputText id="latitud" value="#{lugarController.selected.latitud}" title="#{bundle.EditLugarTitle_latitud}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_latitud}"/>
+                        <p:inputText id="latitud" value="#{lugarController.lugar.latitud}" title="#{bundle.EditLugarTitle_latitud}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_latitud}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_longitud}" for="longitud" />
-                        <p:inputText id="longitud" value="#{lugarController.selected.longitud}" title="#{bundle.EditLugarTitle_longitud}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_longitud}"/>
+                        <p:inputText id="longitud" value="#{lugarController.lugar.longitud}" title="#{bundle.EditLugarTitle_longitud}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_longitud}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{lugarController.selected.descripcion}" title="#{bundle.EditLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_descripcion}"/>
+                        <p:inputText id="descripcion" value="#{lugarController.lugar.descripcion}" title="#{bundle.EditLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_descripcion}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_puntaje}" for="puntaje" />
-                        <p:inputText id="puntaje" value="#{lugarController.selected.puntaje}" title="#{bundle.EditLugarTitle_puntaje}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_puntaje}"/>
+                        <p:inputText id="puntaje" value="#{lugarController.lugar.puntaje}" title="#{bundle.EditLugarTitle_puntaje}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_puntaje}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_direccion}" for="direccion" />
-                        <p:inputText id="direccion" value="#{lugarController.selected.direccion}" title="#{bundle.EditLugarTitle_direccion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_direccion}"/>
+                        <p:inputText id="direccion" value="#{lugarController.lugar.direccion}" title="#{bundle.EditLugarTitle_direccion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_direccion}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_telefono}" for="telefono" />
-                        <p:inputText id="telefono" value="#{lugarController.selected.telefono}" title="#{bundle.EditLugarTitle_telefono}" />
+                        <p:inputText id="telefono" value="#{lugarController.lugar.telefono}" title="#{bundle.EditLugarTitle_telefono}" />
                         <p:outputLabel value="#{bundle.EditLugarLabel_sitio}" for="sitio" />
-                        <p:inputText id="sitio" value="#{lugarController.selected.sitio}" title="#{bundle.EditLugarTitle_sitio}" />
+                        <p:inputText id="sitio" value="#{lugarController.lugar.sitio}" title="#{bundle.EditLugarTitle_sitio}" />
                         <p:outputLabel value="#{bundle.EditLugarLabel_categoria}" for="categoria" />
-                        <p:selectOneMenu id="categoria" value="#{lugarController.selected.categoria}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_categoria}">
+                        <p:selectOneMenu id="categoria" value="#{lugarController.lugar.categoria}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_categoria}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
                                            var="categoriaItem"

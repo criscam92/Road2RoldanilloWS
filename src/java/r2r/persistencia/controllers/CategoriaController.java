@@ -1,10 +1,12 @@
-package r2r.persistencia.controller;
+package r2r.persistencia.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import r2r.persistencia.entidades.Categoria;
-import r2r.persistencia.controller.util.JsfUtil;
-import r2r.persistencia.controller.util.JsfUtil.PersistAction;
-import r2r.persistencia.facade.CategoriaFacade;
-
+import r2r.util.JsfUtil;
+import r2r.util.JsfUtil.PersistAction;
+import r2r.persistencia.facades.CategoriaFacade;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,21 +14,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.imageio.ImageIO;
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 @ManagedBean(name = "categoriaController")
 @SessionScoped
 public class CategoriaController implements Serializable {
 
     @EJB
-    private r2r.persistencia.facade.CategoriaFacade ejbFacade;
+    private CategoriaFacade categoriaFacade;
     private List<Categoria> items = null;
     private Categoria selected;
+    private boolean hidden = false;
+    private UploadedFile img48, img72, img96, img180;
+    private List<UploadedFile> ListImgsTMP;
 
     public CategoriaController() {
     }
@@ -39,6 +49,46 @@ public class CategoriaController implements Serializable {
         this.selected = selected;
     }
 
+    public UploadedFile getImg48() {
+        return img48;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public void setImg48(UploadedFile img48) {
+        this.img48 = img48;
+    }
+
+    public UploadedFile getImg72() {
+        return img72;
+    }
+
+    public void setImg72(UploadedFile img72) {
+        this.img72 = img72;
+    }
+
+    public UploadedFile getImg96() {
+        return img96;
+    }
+
+    public void setImg96(UploadedFile img96) {
+        this.img96 = img96;
+    }
+
+    public UploadedFile getImg180() {
+        return img180;
+    }
+
+    public void setImg180(UploadedFile img180) {
+        this.img180 = img180;
+    }
+
     protected void setEmbeddableKeys() {
     }
 
@@ -46,7 +96,7 @@ public class CategoriaController implements Serializable {
     }
 
     private CategoriaFacade getFacade() {
-        return ejbFacade;
+        return categoriaFacade;
     }
 
     public Categoria prepareCreate() {
@@ -156,6 +206,59 @@ public class CategoriaController implements Serializable {
             }
         }
 
+    }
+
+    public void handleFileUpload48X48(FileUploadEvent event) {
+        System.out.println("Entre Evento 48");
+        addImg(event, 48, img48);
+    }
+
+    public void handleFileUpload72X72(FileUploadEvent event) {
+        System.out.println("Entre Evento 72");
+        addImg(event, 72, img72);
+    }
+
+    public void handleFileUpload96X96(FileUploadEvent event) {
+        System.out.println("Entre Evento 96");
+        addImg(event, 96, img96);
+    }
+
+    public void handleFileUpload180X180(FileUploadEvent event) {
+        System.out.println("Entre Evento 180");
+        addImg(event, 180, img180);
+    }
+
+    private void addImg(FileUploadEvent event, int tamañoImg, UploadedFile img) {
+        setHidden(false);
+        FacesMessage msg = null;
+        img = event.getFile();
+        System.out.println("Archivo " + img.getFileName());
+
+        if (!isValidImg(tamañoImg, img)) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "La imagen debe tener un tamaño de " + tamañoImg + "x" + tamañoImg + " Píxeles");
+        } else {
+            if (!ListImgsTMP.add(img)) {
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Ocurrio un error agregando la imagen");
+            } else {
+                setHidden(true);
+            }
+        }
+
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    private boolean isValidImg(int tamanoImg, UploadedFile img) {
+        boolean isValidImg = false;
+        try {
+            BufferedImage bi = ImageIO.read(new ByteArrayInputStream((byte[]) img.getContents()));
+            if (tamanoImg == bi.getWidth() && tamanoImg == bi.getHeight()) {
+                isValidImg = true;
+            }
+        } catch (Exception e) {
+            isValidImg = false;
+            e.printStackTrace();
+        }
+        return isValidImg;
     }
 
 }

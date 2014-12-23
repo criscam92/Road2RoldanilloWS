@@ -217,15 +217,12 @@ public class Lugar implements Serializable {
             return false;
         }
         Lugar other = (Lugar) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "r2r.persistencia.controllers.Lugar[ id=" + id + " ]";
+        return nombre;
     }
     
 }

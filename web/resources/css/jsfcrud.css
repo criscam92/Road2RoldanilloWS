@@ -28,7 +28,7 @@ button.ui-button:focus{
 }
 
 #logo{
-    background-image: url("../resources/src/logo.png");
+    background-image: url("src/logo.png");
     background-repeat: no-repeat;
     background-size: auto 40px;
     background-position: center;
@@ -63,7 +63,7 @@ div.tabla div.ui-datatable-header {
 }
 
 .ui-layout-container{
-    background-image: url("../resources/src/fondo.jpg");
+    background-image: url("src/fondo.jpg");
     background-repeat:no-repeat; 
     background-attachment:fixed;
 }

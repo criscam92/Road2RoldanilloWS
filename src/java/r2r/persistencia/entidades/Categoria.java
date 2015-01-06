@@ -1,6 +1,7 @@
 package r2r.persistencia.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -14,6 +15,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,10 +29,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c"),
     @NamedQuery(name = "Categoria.findById", query = "SELECT c FROM Categoria c WHERE c.id = :id"),
     @NamedQuery(name = "Categoria.findByNombre", query = "SELECT c FROM Categoria c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Categoria.findByMDPI", query = "SELECT c FROM Categoria c WHERE c.mdpi = :mdpi"),
-    @NamedQuery(name = "Categoria.findByHDPI", query = "SELECT c FROM Categoria c WHERE c.hdpi = :hdpi"),
-    @NamedQuery(name = "Categoria.findByXHDPI", query = "SELECT c FROM Categoria c WHERE c.xhdpi = :xhdpi"),
-    @NamedQuery(name = "Categoria.findByXXHDPI", query = "SELECT c FROM Categoria c WHERE c.xxhdpi = :xxhdpi")})
+    @NamedQuery(name = "Categoria.findByMDPI", query = "SELECT c FROM Categoria c WHERE c.icono = :icono"),
+    @NamedQuery(name = "Categoria.findByFecha", query = "SELECT c FROM Categoria c WHERE c.fecha = :fecha"),
+    @NamedQuery(name = "Categoria.findByBorrado", query = "SELECT c FROM Categoria c WHERE c.borrado = :borrado")})
 public class Categoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,22 +49,17 @@ public class Categoria implements Serializable {
     @NotNull
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
-    private String mdpi;
+    private String icono;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    private String hdpi;
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    private String xhdpi;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
-    private String xxhdpi;
+    @Column(nullable = false)
+    private int borrado;
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
     private List<Lugar> lugarList;
 
@@ -73,13 +70,12 @@ public class Categoria implements Serializable {
         this.id = id;
     }
 
-    public Categoria(Integer id, String nombre, String mdpi, String hdpi, String xhdpi, String xxhdpi) {
+    public Categoria(Integer id, String nombre, String icono, Date fecha, int borrado) {
         this.id = id;
         this.nombre = nombre;
-        this.mdpi = mdpi;
-        this.hdpi = hdpi;
-        this.xhdpi = xhdpi;
-        this.xxhdpi = xxhdpi;
+        this.icono = icono;
+        this.fecha = fecha;
+        this.borrado = borrado;
     }
 
     public Integer getId() {
@@ -98,39 +94,30 @@ public class Categoria implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getMDPI() {
-        return mdpi;
+    public String getIcono() {
+        return icono;
     }
 
-    public void setMDPI(String mdpi) {
-        this.mdpi = mdpi;
+    public void setIcono(String icono) {
+        this.icono = icono;
+    }
+    
+    public Date getFecha() {
+        return fecha;
     }
 
-    public String getHDPI() {
-        return hdpi;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
-    public void setHDPI(String hdpi) {
-        this.hdpi = hdpi;
+    public int getBorrado() {
+        return borrado;
     }
 
-    public String getXHDPI() {
-        return xhdpi;
+    public void setBorrado(int borrado) {
+        this.borrado = borrado;
     }
 
-    public void setXHDPI(String xhdpi) {
-        this.xhdpi = xhdpi;
-    }
-
-    public String getXXHDPI() {
-        return xxhdpi;
-    }
-
-    public void setXXHDPI(String xxhdpi) {
-        this.xxhdpi = xxhdpi;
-    }
-
-    @XmlTransient
     public List<Lugar> getLugarList() {
         return lugarList;
     }

@@ -43,8 +43,8 @@ public class CategoriaController implements Serializable {
     private List<Categoria> items = null;
     private Categoria selected;
     private UploadedFile mdpi, hdpi, xhdpi, xxhdpi;
-    private Map<String, UploadedFile> mapImagenes = new HashMap<>();
-    private int MDPI = 48, HDPI = 72, XHDPI = 96, XXHDPI = 180;
+    private final Map<String, UploadedFile> mapImagenes = new HashMap<>();
+    private final int MDPI = 48, HDPI = 72, XHDPI = 96, XXHDPI = 180;
 
     public CategoriaController() {
     }
@@ -228,25 +228,32 @@ public class CategoriaController implements Serializable {
 
     }
 
-    public void handleFileUpload(FileUploadEvent event, int tamano) {
-        String msg = "";
-        UploadedFile imgTMP = event.getFile();
-        String key = "";
-        try {
-            if (tamano == HDPI) {
-                mdpi = imgTMP;
-                key = "mdpi";
-            } else if (tamano == HDPI) {
-                hdpi = imgTMP;
-                key = "hdpi";
-            } else if (tamano == XHDPI) {
-                xhdpi = imgTMP;
-                key = "xhdpi";
-            } else if (tamano == XXHDPI) {
-                xxhdpi = imgTMP;
-                key = "xxhdpi";
-            }
+    public void handleFileUpload48x48(FileUploadEvent event) {
+        mdpi = event.getFile();
+        System.out.println("MDPI: " + mdpi.getFileName());
+        addImagen(mdpi, MDPI, "mdpi");
+    }
 
+    public void handleFileUpload72x72(FileUploadEvent event) {
+        hdpi = event.getFile();
+        System.out.println("HDPI: " + hdpi.getFileName());
+        addImagen(hdpi, HDPI, "hdpi");
+    }
+
+    public void handleFileUpload96x96(FileUploadEvent event) {
+        xhdpi = event.getFile();
+        System.out.println("XHDPI: " + xhdpi.getFileName());
+        addImagen(xhdpi, XHDPI, "xhdpi");
+    }
+
+    public void handleFileUpload180x180(FileUploadEvent event) {
+        xxhdpi = event.getFile();
+        System.out.println("XXHDPI: " + xxhdpi.getFileName());
+        addImagen(xxhdpi, XXHDPI, "xxhdpi");
+    }
+
+    public void addImagen(UploadedFile imgTMP, int tamano, String key) {
+        try {
             if (!isValidImg(tamano, imgTMP)) {
                 JsfUtil.addErrorMessage("La imagen debe tener un tamaño de " + tamano + "x" + tamano + " Píxeles");
             } else {

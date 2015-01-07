@@ -31,50 +31,17 @@ public class r2rServicio {
     @Path("/categoria/get/{timestamp}")
     @Produces("application/json")
     public String getCategoriaJson(@PathParam("timestamp") Long timeStamp) {
-        
-        System.out.println("================= CATEGORIAS ===============");
-        System.out.println("" + timeStamp);
-        System.out.println("================= CATEGORIAS ===============");
-        
         Gson gson = new Gson();
         String json = gson.toJson(getCategoriaFacade().getListCategotiasByFecha(timeStamp));
         return json;
     }
-
-    @PUT
-    @Path("/categoria/put")
-    @Consumes("application/json")
-    public void putCategoriaJson(String content) {
-//        categoria.setNombre(content);
-    }
-
-    @DELETE
-    @Path("/categoria/delete")
-    @Consumes("application/json")
-    public void deleteCategoriaJson(String content) {
-//        categoria.setNombre(content);
-    }
-
+    
     //================== METODOS LUGAR ==================
     @GET
     @Path("/lugar/get/{timestamp}")
     @Produces("application/json")
     public String getLugarJson(@PathParam("timestamp") Long timeStamp) {
         return "hola";
-    }
-
-    @PUT
-    @Path("/lugar/put")
-    @Consumes("application/json")
-    public void putLugarJson(String content) {
-//        categoria.setNombre(content);
-    }
-
-    @DELETE
-    @Path("/lugar/delete")
-    @Consumes("application/json")
-    public void deleteLugarJson(String content) {
-//        categoria.setNombre(content);
     }
 
     //================== METODOS USUARIO ==================

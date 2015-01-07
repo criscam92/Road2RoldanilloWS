@@ -11,56 +11,22 @@
             <h:form id="CategoriaEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{categoriaController.selected != null}">
+                        
                         <p:outputLabel value="#{bundle.EditCategoriaLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{categoriaController.selected.nombre}" title="#{bundle.EditCategoriaTitle_nombre}" required="true" requiredMessage="#{bundle.EditCategoriaRequiredMessage_nombre}"/>
+                        
                         <p:outputLabel value="#{bundle.EditCategoriaLabel_mdpi}" for="mdpi" />
-                        <p:panelGrid id="mdpi">
+                        <p:fileUpload id="mdpi" mode="simple"/>                 
 
-                            <div class="customFileInput inputWithButton inputWithButton_150">
-                                <p:inputText readonly="true" placeholder="48x48" value="#{categoriaController.mdpi}" title="#{bundle.EditCategoriaTitle_mdpi}" required="true" requiredMessage="#{bundle.EditCategoriaRequiredMessage_mdpi}" />
-                                <div class="btWrap">
-                                    <a class="bt" href="#">...</a>
-                                </div>
-                                <p:fileUpload mode="simple" styleClass="text"/>
-                            </div>
-
-                        </p:panelGrid>                                                          
                         <p:outputLabel value="#{bundle.EditCategoriaLabel_hdpi}" for="hdpi" />
-                        <p:panelGrid id="hdpi">
+                        <p:fileUpload id="hdpi" mode="simple"/> 
 
-                            <div class="customFileInput inputWithButton inputWithButton_150">
-                                <p:inputText  readonly="true" placeholder="72x72" value="#{categoriaController.hdpi}" title="#{bundle.EditCategoriaTitle_hdpi}" required="true" requiredMessage="#{bundle.EditCategoriaRequiredMessage_hdpi}" />
-                                <div class="btWrap">
-                                    <a class="bt" href="#">...</a>
-                                </div>
-                                <p:fileUpload mode="simple" styleClass="text"/>
-                            </div>
-
-                        </p:panelGrid>   
                         <p:outputLabel value="#{bundle.EditCategoriaLabel_xhdpi}" for="xhdpi" />
-                        <p:panelGrid id="xhdpi">
+                        <p:fileUpload id="xhdpi" mode="simple"/> 
 
-                            <div class="customFileInput inputWithButton inputWithButton_150">
-                                <p:inputText readonly="true" placeholder="96x96" value="#{categoriaController.xhdpi}" title="#{bundle.EditCategoriaTitle_xhdpi}" required="true" requiredMessage="#{bundle.EditCategoriaRequiredMessage_xhdpi}" />
-                                <div class="btWrap">
-                                    <a class="bt" href="#">...</a>
-                                </div>
-                                <p:fileUpload mode="simple" styleClass="text"/>
-                            </div>
-
-                        </p:panelGrid>   
                         <p:outputLabel value="#{bundle.EditCategoriaLabel_xxhdpi}" for="xxhdpi"/>
-                        <p:panelGrid id="xxhdpi">
-
-                            <div class="customFileInput inputWithButton inputWithButton_150">
-                                <p:inputText readonly="true" placeholder="180x180" value="#{categoriaController.xxhdpi}" title="#{bundle.EditCategoriaTitle_xxhdpi}" required="true" requiredMessage="#{bundle.EditCategoriaRequiredMessage_xxhdpi}" />
-                                <div class="btWrap">
-                                    <a class="bt" href="#">...</a>
-                                </div>
-                                <p:fileUpload mode="simple" styleClass="text"/>
-                            </div>
-
-                        </p:panelGrid>  
+                        <p:fileUpload id="xxhdpi" mode="simple"/>
+                        
                     </p:panelGrid>
                     <div class="botonesDialog">
                         <p:commandButton actionListener="#{categoriaController.update}" value="#{bundle.Save}" update="display,:CategoriaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CategoriaEditDialog');"/>

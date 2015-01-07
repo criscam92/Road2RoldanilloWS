@@ -16,45 +16,16 @@
                         <p:inputText id="nombre" value="#{categoriaController.selected.nombre}" title="#{bundle.CreateCategoriaTitle_nombre}" required="true" requiredMessage="#{bundle.CreateCategoriaRequiredMessage_nombre}"/>
 
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_mdpi}" for="mdpi" />
-                        <h:panelGroup id="mdpi">
-                            <p:fileUpload rendered="#{!categoriaController.hidden}"
-                                          mode="advanced"
-                                          multiple="false"
-                                          fileUploadListener="#{categoriaController.handleFileUpload48X48}"
-                                          update="mdpi"
-                                          allowTypes="/(\.|\/)(jpg|jpeg)$/"
-                                          required="true"/>
-                        </h:panelGroup>
+                        <p:fileUpload id="mdpi" fileUploadListener="#{categoriaController.handleFileUpload(categoriaController.MDPI)}" mode="simple"/>                 
 
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_hdpi}" for="hdpi" />
-                        <h:panelGroup id="hdpi">
-                            <p:fileUpload rendered="#{!categoriaController.hidden}"
-                                          mode="simple"
-                                          fileUploadListener="#{categoriaController.handleFileUpload72X72}"
-                                          update="hdpi"
-                                          allowTypes="/(\.|\/)(jpg|jpeg)$/"
-                                          required="true"/>                                         
-                        </h:panelGroup>
+                        <p:fileUpload id="hdpi" fileUploadListener="#{categoriaController.handleFileUpload(categoriaController.HDPI)}" mode="simple"/> 
 
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_xhdpi}" for="xhdpi" />
-                        <h:panelGroup id="xhdpi">
-                            <p:fileUpload rendered="#{!categoriaController.hidden}"
-                                          mode="simple"
-                                          fileUploadListener="#{categoriaController.handleFileUpload96X96}"
-                                          update="xhdpi"
-                                          allowTypes="/(\.|\/)(jpg|jpeg)$/"
-                                          required="true"/>                                          
-                        </h:panelGroup>
+                        <p:fileUpload id="xhdpi" fileUploadListener="#{categoriaController.handleFileUpload(categoriaController.XHDPI)}" mode="simple"/> 
 
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_xxhdpi}" for="xxhdpi"/>
-                        <h:panelGroup id="xxhdpi">
-                            <p:fileUpload rendered="#{!categoriaController.hidden}"
-                                          mode="simple"
-                                          fileUploadListener="#{categoriaController.handleFileUpload180X180}"
-                                          update="xxhdpi"
-                                          allowTypes="/(\.|\/)(jpg|jpeg)$/"
-                                          required="true"/>                            
-                        </h:panelGroup>
+                        <p:fileUpload id="xxhdpi" fileUploadListener="#{categoriaController.handleFileUpload(categoriaController.XXHDPI)}" mode="simple"/>
 
                     </p:panelGrid>
                 </h:panelGroup>

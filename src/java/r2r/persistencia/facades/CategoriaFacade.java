@@ -25,17 +25,12 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
     }
 
     public List<Categoria> getListCategotiasByFecha(long timestamp) {
-        getEntityManager();
         List<Categoria> categorias = new ArrayList<>();
         try {
             Date fecha = new Date(timestamp);
-            Query query = em.createQuery("SELECT c FROM Categoria c WHERE c.fecha >= :fecha");
+            Query query = getEntityManager().createQuery("SELECT c FROM Categoria c WHERE c.fecha >= :fecha");
             query.setParameter("fecha", fecha);
             categorias = query.getResultList();
-            
-            System.out.println("================= CATEGORIAS ===============");
-            System.out.println("" + categorias.size());
-            System.out.println("================= CATEGORIAS ===============");
 
         } catch (Exception e) {
             e.printStackTrace();

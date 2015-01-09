@@ -20,11 +20,9 @@ public class validatorHDPI implements Validator {
         if (!((UploadedFile) value).getFileName().equals("")) {
             if (!JsfUtil.isValidImg(WIDTH, HEIGHT, (UploadedFile) value)) {
                 JsfUtil.addErrorMessage("La imagen del campo HDPI debe tener un tamaño de " + WIDTH + "x" + HEIGHT + " Píxeles");
-//                throw new ValidatorException(JsfUtil.getLastMessege());
             }
         } else {
             JsfUtil.addErrorMessage("El campo HDPI es requerido");
-//            throw new ValidatorException(JsfUtil.getLastMessege());
         }
     }
 

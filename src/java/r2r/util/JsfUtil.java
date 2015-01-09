@@ -2,9 +2,6 @@ package r2r.util;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -13,18 +10,9 @@ import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import org.primefaces.model.UploadedFile;
+import r2r.persistencia.controllers.CategoriaController;
 
 public class JsfUtil {
-
-//    private static FacesMessage lastMessege;
-//
-//    public static FacesMessage getLastMessege() {
-//        return lastMessege;
-//    }
-//
-//    public static void setLastMessege(FacesMessage lastMessege) {
-//        JsfUtil.lastMessege = lastMessege;
-//    }
 
     public static SelectItem[] getSelectItems(List<?> entities, boolean selectOne) {
         int size = selectOne ? entities.size() + 1 : entities.size();
@@ -62,13 +50,11 @@ public class JsfUtil {
     public static void addErrorMessage(String msg) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-//        setLastMessege(facesMsg);
     }
 
     public static void addSuccessMessage(String msg) {
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
         FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
-//        setLastMessege(facesMsg);
     }
 
     public static String getRequestParameter(String key) {
@@ -87,29 +73,6 @@ public class JsfUtil {
         UPDATE
     }
 
-    public static String fileRename(UploadedFile file) {
-        return fileRename(file.getFileName());
-    }
-
-    public static String fileRename(String fileName) {
-        int corte = fileName.lastIndexOf(".");
-        int length = fileName.length();
-
-        String Name = fileName.substring(0, corte);
-        String Extention = fileName.substring(corte, length);
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
-        Date date = new Date();
-
-        String newName = Name + "." + dateFormat.format(date) + Extention;
-
-        System.out.println("=======New name=========");
-        System.out.println("New name: " + newName);
-        System.out.println("=======New name=========");
-
-        return newName;
-    }
-
     public static boolean isValidImg(int width, int height, UploadedFile img) {
         boolean isValidImg = false;
         try {
@@ -122,6 +85,32 @@ public class JsfUtil {
             e.printStackTrace();
         }
         return isValidImg;
+    }
+
+    public static void validarImagen(int WIDTH, int HEIGHT, UploadedFile file, String tNombre) {
+        String nomFile = "", ext = "";
+        try {
+            nomFile = file.getFileName();
+            ext = nomFile.substring(nomFile.length() - 4, nomFile.length());
+        } catch (Exception e) {
+            nomFile = "";
+            ext = "";
+        }
+
+        if (!nomFile.equals("")) {
+            if (!ext.equals(".png")) {
+                JsfUtil.addErrorMessage("El tipo de archivo del campo " + tNombre + " debe ser .png");
+                CategoriaController.imagenValida = false;
+            } else {
+                if (!JsfUtil.isValidImg(WIDTH, HEIGHT, file)) {
+                    JsfUtil.addErrorMessage("La imagen del campo " + tNombre + " debe tener un tamaño de " + WIDTH + "x" + HEIGHT + " Píxeles");
+                    CategoriaController.imagenValida = false;
+                }
+            }
+        } else {
+            JsfUtil.addErrorMessage("El campo " + tNombre + " es requerido");
+            CategoriaController.imagenValida = false;
+        }
     }
 
 }

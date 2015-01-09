@@ -38,6 +38,7 @@ public class CategoriaController implements Serializable {
     private Categoria selected;
     private UploadedFile mdpi, hdpi, xhdpi, xxhdpi;
     private final Map<String, UploadedFile> mapImagenes = new HashMap<>();
+    public static boolean imagenValida = true;
 
     public CategoriaController() {
     }
@@ -111,11 +112,13 @@ public class CategoriaController implements Serializable {
             selected.setBorrado(0);
         }
 
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;
-            guardarImagenes(selected.getIcono());
+        if (imagenValida) {
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
+            if (!JsfUtil.isValidationFailed()) {
+                items = null;
+                guardarImagenes(selected.getIcono());
 
+            }
         }
     }
 

@@ -12,18 +12,11 @@ import r2r.util.JsfUtil;
 public class validatorHDPI implements Validator {
 
     private final int WIDTH = 54;
-    private final int HEIGHT = 72;   
+    private final int HEIGHT = 72;
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-
-        if (!((UploadedFile) value).getFileName().equals("")) {
-            if (!JsfUtil.isValidImg(WIDTH, HEIGHT, (UploadedFile) value)) {
-                JsfUtil.addErrorMessage("La imagen del campo HDPI debe tener un tamaño de " + WIDTH + "x" + HEIGHT + " Píxeles");
-            }
-        } else {
-            JsfUtil.addErrorMessage("El campo HDPI es requerido");
-        }
+        JsfUtil.validarImagen(WIDTH, HEIGHT, (UploadedFile) value, "HDPI");
     }
 
 }

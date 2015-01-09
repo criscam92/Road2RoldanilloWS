@@ -16,18 +16,7 @@ public class validatorMDPI implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-
-        if (!((UploadedFile) value).getFileName().equals("")) {
-            System.out.println("NOT NULL MDPI");
-            if (!JsfUtil.isValidImg(WIDTH, HEIGHT, (UploadedFile) value)) {
-                JsfUtil.addErrorMessage("La imagen del campo MDPI debe tener un tamaño de " + WIDTH + "x" + HEIGHT + " Píxeles");
-//                throw new ValidatorException(JsfUtil.getLastMessege());
-            }
-        } else {
-            System.out.println("NULL MDPI");
-            JsfUtil.addErrorMessage("El campo MDPI es requerido");
-//            throw new ValidatorException(JsfUtil.getLastMessege());
-        }
+        JsfUtil.validarImagen(WIDTH, HEIGHT, (UploadedFile) value, "MDPI");
     }
 
 }

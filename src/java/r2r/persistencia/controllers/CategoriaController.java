@@ -242,7 +242,7 @@ public class CategoriaController implements Serializable {
             for (Map.Entry<String, UploadedFile> entrySet : getMapImagenes().entrySet()) {
                 String key = entrySet.getKey();
                 UploadedFile value = entrySet.getValue();
-                String path = ResourceBundle.getBundle("/Bundle").getString("Uploaded") + FILE_SEPARATOR + key + "categoria" + FILE_SEPARATOR + nombreImagen.toLowerCase();
+                String path = ResourceBundle.getBundle("/Bundle").getString("Uploaded") + FILE_SEPARATOR + key + FILE_SEPARATOR + "categoria" + FILE_SEPARATOR + nombreImagen.toLowerCase();
                 System.out.println("PATH: " + path);
                 copyFile(value, path);
             }

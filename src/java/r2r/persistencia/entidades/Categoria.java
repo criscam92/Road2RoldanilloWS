@@ -55,13 +55,13 @@ public class Categoria implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @Basic(optional = false)
+    @Basic(optional = true)
     @NotNull
     @Column(nullable = false)
     private int borrado;
     @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria", fetch = FetchType.LAZY)
-    private List<Lugar> lugarList;
+    private transient List<Lugar> lugarList;
 
     public Categoria() {
     }

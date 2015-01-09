@@ -1,7 +1,5 @@
 package r2r.persistencia.controllers;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,7 +10,6 @@ import r2r.util.JsfUtil;
 import r2r.util.JsfUtil.PersistAction;
 import r2r.persistencia.facades.CategoriaFacade;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -22,16 +19,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean(name = "categoriaController")
@@ -40,11 +33,11 @@ public class CategoriaController implements Serializable {
 
     @EJB
     private CategoriaFacade categoriaFacade;
+    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
     private List<Categoria> items = null;
     private Categoria selected;
     private UploadedFile mdpi, hdpi, xhdpi, xxhdpi;
     private final Map<String, UploadedFile> mapImagenes = new HashMap<>();
-    private final int MDPI = 48, HDPI = 72, XHDPI = 96, XXHDPI = 180;
 
     public CategoriaController() {
     }
@@ -110,25 +103,19 @@ public class CategoriaController implements Serializable {
     }
 
     public void create() {
-        if (mdpi != null && hdpi != null && xhdpi != null && xxhdpi != null) {
+        if (getMdpi() != null && getHdpi() != null && getXhdpi() != null && getXxhdpi() != null) {
+            llenarMapa();
             selected.setIcono(selected.getNombre() + ".png");
             Calendar fecha = Calendar.getInstance();
             selected.setFecha(fecha.getTime());
-        } else {
-            System.out.println("== DATOS VACIO ==\n");
+            selected.setBorrado(0);
         }
-
-        System.out.println("================= DATOS ===============");
-        System.out.println("NOMBRE: " + selected.getNombre());
-        System.out.println("ICONO: " + selected.getIcono());
-        System.out.println("FECHA: " + selected.getFecha());
-        System.out.println("================= DATOS ===============");
 
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        } else {
-            guardarAdjuntos(selected.getIcono());
+            items = null;
+            guardarImagenes(selected.getIcono());
+
         }
     }
 
@@ -200,8 +187,8 @@ public class CategoriaController implements Serializable {
             return controller.getFacade().find(getKey(value));
         }
 
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
+        Integer getKey(String value) {
+            Integer key;
             key = Integer.valueOf(value);
             return key;
         }
@@ -228,57 +215,6 @@ public class CategoriaController implements Serializable {
 
     }
 
-    public void handleFileUpload48x48(FileUploadEvent event) {
-        mdpi = event.getFile();
-        System.out.println("MDPI: " + mdpi.getFileName());
-        addImagen(mdpi, MDPI, "mdpi");
-    }
-
-    public void handleFileUpload72x72(FileUploadEvent event) {
-        hdpi = event.getFile();
-        System.out.println("HDPI: " + hdpi.getFileName());
-        addImagen(hdpi, HDPI, "hdpi");
-    }
-
-    public void handleFileUpload96x96(FileUploadEvent event) {
-        xhdpi = event.getFile();
-        System.out.println("XHDPI: " + xhdpi.getFileName());
-        addImagen(xhdpi, XHDPI, "xhdpi");
-    }
-
-    public void handleFileUpload180x180(FileUploadEvent event) {
-        xxhdpi = event.getFile();
-        System.out.println("XXHDPI: " + xxhdpi.getFileName());
-        addImagen(xxhdpi, XXHDPI, "xxhdpi");
-    }
-
-    public void addImagen(UploadedFile imgTMP, int tamano, String key) {
-        try {
-            if (!isValidImg(tamano, imgTMP)) {
-                JsfUtil.addErrorMessage("La imagen debe tener un tamaño de " + tamano + "x" + tamano + " Píxeles");
-            } else {
-                mapImagenes.put(key, mdpi);
-            }
-        } catch (Exception e) {
-        } finally {
-            imgTMP = null;
-        }
-    }
-
-    private boolean isValidImg(int tamanoImg, UploadedFile img) {
-        boolean isValidImg = false;
-        try {
-            BufferedImage bi = ImageIO.read(new ByteArrayInputStream((byte[]) img.getContents()));
-            if (tamanoImg == bi.getWidth() && tamanoImg == bi.getHeight()) {
-                isValidImg = true;
-            }
-        } catch (Exception e) {
-            isValidImg = false;
-            e.printStackTrace();
-        }
-        return isValidImg;
-    }
-
     public void copyFile(UploadedFile img, String rDestino) throws IOException {
 
         try {
@@ -298,20 +234,27 @@ public class CategoriaController implements Serializable {
         }
     }
 
-    private void guardarAdjuntos(String nombreImagen) {
+    private void guardarImagenes(String nombreImagen) {
         try {
             for (Map.Entry<String, UploadedFile> entrySet : getMapImagenes().entrySet()) {
                 String key = entrySet.getKey();
                 UploadedFile value = entrySet.getValue();
-                ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-                String ruta = servletContext.getRealPath("/resources/" + key + "/" + nombreImagen);
-                copyFile(value, ruta);
+                String path = ResourceBundle.getBundle("/Bundle").getString("Uploaded") + FILE_SEPARATOR + key + FILE_SEPARATOR + nombreImagen;
+                System.out.println("PATH: " + path);
+                copyFile(value, path);
             }
         } catch (Exception e) {
             System.out.println("==========ERROR==========");
             e.printStackTrace();
             System.out.println("==========ERROR==========");
         }
+    }
+
+    private void llenarMapa() {
+        mapImagenes.put("mdpi", getMdpi());
+        mapImagenes.put("hdpi", getHdpi());
+        mapImagenes.put("xhdpi", getXhdpi());
+        mapImagenes.put("xxhdpi", getXxhdpi());
     }
 
 }

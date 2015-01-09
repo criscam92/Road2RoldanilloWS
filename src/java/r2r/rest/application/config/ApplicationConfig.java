@@ -1,4 +1,4 @@
-package r2r.servicios;
+package r2r.rest.application.config;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

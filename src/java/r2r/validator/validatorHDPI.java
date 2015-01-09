@@ -18,13 +18,11 @@ public class validatorHDPI implements Validator {
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
         if (!((UploadedFile) value).getFileName().equals("")) {
-            System.out.println("NOT NULL HDPI");
             if (!JsfUtil.isValidImg(WIDTH, HEIGHT, (UploadedFile) value)) {
                 JsfUtil.addErrorMessage("La imagen del campo HDPI debe tener un tamaño de " + WIDTH + "x" + HEIGHT + " Píxeles");
 //                throw new ValidatorException(JsfUtil.getLastMessege());
             }
         } else {
-            System.out.println("NULL HDPI");
             JsfUtil.addErrorMessage("El campo HDPI es requerido");
 //            throw new ValidatorException(JsfUtil.getLastMessege());
         }

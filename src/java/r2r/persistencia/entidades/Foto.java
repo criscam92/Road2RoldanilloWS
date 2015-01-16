@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package r2r.persistencia.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,22 +14,25 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author CRISTIAN
- */
 @Entity
 @Table(catalog = "road2roldanillo", schema = "public")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Foto.findAll", query = "SELECT f FROM Foto f"),
     @NamedQuery(name = "Foto.findById", query = "SELECT f FROM Foto f WHERE f.id = :id"),
-    @NamedQuery(name = "Foto.findByFoto", query = "SELECT f FROM Foto f WHERE f.foto = :foto")})
+    @NamedQuery(name = "Foto.findByFoto", query = "SELECT f FROM Foto f WHERE f.foto = :foto"),
+    @NamedQuery(name = "Foto.findByLugar", query = "SELECT f.foto FROM Foto f WHERE f.lugar.id = :lugar"),
+    @NamedQuery(name = "Foto.findByFecha", query = "SELECT f FROM Foto f WHERE f.fecha = :fecha"),
+    @NamedQuery(name = "Foto.findByBorrado", query = "SELECT f FROM Foto f WHERE f.borrado = :borrado"),
+    @NamedQuery(name = "Foto.findGroupByLugar", query = "SELECT f.lugar FROM Foto f WHERE f.borrado = :borrado GROUP BY f.lugar")})
 public class Foto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +47,15 @@ public class Foto implements Serializable {
     @JoinColumn(name = "lugar", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Lugar lugar;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
+    @Basic(optional = true)
+    @NotNull
+    @Column(nullable = false)
+    private int borrado;
 
     public Foto() {
     }
@@ -56,9 +64,11 @@ public class Foto implements Serializable {
         this.id = id;
     }
 
-    public Foto(Integer id, String foto) {
+    public Foto(Integer id, String foto, Date fecha, int borrado) {
         this.id = id;
         this.foto = foto;
+        this.fecha = fecha;
+        this.borrado = borrado;
     }
 
     public Integer getId() {
@@ -85,6 +95,22 @@ public class Foto implements Serializable {
         this.lugar = lugar;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getBorrado() {
+        return borrado;
+    }
+
+    public void setBorrado(int borrado) {
+        this.borrado = borrado;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -99,15 +125,12 @@ public class Foto implements Serializable {
             return false;
         }
         Foto other = (Foto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
     public String toString() {
-        return "r2r.persistencia.controllers.Foto[ id=" + id + " ]";
+        return foto;
     }
-    
+
 }

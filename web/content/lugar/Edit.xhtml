@@ -8,12 +8,10 @@
 
     <ui:composition>
 
-        <p:dialog id="LugarEditDlg" widgetVar="LugarEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditLugarTitle}">
+        <p:dialog id="LugarEditDlg" widgetVar="LugarEditDialog" draggable="false" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditLugarTitle}">
             <h:form id="LugarEditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{lugarController.lugar != null}">
-                        <p:outputLabel value="#{bundle.EditLugarLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{lugarController.lugar.id}" title="#{bundle.EditLugarTitle_id}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_id}"/>
+                    <p:panelGrid columns="2" rendered="#{lugarController.lugar != null}">                        
                         <p:outputLabel value="#{bundle.EditLugarLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" value="#{lugarController.lugar.nombre}" title="#{bundle.EditLugarTitle_nombre}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_nombre}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_latitud}" for="latitud" />
@@ -22,8 +20,6 @@
                         <p:inputText id="longitud" value="#{lugarController.lugar.longitud}" title="#{bundle.EditLugarTitle_longitud}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_longitud}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{lugarController.lugar.descripcion}" title="#{bundle.EditLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_descripcion}"/>
-                        <p:outputLabel value="#{bundle.EditLugarLabel_puntaje}" for="puntaje" />
-                        <p:inputText id="puntaje" value="#{lugarController.lugar.puntaje}" title="#{bundle.EditLugarTitle_puntaje}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_puntaje}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_direccion}" for="direccion" />
                         <p:inputText id="direccion" value="#{lugarController.lugar.direccion}" title="#{bundle.EditLugarTitle_direccion}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_direccion}"/>
                         <p:outputLabel value="#{bundle.EditLugarLabel_telefono}" for="telefono" />
@@ -31,16 +27,19 @@
                         <p:outputLabel value="#{bundle.EditLugarLabel_sitio}" for="sitio" />
                         <p:inputText id="sitio" value="#{lugarController.lugar.sitio}" title="#{bundle.EditLugarTitle_sitio}" />
                         <p:outputLabel value="#{bundle.EditLugarLabel_categoria}" for="categoria" />
-                        <p:selectOneMenu id="categoria" value="#{lugarController.lugar.categoria}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_categoria}">
+                        <p:selectOneMenu style="width: 155px" id="categoria" value="#{lugarController.lugar.categoria}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_categoria}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
                                            var="categoriaItem"
                                            itemValue="#{categoriaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{lugarController.update}" value="#{bundle.Save}" update="display,:LugarListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LugarEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="LugarEditDialog.hide()"/>
+
                 </h:panelGroup>
+                <div class="botonesDialog">
+                    <p:commandButton ajax="false" actionListener="#{lugarController.update}" value="#{bundle.Save}" update="display,:LugarListForm:datalist,:growl" oncomplete="handleSubmit(args, 'LugarEditDialog');"/>
+                    <p:commandButton ajax="false" value="#{bundle.Cancel}" type="button" onclick="PF('LugarEditDialog').hide()"/>
+                </div>
             </h:form>
         </p:dialog>
 

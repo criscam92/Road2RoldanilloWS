@@ -1,5 +1,5 @@
 .ui-dialog .ui-dialog-content, .ui-dialog.ui-widget-content .ui-dialog-content{
-    overflow: hidden;
+    /* overflow: hidden; */
     padding-bottom: 0;
 }
 
@@ -82,8 +82,8 @@ div#acciones button.ui-button {
 
 table.ui-panelgrid tbody tr.ui-widget-content, 
 table.ui-panelgrid tbody tr.ui-widget-content td.ui-panelgrid-cell{
-    border: none;
-    border-style: none;
+     /* border: none; */ 
+     border-style: none; 
 }
 
 div.botonesDialog{
@@ -138,4 +138,45 @@ div.ui-menubar ul.ui-menu-list li.menuPrincipal ul.ui-menu-child{
     text-transform: uppercase;
     font-weight: bold;
     font-size: 18px;
+    width: 300px;
+}
+
+
+div.ui-fileupload-content.ui-widget-content.ui-corner-bottom{
+    overflow-y: auto;
+    display: block;
+    height: 92px;
+    /* border: 1px solid #a8a8a8; */
+    border-top-width: 0;
+    padding: 0;
+    background: url("src/draganddrop.png") no-repeat;
+    background-position: center;
+}
+
+div table.files {
+    width: 100.1%; 
+    margin: 0;
+}
+
+div.ui-fileupload-content.ui-widget-content.ui-corner-bottom table.ui-fileupload-files{
+/*    width: 100%;*/
+    background: rgb(161, 255, 165) -webkit-gradient(linear, left top,
+        left bottom,from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
+}
+
+div table tbody tr.template-upload.ui-state-error {
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+    border-left: none;
+    border-right: none;
+    background: #fef1ec -webkit-gradient(linear, left top,
+        left bottom,from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0)));
+}
+
+div table tbody tr div.ui-progressbar.ui-widget.ui-widget-content.ui-corner-all {
+/*    border: 1px solid #a8a8a8;*/
+}
+
+tr.ui-widget-content td.ui-panelgrid-cell div.ui-datatable table tbody tr.ui-datatable-empty-message td{
+    border-style: none;
 }

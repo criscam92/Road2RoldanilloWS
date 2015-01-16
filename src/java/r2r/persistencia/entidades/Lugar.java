@@ -1,7 +1,7 @@
-
 package r2r.persistencia.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -17,15 +17,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author CRISTIAN
- */
 @Entity
 @Table(catalog = "road2roldanillo", schema = "public")
 @XmlRootElement
@@ -39,8 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Lugar.findByPuntaje", query = "SELECT l FROM Lugar l WHERE l.puntaje = :puntaje"),
     @NamedQuery(name = "Lugar.findByDireccion", query = "SELECT l FROM Lugar l WHERE l.direccion = :direccion"),
     @NamedQuery(name = "Lugar.findByTelefono", query = "SELECT l FROM Lugar l WHERE l.telefono = :telefono"),
-    @NamedQuery(name = "Lugar.findBySitio", query = "SELECT l FROM Lugar l WHERE l.sitio = :sitio")})
+    @NamedQuery(name = "Lugar.findBySitio", query = "SELECT l FROM Lugar l WHERE l.sitio = :sitio"),
+    @NamedQuery(name = "Lugar.findByFecha", query = "SELECT l FROM Lugar l WHERE l.fecha >= :fecha"),
+    @NamedQuery(name = "Lugar.findByBorrado", query = "SELECT l FROM Lugar l WHERE l.borrado = :borrado")})
 public class Lugar implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,13 +81,24 @@ public class Lugar implements Serializable {
     @Size(max = 50)
     @Column(length = 50)
     private String sitio;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
+    @Basic(optional = true)
+    @NotNull
+    @Column(nullable = false)
+    private int borrado;
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lugar", fetch = FetchType.LAZY)
-    private List<Foto> fotoList;
+    private transient List<Foto> fotoList;
     @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Categoria categoria;
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lugar", fetch = FetchType.LAZY)
-    private List<Comentario> comentarioList;
+    private transient List<Comentario> comentarioList;
 
     public Lugar() {
     }
@@ -95,7 +107,7 @@ public class Lugar implements Serializable {
         this.id = id;
     }
 
-    public Lugar(Integer id, String nombre, double latitud, double longitud, String descripcion, float puntaje, String direccion) {
+    public Lugar(Integer id, String nombre, double latitud, double longitud, String descripcion, float puntaje, String direccion, Date fecha, int borrado) {
         this.id = id;
         this.nombre = nombre;
         this.latitud = latitud;
@@ -103,6 +115,8 @@ public class Lugar implements Serializable {
         this.descripcion = descripcion;
         this.puntaje = puntaje;
         this.direccion = direccion;
+        this.fecha = fecha;
+        this.borrado = borrado;
     }
 
     public Integer getId() {
@@ -177,6 +191,22 @@ public class Lugar implements Serializable {
         this.sitio = sitio;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getBorrado() {
+        return borrado;
+    }
+
+    public void setBorrado(int borrado) {
+        this.borrado = borrado;
+    }
+
     @XmlTransient
     public List<Foto> getFotoList() {
         return fotoList;
@@ -224,5 +254,5 @@ public class Lugar implements Serializable {
     public String toString() {
         return nombre;
     }
-    
+
 }

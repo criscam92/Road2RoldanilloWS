@@ -32,7 +32,7 @@ public class r2rServicio {
     @Produces("application/json")
     public String getCategoriaJson(@PathParam("timestamp") Long timeStamp) {
         Gson gson = new Gson();
-        String json = gson.toJson(getCategoriaFacade().getListCategotiasByFecha(timeStamp));
+        String json = gson.toJson(getCategoriaFacade().getListCategoriasByFecha(timeStamp));
         return json;
     }
     

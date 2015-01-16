@@ -4,7 +4,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import org.primefaces.model.UploadedFile;
 import r2r.util.JsfUtil;
 
@@ -15,7 +14,7 @@ public class validatorXHDPI implements Validator {
     private final int HEIGHT = 96;
 
     @Override
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    public void validate(FacesContext context, UIComponent component, Object value) {
         JsfUtil.validarImagen(WIDTH, HEIGHT, (UploadedFile) value, "XHDPI");
     }
 

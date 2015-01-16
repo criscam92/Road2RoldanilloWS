@@ -2,7 +2,14 @@ package r2r.util;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -110,6 +117,25 @@ public class JsfUtil {
         } else {
             JsfUtil.addErrorMessage("El campo " + tNombre + " es requerido");
             CategoriaController.imagenValida = false;
+        }
+    }
+
+    public static void copyFile(UploadedFile img, String rDestino) throws IOException {
+
+        try {
+            InputStream is = img.getInputstream();
+            OutputStream out = new FileOutputStream(new File(rDestino));
+            int read = 0;
+            byte[] bytes = new byte[1024];
+            while ((read = is.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            is.close();
+            out.flush();
+            out.close();
+            System.out.println("Nuevo archivo creado!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 

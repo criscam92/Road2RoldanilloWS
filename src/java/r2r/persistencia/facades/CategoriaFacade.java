@@ -24,12 +24,25 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
         super(Categoria.class);
     }
 
-    public List<Categoria> getListCategotiasByFecha(long timestamp) {
+    public List<Categoria> getListCategoriasByFecha(long timestamp) {
         List<Categoria> categorias = new ArrayList<>();
         try {
             Date fecha = new Date(timestamp);
             Query query = getEntityManager().createQuery("SELECT c FROM Categoria c WHERE c.fecha >= :fecha");
             query.setParameter("fecha", fecha);
+            categorias = query.getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categorias;
+    }
+
+    public List<Categoria> getListCategoriasByBorrado(int borrado) {
+        List<Categoria> categorias = new ArrayList<>();
+        try {
+            Query query = getEntityManager().createNamedQuery("Categoria.findByBorrado");
+            query.setParameter("borrado", borrado);
             categorias = query.getResultList();
 
         } catch (Exception e) {

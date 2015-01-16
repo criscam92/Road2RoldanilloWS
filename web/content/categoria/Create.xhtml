@@ -8,7 +8,7 @@
 
     <ui:composition>
 
-        <p:dialog id="CategoriaCreateDlg" widgetVar="CategoriaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCategoriaTitle}">
+        <p:dialog id="CategoriaCreateDlg" draggable="false" widgetVar="CategoriaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCategoriaTitle}">
             <h:form id="CategoriaCreateForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{categoriaController.selected != null}">  
@@ -60,7 +60,7 @@
                 </h:panelGroup>
                 <div class="botonesDialog">
                     <p:commandButton ajax="false" actionListener="#{categoriaController.create}" value="#{bundle.Save}" update="display,:CategoriaListForm:datalist,:growl" oncomplete="handleSubmit(args,'CategoriaCreateDialog');"/>
-                    <p:commandButton ajax="false" value="#{bundle.Cancel}" onclick="PF('CategoriaCreateDialog').hide()"/>
+                    <p:commandButton ajax="false" value="#{bundle.Cancel}" type="button" onclick="PF('CategoriaCreateDialog').hide()"/>
                 </div>
             </h:form>
         </p:dialog>

@@ -8,24 +8,49 @@
 
     <ui:composition>
 
-        <p:dialog id="FotoCreateDlg" widgetVar="FotoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateFotoTitle}">
-            <h:form id="FotoCreateForm">
+        <p:dialog id="FotoCreateDlg" widgetVar="FotoCreateDialog" modal="true" width="650" resizable="false" appendTo="@(body)" header="#{bundle.CreateFotoTitle}">
+            <h:form id="FotoCreateForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{fotoController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateFotoLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{fotoController.selected.id}" title="#{bundle.CreateFotoTitle_id}" required="true" requiredMessage="#{bundle.CreateFotoRequiredMessage_id}"/>
-                        <p:outputLabel value="#{bundle.CreateFotoLabel_foto}" for="foto" />
-                        <p:inputText id="foto" value="#{fotoController.selected.foto}" title="#{bundle.CreateFotoTitle_foto}" required="true" requiredMessage="#{bundle.CreateFotoRequiredMessage_foto}"/>
-                        <p:outputLabel value="#{bundle.CreateFotoLabel_lugar}" for="lugar" />
-                        <p:selectOneMenu id="lugar" value="#{fotoController.selected.lugar}" required="true" requiredMessage="#{bundle.EditFotoRequiredMessage_lugar}">
-                            <f:selectItems value="#{lugarController.itemsAvailableSelectOne}"
-                                           var="lugarItem"
-                                           itemValue="#{lugarItem}"/>
-                        </p:selectOneMenu>
+                    <p:panelGrid columns="1" rendered="#{fotoController.selected != null}">
+
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{bundle.CreateFotoLabel_lugar}" for="lugar" />
+                            <p:selectOneMenu style="width: 155px" id="lugar" value="#{fotoController.selected.lugar}" required="true" requiredMessage="#{bundle.EditFotoRequiredMessage_lugar}">
+                                <f:selectItems value="#{lugarController.itemsAvailableSelectOne}"
+                                               var="lugarItem"
+                                               itemValue="#{lugarItem}"/>
+                            </p:selectOneMenu>
+
+                        </p:panelGrid>
+
+                        <!-- FILEUPLOAD FOTO -->
+
+                        <p:fileUpload multiple="true" 
+                                      fileUploadListener="#{fotoController.handleFileUpload}" 
+                                      mode="advanced" 
+                                      invalidFileMessage="Archivo invalido (jpg, png, gif)" 
+                                      update="dt, :growl" auto="true" label="Examinar..." 
+                                      invalidSizeMessage="Tamaño invalido (50MB Maxímo)"
+                                      sizeLimit="52428800"
+                                      allowTypes="/(\.|\/)(png|jpe|jpeg|gif)$/"
+                                      dragDropSupport="true"/>
+
+                        <p:dataTable id="dt" var="foto" value="#{fotoController.listFotos}" emptyMessage="No se encontraron archivos">
+                            <p:column>
+                                <h:outputText value="#{foto.fileName}" />
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Eliminar" action="#{fotoController.quitarAdjunto(foto)}" icon="ui-icon-trash" update="dt" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <!-- FILEUPLOAD FOTO -->
                     </p:panelGrid>
+                </h:panelGroup>
+                <div class="botonesDialog">
                     <p:commandButton actionListener="#{fotoController.create}" value="#{bundle.Save}" update="display,:FotoListForm:datalist,:growl" oncomplete="handleSubmit(args,'FotoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="FotoCreateDialog.hide()"/>
-                </h:panelGroup>
+                </div>
             </h:form>
         </p:dialog>
 

@@ -6,6 +6,7 @@ import r2r.util.JsfUtil.PersistAction;
 import r2r.persistencia.facades.LugarFacade;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -22,69 +23,85 @@ import javax.faces.convert.FacesConverter;
 @ManagedBean(name = "lugarController")
 @SessionScoped
 public class LugarController implements Serializable {
-
+    
     @EJB
     private LugarFacade lugarFacade;
-    private List<Lugar> items = null;
+    private List<Lugar> items = null, itemsByBorrado = null;
     private Lugar lugar;
-
+    
     public LugarController() {
     }
-
+    
     public Lugar getLugar() {
         return lugar;
     }
-
+    
     public void setLugar(Lugar lugar) {
         this.lugar = lugar;
     }
-
+    
     protected void setEmbeddableKeys() {
     }
-
+    
     protected void initializeEmbeddableKey() {
     }
-
+    
     private LugarFacade getFacade() {
         return lugarFacade;
     }
-
+    
     public Double getPuntaje(Integer id) {
         return getFacade().getPuntaje(id);
     }
-
+    
     public Lugar prepareCreate() {
         lugar = new Lugar();
         initializeEmbeddableKey();
         return lugar;
     }
-
+    
     public void create() {
+        lugar.setBorrado(0);
+        Calendar fecha = Calendar.getInstance();
+        lugar.setFecha(fecha.getTime());
+        lugar.setPuntaje(0.0F);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            items = null;
         }
     }
-
+    
     public void update() {
+        Calendar fecha = Calendar.getInstance();
+        lugar.setFecha(fecha.getTime());
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LugarUpdated"));
     }
-
+    
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("LugarDeleted"));
+        Calendar fecha = Calendar.getInstance();
+        lugar.setFecha(fecha.getTime());
+        lugar.setBorrado(1);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LugarDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             lugar = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-
+    
     public List<Lugar> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
         return items;
     }
-
+    
+    public List<Lugar> getItemsByBorrado() {
+        if (itemsByBorrado == null) {
+            itemsByBorrado = getFacade().getListLugarByBorrado(0);
+        }
+        return itemsByBorrado;
+    }
+    
     private void persist(PersistAction persistAction, String successMessage) {
         if (lugar != null) {
             setEmbeddableKeys();
@@ -112,18 +129,18 @@ public class LugarController implements Serializable {
             }
         }
     }
-
+    
     public List<Lugar> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
-
+    
     public List<Lugar> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
-
+    
     @FacesConverter(forClass = Lugar.class)
     public static class LugarControllerConverter implements Converter {
-
+        
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
@@ -133,19 +150,19 @@ public class LugarController implements Serializable {
                     getValue(facesContext.getELContext(), null, "lugarController");
             return controller.getFacade().find(getKey(value));
         }
-
+        
         java.lang.Integer getKey(String value) {
             java.lang.Integer key;
             key = Integer.valueOf(value);
             return key;
         }
-
+        
         String getStringKey(java.lang.Integer value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
         }
-
+        
         @Override
         public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {
@@ -159,7 +176,7 @@ public class LugarController implements Serializable {
                 return null;
             }
         }
-
+        
     }
-
+    
 }

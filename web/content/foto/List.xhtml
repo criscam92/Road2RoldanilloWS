@@ -15,49 +15,50 @@
 
         <ui:define name="body">
             <h:form id="FotoListForm">
-                <p:panel header="#{bundle.ListFotoTitle}">
-                    <p:dataTable id="datalist" value="#{fotoController.items}" var="item"
-                                 selectionMode="single" selection="#{fotoController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
+<!--                <p:panel header="#{bundle.ListFotoTitle}">-->
+                <p:dataTable id="datalist" styleClass="tabla" value="#{fotoController.itemsGroupByLugar}" var="item"
+                             selectionMode="single" selection="#{fotoController.selected}"
+                             paginator="true"
+                             rowKey="#{item.id}"
+                             paginatorPosition="bottom"
+                             rows="20"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFotoTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFotoTitle_foto}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.foto}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListFotoTitle_lugar}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.lugar}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{fotoController.prepareCreate}" update=":FotoCreateForm" oncomplete="PF('FotoCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":FotoViewForm" oncomplete="PF('FotoViewDialog').show()" disabled="#{empty fotoController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":FotoEditForm" oncomplete="PF('FotoEditDialog').show()" disabled="#{empty fotoController.selected}"/>
+                    <f:facet name="header">
+                        <div id="titulo">
+                            Fotos
+                        </div>
+                        <div id="acciones">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{fotoController.prepareCreate}" update=":FotoCreateForm" oncomplete="PF('FotoCreateDialog').show()"/>                            
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{fotoController.destroy}" update=":growl,datalist" disabled="#{empty fotoController.selected}"/>
-                        </f:facet>
-                    </p:dataTable>
-                </p:panel>
-            </h:form>
+                        </div>
+                    </f:facet>
 
+                    <p:ajax event="rowSelect"   update="createButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton deleteButton"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListFotoTitle_lugar}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.toString()}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListFotoTitle_foto}"/>
+                        </f:facet>
+                        <p:commandButton icon="ui-icon-search"
+                                         value="#{bundle.View2}"
+                                         action="#{fotoController.setLugar2(item.toString())}"
+                                         update=":galleriaForm" oncomplete="PF('FotosDialog').show()"/>
+                    </p:column>
+                </p:dataTable>
+                <!--</p:panel>-->
+            </h:form>
+            <ui:include src="Galleria.xhtml"/>
             <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
         </ui:define>
     </ui:composition>
 

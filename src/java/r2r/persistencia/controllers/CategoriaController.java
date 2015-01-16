@@ -1,10 +1,5 @@
 package r2r.persistencia.controllers;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import r2r.persistencia.entidades.Categoria;
 import r2r.util.JsfUtil;
 import r2r.util.JsfUtil.PersistAction;
@@ -34,7 +29,7 @@ public class CategoriaController implements Serializable {
     @EJB
     private CategoriaFacade categoriaFacade;
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    private List<Categoria> items = null;
+    private List<Categoria> items = null, itemsByBorrado = null;
     private Categoria selected;
     private UploadedFile mdpi, hdpi, xhdpi, xxhdpi;
     private final Map<String, UploadedFile> mapImagenes = new HashMap<>();
@@ -104,33 +99,34 @@ public class CategoriaController implements Serializable {
     }
 
     public void create() {
-        if (getMdpi() != null && getHdpi() != null && getXhdpi() != null && getXxhdpi() != null) {
-            llenarMapa();
-            selected.setIcono(selected.getNombre() + ".png");
-            Calendar fecha = Calendar.getInstance();
-            selected.setFecha(fecha.getTime());
-            selected.setBorrado(0);
-        }
-
+        createAndUpdate();
         if (imagenValida) {
             persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
             if (!JsfUtil.isValidationFailed()) {
                 items = null;
+                itemsByBorrado = null;
                 guardarImagenes(selected.getIcono());
-
             }
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaUpdated"));
+        createAndUpdate();
+        if (imagenValida) {
+            persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaUpdated"));
+            guardarImagenes(selected.getIcono());
+        }
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CategoriaDeleted"));
+        Calendar fecha = Calendar.getInstance();
+        selected.setFecha(fecha.getTime());
+        selected.setBorrado(1);
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            selected = null;
+            items = null;
+            itemsByBorrado = null;
         }
     }
 
@@ -139,6 +135,13 @@ public class CategoriaController implements Serializable {
             items = getFacade().findAll();
         }
         return items;
+    }
+
+    public List<Categoria> getItemsByBorrado() {
+        if (itemsByBorrado == null) {
+            itemsByBorrado = getFacade().getListCategoriasByBorrado(0);
+        }
+        return itemsByBorrado;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -215,26 +218,6 @@ public class CategoriaController implements Serializable {
                 return null;
             }
         }
-
-    }
-
-    public void copyFile(UploadedFile img, String rDestino) throws IOException {
-
-        try {
-            InputStream is = img.getInputstream();
-            OutputStream out = new FileOutputStream(new File(rDestino));
-            int read = 0;
-            byte[] bytes = new byte[1024];
-            while ((read = is.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-            is.close();
-            out.flush();
-            out.close();
-            System.out.println("New file created!");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     private void guardarImagenes(String nombreImagen) {
@@ -242,9 +225,9 @@ public class CategoriaController implements Serializable {
             for (Map.Entry<String, UploadedFile> entrySet : getMapImagenes().entrySet()) {
                 String key = entrySet.getKey();
                 UploadedFile value = entrySet.getValue();
-                String path = ResourceBundle.getBundle("/Bundle").getString("Uploaded") + FILE_SEPARATOR + key + FILE_SEPARATOR + "categoria" + FILE_SEPARATOR + nombreImagen.toLowerCase();
+                String path = ResourceBundle.getBundle("/Bundle").getString("Uploaded") + FILE_SEPARATOR + key + FILE_SEPARATOR + "categoria" + FILE_SEPARATOR + nombreImagen.toLowerCase().replaceAll("\\s", "_");
                 System.out.println("PATH: " + path);
-                copyFile(value, path);
+                JsfUtil.copyFile(value, path);
             }
         } catch (Exception e) {
             System.out.println("==========ERROR==========");
@@ -258,6 +241,16 @@ public class CategoriaController implements Serializable {
         mapImagenes.put("hdpi", getHdpi());
         mapImagenes.put("xhdpi", getXhdpi());
         mapImagenes.put("xxhdpi", getXxhdpi());
+    }
+
+    private void createAndUpdate() {
+        if (getMdpi() != null && getHdpi() != null && getXhdpi() != null && getXxhdpi() != null) {
+            llenarMapa();
+            selected.setIcono(selected.getNombre().toLowerCase().replaceAll("\\s", "_") + ".png");
+            Calendar fecha = Calendar.getInstance();
+            selected.setFecha(fecha.getTime());
+            selected.setBorrado(0);
+        }
     }
 
 }

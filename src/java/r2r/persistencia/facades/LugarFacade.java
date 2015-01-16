@@ -1,5 +1,8 @@
 package r2r.persistencia.facades;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,6 +41,33 @@ public class LugarFacade extends AbstractFacade<Lugar> {
             e.printStackTrace();
         }
         return resultado;
+    }
+
+    public List<Lugar> getListLugarByFecha(long timestamp) {
+        List<Lugar> lugares = new ArrayList<>();
+        try {
+            Date fecha = new Date(timestamp);
+            Query query = getEntityManager().createNamedQuery("Lugar.findByFecha");
+            query.setParameter("fecha", fecha);
+            lugares = query.getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lugares;
+    }
+
+    public List<Lugar> getListLugarByBorrado(int borrado) {
+        List<Lugar> lugares = new ArrayList<>();
+        try {
+            Query query = getEntityManager().createNamedQuery("Lugar.findByBorrado");
+            query.setParameter("borrado", borrado);
+            lugares = query.getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lugares;
     }
 
 }

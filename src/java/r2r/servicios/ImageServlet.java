@@ -28,16 +28,22 @@ public class ImageServlet extends HttpServlet {
             for (String part : parts) {
                 System.out.println(part);
             }
-            String size = parts[1];
 
-            String type = parts[2];
-
-            String fileName = parts[3];
+            String size = "", type = "", fileName = "", ruta = "";
+            if (parts.length == 4) {
+                size = parts[1];
+                type = parts[2];
+                fileName = parts[3];
+                ruta = PATH + FILE_SEPARATOR + size + FILE_SEPARATOR + type + FILE_SEPARATOR + fileName;
+            } else {
+                type = parts[1];
+                fileName = parts[2];
+                ruta = PATH + FILE_SEPARATOR + type + FILE_SEPARATOR + fileName;
+            }
 
             String extension = fileName.split("\\.")[fileName.split("\\.").length - 1];
 
-            File f = new File(PATH + FILE_SEPARATOR + size + FILE_SEPARATOR
-                    + type + FILE_SEPARATOR + fileName);
+            File f = new File(ruta);
             System.out.println(f.getAbsolutePath());
             BufferedImage bi = ImageIO.read(f);
             ImageIO.write(bi, extension, out);

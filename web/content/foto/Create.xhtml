@@ -48,7 +48,7 @@
                     </p:panelGrid>
                 </h:panelGroup>
                 <div class="botonesDialog">
-                    <p:commandButton actionListener="#{fotoController.create}" value="#{bundle.Save}" update="display,:FotoListForm:datalist,:growl" oncomplete="handleSubmit(args,'FotoCreateDialog');"/>
+                    <p:commandButton actionListener="#{fotoController.create}" value="#{bundle.Save}" update="display,:FotoListForm:datalist,:growl,:galleriaForm" oncomplete="handleSubmit(args,'FotoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="FotoCreateDialog.hide()"/>
                 </div>
             </h:form>

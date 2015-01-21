@@ -13,29 +13,30 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lugarController.lugar != null}">
 
-                        <p:outputLabel value="#{bundle.CreateLugarLabel_nombre}" for="nombre" />
-                        <p:inputText id="nombre" value="#{lugarController.lugar.nombre}" title="#{bundle.CreateLugarTitle_nombre}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_nombre}"/>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{bundle.CreateLugarLabel_nombre}" for="nombre" />
+                            <p:inputText id="nombre" value="#{lugarController.lugar.nombre}" title="#{bundle.CreateLugarTitle_nombre}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_nombre}"/>
 
-                        <p:outputLabel value="#{bundle.CreateLugarLabel_descripcion}" for="descripcion" />
-                        <p:inputTextarea id="descripcion" value="#{lugarController.lugar.descripcion}" title="#{bundle.CreateLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_descripcion}"/>
+                            <p:outputLabel value="#{bundle.CreateLugarLabel_descripcion}" for="descripcion" />
+                            <p:inputTextarea style="width: 148px" id="descripcion" value="#{lugarController.lugar.descripcion}" title="#{bundle.CreateLugarTitle_descripcion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_descripcion}"/>
 
-                        <p:outputLabel value="#{bundle.CreateLugarLabel_direccion}" for="direccion" />
-                        <p:inputText id="direccion" value="#{lugarController.lugar.direccion}" title="#{bundle.CreateLugarTitle_direccion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_direccion}"/>
+                            <p:outputLabel value="#{bundle.CreateLugarLabel_direccion}" for="direccion" />
+                            <p:inputText id="direccion" value="#{lugarController.lugar.direccion}" title="#{bundle.CreateLugarTitle_direccion}" required="true" requiredMessage="#{bundle.CreateLugarRequiredMessage_direccion}"/>
 
-                        <p:outputLabel value="#{bundle.CreateLugarLabel_telefono}" for="telefono" />
-                        <p:inputText id="telefono" value="#{lugarController.lugar.telefono}" title="#{bundle.CreateLugarTitle_telefono}" />
+                            <p:outputLabel value="#{bundle.CreateLugarLabel_telefono}" for="telefono" />
+                            <p:inputText id="telefono" value="#{lugarController.lugar.telefono}" title="#{bundle.CreateLugarTitle_telefono}" />
 
-                        <p:outputLabel value="#{bundle.CreateLugarLabel_sitio}" for="sitio" />
-                        <p:inputText id="sitio" value="#{lugarController.lugar.sitio}" title="#{bundle.CreateLugarTitle_sitio}" />
+                            <p:outputLabel value="#{bundle.CreateLugarLabel_sitio}" for="sitio" />
+                            <p:inputText id="sitio" value="#{lugarController.lugar.sitio}" title="#{bundle.CreateLugarTitle_sitio}" />
 
-                        <p:outputLabel value="#{bundle.CreateLugarLabel_categoria}" for="categoria" />
-                        <p:selectOneMenu style="width: 155px" id="categoria" value="#{lugarController.lugar.categoria}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_categoria}">
-                            <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
-                                           var="categoriaItem"
-                                           itemValue="#{categoriaItem}"/>
-                        </p:selectOneMenu>
-                        <h:outputLabel/>
-                        <p:gmap type="HYBRID" center="4.41472,-76.15472" zoom="13"
+                            <p:outputLabel value="#{bundle.CreateLugarLabel_categoria}" for="categoria" />
+                            <p:selectOneMenu style="width: 155px" id="categoria" value="#{lugarController.lugar.categoria}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_categoria}">
+                                <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
+                                               var="categoriaItem"
+                                               itemValue="#{categoriaItem}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:gmap type="ROADMAP" center="4.41472,-76.15472" zoom="15" disableDoubleClickZoom="true" disableDefaultUI="true" streetView="true" style="width: 500px; height: 400px;"
                                 model="#{lugarController.draggableModel}">
                             <p:ajax event="markerDrag" listener="#{lugarController.onMarkerDrag}" update=":growl"/>
                         </p:gmap>

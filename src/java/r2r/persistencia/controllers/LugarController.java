@@ -83,7 +83,10 @@ public class LugarController implements Serializable {
         lugar.setBorrado(0);
         Calendar fecha = Calendar.getInstance();
         lugar.setFecha(fecha.getTime());
-        lugar.setPuntaje(0.0F);
+        lugar.setPuntaje(0);
+        lugar.setLongitud(marker.getLatlng().getLng());
+        lugar.setLatitud(marker.getLatlng().getLat());
+
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;

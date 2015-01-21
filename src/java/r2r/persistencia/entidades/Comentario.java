@@ -27,9 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comentario.findAll", query = "SELECT c FROM Comentario c"),
     @NamedQuery(name = "Comentario.findById", query = "SELECT c FROM Comentario c WHERE c.id = :id"),
     @NamedQuery(name = "Comentario.findByDetalle", query = "SELECT c FROM Comentario c WHERE c.detalle = :detalle"),
-    @NamedQuery(name = "Comentario.findByFecha", query = "SELECT c FROM Comentario c WHERE c.fecha = :fecha"),
+    @NamedQuery(name = "Comentario.findByFecha", query = "SELECT c FROM Comentario c WHERE c.fecha >= :fecha"),
     @NamedQuery(name = "Comentario.findByPuntaje", query = "SELECT c FROM Comentario c WHERE c.puntaje = :puntaje")})
 public class Comentario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,12 +51,17 @@ public class Comentario implements Serializable {
     @NotNull
     @Column(nullable = false)
     private int puntaje;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 21)
+    private String usuarioId;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    private String usuarioNombre;
     @JoinColumn(name = "lugar", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Lugar lugar;
-    @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Usuario usuario;
 
     public Comentario() {
     }
@@ -64,11 +70,13 @@ public class Comentario implements Serializable {
         this.id = id;
     }
 
-    public Comentario(Integer id, String detalle, Date fecha, int puntaje) {
+    public Comentario(Integer id, String detalle, Date fecha, int puntaje, String usuarioId, String usuarioNombre) {
         this.id = id;
         this.detalle = detalle;
         this.fecha = fecha;
         this.puntaje = puntaje;
+        this.usuarioId = usuarioId;
+        this.usuarioNombre = usuarioNombre;
     }
 
     public Integer getId() {
@@ -103,20 +111,28 @@ public class Comentario implements Serializable {
         this.puntaje = puntaje;
     }
 
+    public String getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(String usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public String getUsuarioNombre() {
+        return usuarioNombre;
+    }
+
+    public void setUsuarioNombre(String usuarioNombre) {
+        this.usuarioNombre = usuarioNombre;
+    }
+
     public Lugar getLugar() {
         return lugar;
     }
 
     public void setLugar(Lugar lugar) {
         this.lugar = lugar;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     @Override
@@ -140,5 +156,5 @@ public class Comentario implements Serializable {
     public String toString() {
         return "r2r.persistencia.controllers.Comentario[ id=" + id + " ]";
     }
-    
+
 }

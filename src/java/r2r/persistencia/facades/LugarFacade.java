@@ -1,5 +1,6 @@
 package r2r.persistencia.facades;
 
+import entityjson.LugarJson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -68,6 +69,27 @@ public class LugarFacade extends AbstractFacade<Lugar> {
             e.printStackTrace();
         }
         return lugares;
+    }
+
+    public List<LugarJson> getListaLugaresTMP(Long timeStamp) {
+        List<Lugar> lugares = getListLugarByFecha(timeStamp);
+        List<LugarJson> lugaresJsons = new ArrayList<>();
+        for (Lugar lugar : lugares) {
+            LugarJson lugarJson = new LugarJson();
+            lugarJson.setBorrado(lugar.getBorrado());
+            lugarJson.setCategoria(lugar.getCategoria().getId());
+            lugarJson.setDireccion(lugar.getDireccion());
+            lugarJson.setFecha(lugar.getFecha());
+            lugarJson.setId(lugar.getId());
+            lugarJson.setLatitud(lugar.getLatitud());
+            lugarJson.setLongitud(lugar.getLongitud());
+            lugarJson.setNombre(lugar.getNombre());
+            lugarJson.setPuntaje(lugar.getPuntaje());
+            lugarJson.setSitio(lugar.getSitio());
+            lugarJson.setTelefono(lugar.getTelefono());
+            lugaresJsons.add(lugarJson);
+        }
+        return lugaresJsons;
     }
 
 }

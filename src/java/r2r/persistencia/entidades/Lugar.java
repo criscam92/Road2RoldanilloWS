@@ -69,7 +69,7 @@ public class Lugar implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
-    private double puntaje;
+    private float puntaje;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -107,7 +107,7 @@ public class Lugar implements Serializable {
         this.id = id;
     }
 
-    public Lugar(Integer id, String nombre, double latitud, double longitud, String descripcion, double puntaje, String direccion, Date fecha, int borrado) {
+    public Lugar(Integer id, String nombre, double latitud, double longitud, String descripcion, float puntaje, String direccion, Date fecha, int borrado) {
         this.id = id;
         this.nombre = nombre;
         this.latitud = latitud;
@@ -159,11 +159,11 @@ public class Lugar implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public double getPuntaje() {
+    public float getPuntaje() {
         return puntaje;
     }
 
-    public void setPuntaje(double puntaje) {
+    public void setPuntaje(float puntaje) {
         this.puntaje = puntaje;
     }
 
@@ -224,7 +224,6 @@ public class Lugar implements Serializable {
         this.categoria = categoria;
     }
 
-    @XmlTransient
     public List<Comentario> getComentarioList() {
         return comentarioList;
     }

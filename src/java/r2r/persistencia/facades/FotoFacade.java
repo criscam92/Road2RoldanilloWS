@@ -1,6 +1,8 @@
 package r2r.persistencia.facades;
 
+import entityjson.FotoJson;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -81,6 +83,20 @@ public class FotoFacade extends AbstractFacade<Foto> {
         return l;
     }
 
+    public List<Foto> getFotosByFecha(Long timeStamp) {
+        List<Foto> fotos = new ArrayList<>();
+        try {
+            Date fecha = new Date(timeStamp);
+            Query query = getEntityManager().createNamedQuery("Foto.findByFecha");
+            query.setParameter("fecha", fecha);
+            fotos = query.getResultList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return fotos;
+    }
+
     public List<String> getFotosByLugar(Lugar lugar) {
         System.out.println("LugarID: " + lugar.getId());
         List<String> nomfotos = new ArrayList<>();
@@ -96,6 +112,24 @@ public class FotoFacade extends AbstractFacade<Foto> {
             nomfotos = new ArrayList<>();
         }
         return nomfotos;
+    }
+
+    public List<FotoJson> getListaFotosTMP(Long timeStamp) {
+        List<Foto> fotos = getFotosByFecha(timeStamp);
+        List<FotoJson> fotosJsons = new ArrayList<>();
+        
+        for (Foto foto : fotos) {
+            FotoJson fotoJson = new FotoJson();
+            fotoJson.setBorrado(foto.getBorrado());
+            fotoJson.setFecha(foto.getFecha());
+            fotoJson.setFoto(foto.getFoto());
+            fotoJson.setId(foto.getId());
+            fotoJson.setLugar(foto.getLugar().getId());
+            
+            fotosJsons.add(fotoJson);
+        }
+        
+        return fotosJsons;
     }
 
 }

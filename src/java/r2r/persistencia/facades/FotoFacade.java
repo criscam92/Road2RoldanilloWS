@@ -1,6 +1,6 @@
 package r2r.persistencia.facades;
 
-import entityjson.FotoJson;
+import r2r.entityjson.FotoJson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,7 +65,6 @@ public class FotoFacade extends AbstractFacade<Foto> {
     }
 
     public Lugar getLugarByNombre(String lugar) {
-        System.out.println("Nombre Lugar: " + lugar);
         Lugar l = new Lugar();
         try {
             Query query = getEntityManager().createNamedQuery("Lugar.findByNombre");
@@ -79,7 +78,6 @@ public class FotoFacade extends AbstractFacade<Foto> {
             JsfUtil.addErrorMessage("Error consultando las fotos");
             l = new Lugar();
         }
-        System.out.println("Resultado Lugar: " + l.getNombre());
         return l;
     }
 

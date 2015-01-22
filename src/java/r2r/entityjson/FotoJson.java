@@ -1,4 +1,4 @@
-package entityjson;
+package r2r.entityjson;
 
 import java.util.Date;
 

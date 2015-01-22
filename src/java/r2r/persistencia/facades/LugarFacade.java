@@ -1,6 +1,6 @@
 package r2r.persistencia.facades;
 
-import entityjson.LugarJson;
+import r2r.entityjson.LugarJson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

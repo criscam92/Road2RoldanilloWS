@@ -1,7 +1,7 @@
 package r2r.servicios;
 
 import com.google.gson.Gson;
-import entityjson.LugarJson;
+import r2r.entityjson.LugarJson;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;

@@ -1,6 +1,6 @@
 package r2r.persistencia.facades;
 
-import entityjson.ComentarioJson;
+import r2r.entityjson.ComentarioJson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

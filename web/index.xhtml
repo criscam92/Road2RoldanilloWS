@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <title><ui:insert name="title">Road2Roldanillo</ui:insert></title>
@@ -23,11 +24,19 @@
                 <h:form id="menuForm">  
                     <p:menubar>
                         <p:menuitem class="menuPrincipal" value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
-                        <p:submenu class="menuPrincipal" label="#{bundle.Maintenance}">
+
+                        <p:submenu class="menuPrincipal" label="#{bundle.Maintenance}" rendered="#{loginController.user != null}">
                             <p:menuitem value="Categoria" outcome="/content/categoria/List.xhtml" />
                             <p:menuitem value="Comentario" outcome="/content/comentario/List.xhtml" />
                             <p:menuitem value="Foto" outcome="/content/foto/List.xhtml" />
                             <p:menuitem value="Lugar" outcome="/content/lugar/List.xhtml" />
+                            <c:if test="#{loginController.admin}">
+                                <p:menuitem value="Usuario" outcome="/content/usuario/List.xhtml" />
+                            </c:if>
+                        </p:submenu>
+
+                        <p:submenu class="menuPrincipal" label="#{loginController.user.usuario}">
+                            <p:menuitem action="#{loginController.logoutLink()}" icon="ui-icon-power" value="#{bundle.LogOut}" />
                         </p:submenu>
                     </p:menubar>
                 </h:form>
@@ -35,6 +44,21 @@
 
             <p:layoutUnit class="contenido" position="center">
                 <ui:insert name="body"/>
+
+                <p:outputPanel id="panelCentral">
+                    <h:form id="UserLoginForm" rendered="#{loginController.user==null}">
+                        <p:panel id="login" header="Ingresar a la Aplicación" style="width: 350px; margin: 0px auto;">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="username" />
+                                <p:inputText id="username" value="#{loginController.userName}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
+                                <p:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena}" for="password" />
+                                <p:inputText type="password" id="password" value="#{loginController.password}" title="#{bundle.CreateUsuarioTitle_contrasena}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena}"/>
+                                <p:commandButton actionListener="#{loginController.login()}" value="#{bundle.Login}" update=":growl,:menuForm,:panelCentral"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+                </p:outputPanel>
+
             </p:layoutUnit>
 
         </p:layout>

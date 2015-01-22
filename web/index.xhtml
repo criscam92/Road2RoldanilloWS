@@ -35,7 +35,7 @@
                             </c:if>
                         </p:submenu>
 
-                        <p:submenu class="menuPrincipal" label="#{loginController.user.usuario}">
+                        <p:submenu class="menuPrincipal" label="#{loginController.user.usuario}" rendered="#{loginController.user != null}">
                             <p:menuitem action="#{loginController.logoutLink()}" icon="ui-icon-power" value="#{bundle.LogOut}" />
                         </p:submenu>
                     </p:menubar>

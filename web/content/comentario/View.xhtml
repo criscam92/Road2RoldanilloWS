@@ -23,7 +23,7 @@
                         <h:outputText value="#{bundle.ViewComentarioLabel_lugar}"/>
                         <h:outputText value="#{comentarioController.selected.lugar.nombre}" title="#{bundle.ViewComentarioTitle_lugar}"/>
                         <h:outputText value="#{bundle.ViewComentarioLabel_usuario}"/>
-                        <h:outputText value="#{comentarioController.selected.usuario.nombre} #{comentarioController.selected.usuario.apellido}" title="#{bundle.ViewComentarioTitle_usuario}"/>
+                        <h:outputText value="#{comentarioController.selected.usuarioNombre}" title="#{bundle.ViewComentarioTitle_usuario}"/>
                     </p:panelGrid>
                     <div class="botonesDialog">
                         <p:commandButton value="#{bundle.Close}" onclick="ComentarioViewDialog.hide()"/>

@@ -11,26 +11,24 @@
             <h:form id="LugarViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lugarController.lugar != null}">
-                        <h:outputText value="#{bundle.ViewLugarLabel_id}"/>
-                        <h:outputText value="#{lugarController.lugar.id}" title="#{bundle.ViewLugarTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_nombre}"/>
-                        <h:outputText value="#{lugarController.lugar.nombre}" title="#{bundle.ViewLugarTitle_nombre}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_latitud}"/>
-                        <h:outputText value="#{lugarController.lugar.latitud}" title="#{bundle.ViewLugarTitle_latitud}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_longitud}"/>
-                        <h:outputText value="#{lugarController.lugar.longitud}" title="#{bundle.ViewLugarTitle_longitud}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_descripcion}"/>
-                        <h:outputText value="#{lugarController.lugar.descripcion}" title="#{bundle.ViewLugarTitle_descripcion}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_puntaje}"/>
-                        <h:outputText value="#{lugarController.lugar.puntaje}" title="#{bundle.ViewLugarTitle_puntaje}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_direccion}"/>
-                        <h:outputText value="#{lugarController.lugar.direccion}" title="#{bundle.ViewLugarTitle_direccion}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_telefono}"/>
-                        <h:outputText value="#{lugarController.lugar.telefono}" title="#{bundle.ViewLugarTitle_telefono}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_sitio}"/>
-                        <h:outputText value="#{lugarController.lugar.sitio}" title="#{bundle.ViewLugarTitle_sitio}"/>
-                        <h:outputText value="#{bundle.ViewLugarLabel_categoria}"/>
-                        <h:outputText value="#{lugarController.lugar.categoria}" title="#{bundle.ViewLugarTitle_categoria}"/>
+                        <p:panelGrid columns="1" style="width: 200px">
+                            <h:outputText styleClass="titleVista" value="#{bundle.ViewLugarLabel_nombre}"/>
+                            <h:outputText value="#{lugarController.lugar.nombre}" title="#{bundle.ViewLugarTitle_nombre}"/>
+                            <h:outputText styleClass="titleVista" value="#{bundle.ViewLugarLabel_descripcion}"/>
+                            <h:outputText value="#{lugarController.getDescripcion(lugarController.lugar.descripcion)}" title="#{bundle.ViewLugarTitle_descripcion}"/>
+                            <h:outputText styleClass="titleVista" value="#{bundle.ViewLugarLabel_puntaje}"/>                            
+                            <h:outputText value="#{lugarController.lugar.puntaje}" title="#{bundle.ViewLugarTitle_puntaje}"/>
+                            <h:outputText styleClass="titleVista" value="#{bundle.ViewLugarLabel_direccion}"/>
+                            <h:outputText value="#{lugarController.lugar.direccion}" title="#{bundle.ViewLugarTitle_direccion}"/>
+                            <h:outputText styleClass="titleVista" value="#{bundle.ViewLugarLabel_telefono}"/>
+                            <h:outputText value="#{lugarController.lugar.telefono}" title="#{bundle.ViewLugarTitle_telefono}"/>
+                            <h:outputText styleClass="titleVista" value="#{bundle.ViewLugarLabel_sitio}"/>
+                            <h:outputText value="#{lugarController.lugar.sitio}" title="#{bundle.ViewLugarTitle_sitio}"/>
+                            <h:outputText styleClass="titleVista" value="#{bundle.ViewLugarLabel_categoria}"/>
+                            <h:outputText value="#{lugarController.lugar.categoria.nombre}" title="#{bundle.ViewLugarTitle_categoria}"/>
+                        </p:panelGrid>
+                        <p:gmap type="ROADMAP" center="4.41472,-76.15472" draggable="true" zoom="15" streetView="true" style="width: 500px; height: 400px;"
+                                model="#{lugarController.draggableModel}"/>
                     </p:panelGrid>
 
                 </h:panelGroup>

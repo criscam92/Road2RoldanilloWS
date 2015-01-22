@@ -36,7 +36,7 @@
                                                itemValue="#{categoriaItem}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:gmap type="ROADMAP" center="4.41472,-76.15472" zoom="15" disableDoubleClickZoom="true" disableDefaultUI="true" streetView="true" style="width: 500px; height: 400px;"
+                        <p:gmap type="ROADMAP" center="4.41472,-76.15472" zoom="15" disableDoubleClickZoom="true" streetView="true" style="width: 500px; height: 400px;"
                                 model="#{lugarController.draggableModel}">
                             <p:ajax event="markerDrag" listener="#{lugarController.onMarkerDrag}" update=":growl"/>
                         </p:gmap>

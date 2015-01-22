@@ -180,3 +180,8 @@ div table tbody tr div.ui-progressbar.ui-widget.ui-widget-content.ui-corner-all 
 tr.ui-widget-content td.ui-panelgrid-cell div.ui-datatable table tbody tr.ui-datatable-empty-message td{
     border-style: none;
 }
+
+.titleVista{
+    font-weight: bold;
+    font-size: 16px;
+}

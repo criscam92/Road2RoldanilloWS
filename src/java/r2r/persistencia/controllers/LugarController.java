@@ -32,6 +32,8 @@ public class LugarController implements Serializable {
     private MapModel draggableModel;
     private Marker marker;
     private LatLng coordenadaPrincipal;
+    private double latitud = 0, longitud = 0;
+    private boolean arrastrarMarker;
 
     public MapModel getDraggableModel() {
         return draggableModel;
@@ -48,7 +50,6 @@ public class LugarController implements Serializable {
     private Lugar lugar;
 
     public LugarController() {
-        agregarMarcador();
     }
 
     public Lugar getLugar() {
@@ -69,14 +70,26 @@ public class LugarController implements Serializable {
         return lugarFacade;
     }
 
-    public Double getPuntaje(Integer id) {
-        return getFacade().getPuntaje(id);
-    }
-
     public Lugar prepareCreate() {
+        arrastrarMarker = true;
         lugar = new Lugar();
+        latitud = 4.410836;
+        longitud = -76.153943;
+        agregarMarcador(latitud, longitud);
         initializeEmbeddableKey();
         return lugar;
+    }
+
+    public void getCoordenadas(boolean arrastrarMarker) {
+        this.arrastrarMarker = arrastrarMarker;
+        if (lugar != null) {
+            latitud = lugar.getLatitud();
+            longitud = lugar.getLongitud();
+        } else {
+            latitud = 4.410836;
+            longitud = -76.153943;
+        }
+        agregarMarcador(latitud, longitud);
     }
 
     public void create() {
@@ -90,12 +103,15 @@ public class LugarController implements Serializable {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;
+            itemsByBorrado = null;
         }
     }
 
     public void update() {
         Calendar fecha = Calendar.getInstance();
         lugar.setFecha(fecha.getTime());
+        lugar.setLongitud(marker.getLatlng().getLng());
+        lugar.setLatitud(marker.getLatlng().getLat());
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LugarUpdated"));
     }
 
@@ -107,6 +123,7 @@ public class LugarController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             lugar = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
+            itemsByBorrado = null;
         }
     }
 
@@ -160,12 +177,12 @@ public class LugarController implements Serializable {
         return getFacade().findAll();
     }
 
-    private void agregarMarcador() {
+    private void agregarMarcador(double lat, double lng) {
         draggableModel = new DefaultMapModel();
-        coordenadaPrincipal = new LatLng(4.410836, -76.153943);
+        coordenadaPrincipal = new LatLng(lat, lng);
         draggableModel.addOverlay(new Marker(coordenadaPrincipal, "Coordenadas"));
         for (Marker premarker : draggableModel.getMarkers()) {
-            premarker.setDraggable(true);
+            premarker.setDraggable(arrastrarMarker);
         }
     }
 
@@ -208,6 +225,14 @@ public class LugarController implements Serializable {
             }
         }
 
+    }
+    
+    public String getDescripcion(String desc){
+        if (desc.length() >  76 ) {
+            return desc.substring(0, 76) + "...";
+        }else{
+            return desc;
+        }
     }
 
 }

@@ -16,7 +16,7 @@
                         <p:panelGrid columns="2">
                             <p:outputLabel value="#{bundle.CreateFotoLabel_lugar}" for="lugar" />
                             <p:selectOneMenu style="width: 155px" id="lugar" value="#{fotoController.selected.lugar}" required="true" requiredMessage="#{bundle.EditFotoRequiredMessage_lugar}">
-                                <f:selectItems value="#{lugarController.itemsAvailableSelectOne}"
+                                <f:selectItems value="#{lugarController.itemsByBorrado}"
                                                var="lugarItem"
                                                itemValue="#{lugarItem}"/>
                             </p:selectOneMenu>

@@ -92,7 +92,7 @@ public class Lugar implements Serializable {
     private int borrado;
     @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lugar", fetch = FetchType.LAZY)
-    private transient List<Foto> fotoList;
+    private List<Foto> fotoList;
     @JoinColumn(name = "categoria", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Categoria categoria;
@@ -207,7 +207,6 @@ public class Lugar implements Serializable {
         this.borrado = borrado;
     }
 
-    @XmlTransient
     public List<Foto> getFotoList() {
         return fotoList;
     }

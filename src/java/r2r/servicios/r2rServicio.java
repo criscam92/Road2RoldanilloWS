@@ -1,19 +1,14 @@
 package r2r.servicios;
 
 import com.google.gson.Gson;
-import r2r.entityjson.LugarJson;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
-import r2r.persistencia.entidades.Lugar;
 import r2r.persistencia.facades.CategoriaFacade;
 import r2r.persistencia.facades.ComentarioFacade;
 import r2r.persistencia.facades.FotoFacade;

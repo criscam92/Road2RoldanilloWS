@@ -1,5 +1,6 @@
 package r2r.servicios;
 
+import com.sun.tools.ws.processor.modeler.ModelerConstants;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +48,9 @@ public class ImageServlet extends HttpServlet {
                 ImageIO.write(bi, extension, out);
                 out.close();
             } catch (Exception e) {
-                System.out.println("ERROR CARGANDO IMAGEN: " + fileName);
+                
+                System.out.println("ERROR CARGANDO IMAGEN: " + f.getAbsolutePath());
+                e.printStackTrace();
             }
         }
     }

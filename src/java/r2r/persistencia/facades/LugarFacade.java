@@ -79,14 +79,16 @@ public class LugarFacade extends AbstractFacade<Lugar> {
             lugarJson.setBorrado(lugar.getBorrado());
             lugarJson.setCategoria(lugar.getCategoria().getId());
             lugarJson.setDireccion(lugar.getDireccion());
-            lugarJson.setFecha(lugar.getFecha());
+//            lugarJson.setFecha(lugar.getFecha());
             lugarJson.setId(lugar.getId());
             lugarJson.setLatitud(lugar.getLatitud());
             lugarJson.setLongitud(lugar.getLongitud());
             lugarJson.setNombre(lugar.getNombre());
             lugarJson.setPuntaje(lugar.getPuntaje());
+            lugarJson.setDescripcion(lugar.getDescripcion());
             lugarJson.setSitio(lugar.getSitio());
             lugarJson.setTelefono(lugar.getTelefono());
+            lugarJson.setFotos(lugar.getFotoList());
             lugaresJsons.add(lugarJson);
         }
         return lugaresJsons;

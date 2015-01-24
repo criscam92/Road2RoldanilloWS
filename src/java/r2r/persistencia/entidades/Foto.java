@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(catalog = "road2roldanillo", schema = "public")
@@ -47,6 +48,7 @@ public class Foto implements Serializable {
     @JoinColumn(name = "lugar", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Lugar lugar;
+    @XmlTransient
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)

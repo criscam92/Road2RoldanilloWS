@@ -115,14 +115,13 @@ public class FotoFacade extends AbstractFacade<Foto> {
     public List<FotoJson> getListaFotosTMP(Long timeStamp) {
         List<Foto> fotos = getFotosByFecha(timeStamp);
         List<FotoJson> fotosJsons = new ArrayList<>();
-        
+       
         for (Foto foto : fotos) {
             FotoJson fotoJson = new FotoJson();
             fotoJson.setBorrado(foto.getBorrado());
-            fotoJson.setFecha(foto.getFecha());
+//            fotoJson.setFecha(foto.getFecha());
             fotoJson.setFoto(foto.getFoto());
             fotoJson.setId(foto.getId());
-            fotoJson.setLugar(foto.getLugar().getId());
             
             fotosJsons.add(fotoJson);
         }

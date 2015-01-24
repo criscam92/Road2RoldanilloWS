@@ -16,6 +16,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import r2r.persistencia.entidades.Usuario;
 import r2r.util.JsfUtil;
+import r2r.util.TipoUsuario;
 
 @ManagedBean(name = "usuarioController")
 @SessionScoped
@@ -149,6 +150,10 @@ public class UsuarioController implements Serializable {
             }
         }
 
+    }
+
+    public String getTipoUsuario(int tipo) {
+        return TipoUsuario.getFromValue(tipo).getDetalle();
     }
 
 }

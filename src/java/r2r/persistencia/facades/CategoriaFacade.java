@@ -33,7 +33,9 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
             categorias = query.getResultList();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("\n\n=================== ERROR CONSULTANDO LAS CATEGORIAS POR FECHA ====================");
+//            e.printStackTrace();
+            System.out.println("=================== ERROR CONSULTANDO LAS CATEGORIAS POR FECHA ====================\n\n");
         }
         return categorias;
     }
@@ -46,9 +48,63 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
             categorias = query.getResultList();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("\n\n=================== ERROR CONSULTANDO LAS CATEGORIAS POR BORRADO ===================");
+//            e.printStackTrace();
+            System.out.println("==================== ERROR CONSULTANDO LAS CATEGORIAS POR BORRADO ===================\n\n");
         }
         return categorias;
+    }
+
+    public boolean getCategoriaByNombre(String nombre) {
+        boolean result = false;
+        try {
+            Query query = getEntityManager().createQuery("SELECT c FROM Categoria c WHERE c.nombre = :nombre AND c.borrado = :borrado");
+            query.setParameter("nombre", nombre.trim());
+            query.setParameter("borrado", 0);
+            query.setMaxResults(1);
+
+//            if (query.getSingleResult() != null) {
+//                result = true;
+//            }
+        } catch (Exception e) {
+            System.out.println("\n\n================== ERROR CONSULTANDO LA CATEGORIA POR NOMBRE =================");
+//            e.printStackTrace();
+            System.out.println("================== ERROR CONSULTANDO LA CATEGORIA POR NOMBRE =================\n\n");
+        }
+        return result;
+    }
+
+    public boolean getLugarByCategoria(Integer id) {
+        boolean result = false;
+        try {
+            Query query = getEntityManager().createQuery("SELECT l FROM Lugar l WHERE l.categoria.id = :categoria AND l.borrado = :borrado");
+            query.setParameter("categoria", id);
+            query.setParameter("borrado", 0);
+
+            if (query.getResultList().size() >= 1) {
+                result = true;
+            }
+
+        } catch (Exception e) {
+            System.out.println("\n\n=============== ERROR CONSULTANDO LOS LUGARES POR CATEGORIA ==============");
+//            e.printStackTrace();
+            System.out.println("=============== ERROR CONSULTANDO LOS LUGARES POR CATEGORIA ==============\n\n");
+        }
+        return result;
+    }
+
+    public String getNombreIconoByCategoria(Integer id) {
+        String nomIcono = "";
+        try {
+            Query query = getEntityManager().createQuery("SELECT c.icono FROM Categoria c WHERE c.id = id");
+            query.setParameter("id", id);
+            nomIcono = (String) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("\n\n=================== ERROR OBTENIENDO EL NOMBRE DEL ICONO POR CATEGORIA =====================");
+//            e.printStackTrace();
+            System.out.println("=================== ERROR OBTENIENDO EL NOMBRE DEL ICONO POR CATEGORIA =====================\n\n");
+        }
+        return nomIcono;
     }
 
 }

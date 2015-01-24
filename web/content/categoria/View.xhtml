@@ -11,8 +11,8 @@
         <p:dialog id="CategoriaViewDlg" widgetVar="CategoriaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCategoriaTitle}" draggable="false">
             <h:form id="CategoriaViewForm">
                 <h:panelGroup id="display">
-                    <c:if test="#{categoriaController.selected != null}">
-                        <div class="categoriaVista">
+                    <c:if test="#{categoriaController.selected.id != null}">
+                        <div class="categoriaVista">                            
                             <p:graphicImage value="/ImageServlet/xxhdpi/categoria/#{categoriaController.selected.icono}" title="#{categoriaController.selected.nombre}" />
                             <br />
                             <h:outputText styleClass="categoriaTitle" value="#{categoriaController.selected.nombre}" title="#{bundle.ViewCategoriaTitle_nombre}"/>

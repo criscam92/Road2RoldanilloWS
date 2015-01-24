@@ -99,34 +99,52 @@ public class CategoriaController implements Serializable {
     }
 
     public void create() {
-        createAndUpdate();
+        System.out.println("METODO CREAR");
         if (imagenValida) {
-            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
-            if (!JsfUtil.isValidationFailed()) {
-                items = null;
-                itemsByBorrado = null;
-                guardarImagenes(selected.getIcono());
+            System.out.println("IMAGENES VALIDAS");
+            if (!getFacade().getCategoriaByNombre(selected.getNombre())) {
+                System.out.println("NOMBRE NO EXISTE");
+                if (createAndUpdate(true)) {
+                    persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
+                    if (!JsfUtil.isValidationFailed()) {
+                        items = null;
+                        itemsByBorrado = null;
+                        guardarImagenes(selected.getIcono());
+                    }
+                }
+            } else {
+                System.out.println("NOMBRE EXISTE");
+                JsfUtil.addErrorMessage("La categoria " + selected.getNombre() + " ya se encuentra creada");
             }
         }
     }
 
     public void update() {
-        createAndUpdate();
         if (imagenValida) {
-            persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaUpdated"));
-            guardarImagenes(selected.getIcono());
+            if (!getFacade().getCategoriaByNombre(selected.getNombre())) {
+                if (createAndUpdate(false)) {
+                    persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaUpdated"));
+                    guardarImagenes(selected.getIcono());
+                }
+            } else {
+                JsfUtil.addErrorMessage("La categoria " + selected.getNombre() + " ya se encuentra creada");
+            }
         }
     }
 
     public void destroy() {
-        Calendar fecha = Calendar.getInstance();
-        selected.setFecha(fecha.getTime());
-        selected.setBorrado(1);
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null;
-            items = null;
-            itemsByBorrado = null;
+        if (!getFacade().getLugarByCategoria(selected.getId())) {
+            Calendar fecha = Calendar.getInstance();
+            selected.setFecha(fecha.getTime());
+            selected.setBorrado(1);
+            persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaDeleted"));
+            if (!JsfUtil.isValidationFailed()) {
+                selected = null;
+                items = null;
+                itemsByBorrado = null;
+            }
+        } else {
+            JsfUtil.addErrorMessage("No es posible borrar la categoria " + selected.getNombre() + " porque esta siendo utilizada por 1 o más lugares");
         }
     }
 
@@ -230,9 +248,9 @@ public class CategoriaController implements Serializable {
                 JsfUtil.copyFile(value, path);
             }
         } catch (Exception e) {
-            System.out.println("==========ERROR==========");
+            System.out.println("\n\n==================== ERROR GUARDANDO LAS IMAGENES DE LA CATEGORIA ====================");
             e.printStackTrace();
-            System.out.println("==========ERROR==========");
+            System.out.println("==================== ERROR GUARDANDO LAS IMAGENES DE LA CATEGORIA ====================\n\n");
         }
     }
 
@@ -243,14 +261,28 @@ public class CategoriaController implements Serializable {
         mapImagenes.put("xxhdpi", getXxhdpi());
     }
 
-    private void createAndUpdate() {
+    private boolean createAndUpdate(boolean crear) {
+        boolean result = false;
         if (getMdpi() != null && getHdpi() != null && getXhdpi() != null && getXxhdpi() != null) {
             llenarMapa();
             selected.setIcono(selected.getNombre().toLowerCase().replaceAll("\\s", "_") + ".png");
             Calendar fecha = Calendar.getInstance();
             selected.setFecha(fecha.getTime());
-            selected.setBorrado(0);
+
+            System.out.println("\n\n========== DATOS CATEGORIA ==========");
+            System.out.println("NOMBRE: " + selected.getNombre());
+            System.out.println("ICONO: " + selected.getIcono());
+            System.out.println("BORRADO: " + selected.getBorrado());
+            System.out.println("FECHA: " + selected.getFecha());
+            System.out.println("MDPI: " + getMdpi().getFileName());
+            System.out.println("HDPI: " + getHdpi().getFileName());
+            System.out.println("XHDPI: " + getXhdpi().getFileName());
+            System.out.println("XXHDPI: " + getXxhdpi().getFileName());
+            System.out.println("========== DATOS CATEGORIA ==========\n\n");
+
+            result = true;
         }
+        return result;
     }
 
 }

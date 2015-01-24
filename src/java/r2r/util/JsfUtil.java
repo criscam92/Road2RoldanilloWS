@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
+import org.apache.commons.io.IOUtils;
 import org.primefaces.model.UploadedFile;
 import r2r.persistencia.controllers.CategoriaController;
 
@@ -47,9 +48,9 @@ public class JsfUtil {
     }
 
     public static void addErrorMessages(List<String> messages) {
-        messages.stream().forEach((message) -> {
+        for (String message : messages) {
             addErrorMessage(message);
-        });
+        }
     }
 
     public static void addErrorMessage(String msg) {
@@ -86,7 +87,7 @@ public class JsfUtil {
     public static boolean isValidImg(int width, int height, UploadedFile img) {
         boolean isValidImg = false;
         try {
-            BufferedImage bi = ImageIO.read(new ByteArrayInputStream((byte[]) img.getContents()));
+            BufferedImage bi = ImageIO.read(new ByteArrayInputStream(IOUtils.toByteArray(img.getInputstream())));
             if (width == bi.getWidth() && height == bi.getHeight()) {
                 isValidImg = true;
             }

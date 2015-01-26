@@ -1,5 +1,8 @@
 package r2r.util;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public enum TipoUsuario {
 
     NORMAL(0, "Normal"),
@@ -20,6 +23,14 @@ public enum TipoUsuario {
             }
         }
         return null;
+    }
+
+    public static Map<String, Integer> getMapTipoUsuarios() {
+        TreeMap<String, Integer> mapa = new TreeMap<>();
+        for (TipoUsuario tipoUsuario : TipoUsuario.values()) {
+            mapa.put(tipoUsuario.getDetalle(), tipoUsuario.getValor());
+        }
+        return mapa;
     }
 
     public int getValor() {

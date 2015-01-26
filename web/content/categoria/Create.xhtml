@@ -89,7 +89,7 @@
                 </h:panelGroup>
                 <div class="botonesDialog">
                     <p:commandButton ajax="false" actionListener="#{categoriaController.create}" value="#{bundle.Save}" update="display,:CategoriaListForm:datalist,:growl,:createButton,:viewButton,:editButton,:deleteButton" oncomplete="handleSubmit(args,'CategoriaCreateDialog');"/>
-                    <p:commandButton ajax="false" value="#{bundle.Cancel}" type="button" onclick="PF('CategoriaCreateDialog').hide()"/>
+                    <p:commandButton ajax="false"  value="#{bundle.Cancel}" type="button" onclick="PF('CategoriaCreateDialog').hide()"/>
                 </div>
             </h:form>
         </p:dialog>

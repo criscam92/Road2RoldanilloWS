@@ -51,7 +51,7 @@
                             <h:panelGrid columns="2" cellpadding="10">
                                 <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="username" />
                                 <p:inputText id="username" value="#{loginController.userName}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
-                                <p:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena}" for="password" />
+                                <p:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena1}" for="password" />
                                 <p:inputText type="password" id="password" value="#{loginController.password}" title="#{bundle.CreateUsuarioTitle_contrasena}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena}"/>
                                 <p:commandButton actionListener="#{loginController.login()}" value="#{bundle.Login}" update=":growl,:menuForm,:panelCentral"/>
                             </h:panelGrid>

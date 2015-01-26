@@ -24,6 +24,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
     public Usuario login(String userName, String password) {
         Usuario usuario = null;
+        System.out.println("CONTRASEÑA" + Encrypt.getStringMessageDigest(password));
         try {
             Query query = getEntityManager().createNamedQuery("Usuario.findByUsuarioAndContrasena");
             query.setParameter("usuario", userName);
@@ -36,6 +37,29 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
             System.out.println("======================= ERROR CONSULTANDO EL USUARIO Y CONTRASENA ======================\n");
         }
         return usuario;
+    }
+
+    public boolean getUsuarioByNombre(Usuario usuario) {
+        boolean result = false;
+        try {
+            Query query = getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.usuario = :usuario");
+            query.setParameter("usuario", usuario.getUsuario());
+            Usuario user = (Usuario) query.getSingleResult();
+
+            if (user != null) {
+                if (usuario.getId() != null) {
+                    result = user.getId().equals(usuario.getId());
+                } else {
+                    result = true;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("================ ERROR CONSULTANDO EL USUARIO POR NOMBRE ====================");
+            e.printStackTrace();
+            System.out.println("================ ERROR CONSULTANDO EL USUARIO POR NOMBRE ====================");
+        }
+        return result;
     }
 
 }

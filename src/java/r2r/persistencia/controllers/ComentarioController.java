@@ -24,7 +24,7 @@ import javax.faces.convert.FacesConverter;
 public class ComentarioController implements Serializable {
 
     @EJB
-    private r2r.persistencia.facades.ComentarioFacade ejbFacade;
+    private ComentarioFacade ejbFacade;
     private List<Comentario> items = null;
     private Comentario selected;
 

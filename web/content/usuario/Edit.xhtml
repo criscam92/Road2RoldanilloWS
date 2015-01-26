@@ -12,17 +12,26 @@
             <h:form id="UsuarioEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
-                        <p:outputLabel value="#{bundle.EditUsuarioLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{usuarioController.selected.id}" title="#{bundle.EditUsuarioTitle_id}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_id}"/>
+
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_usuario}" for="usuario" />
                         <p:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.EditUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuario}"/>
-                        <p:outputLabel value="#{bundle.EditUsuarioLabel_contrasena}" for="contrasena" />
-                        <p:inputText id="contrasena" value="#{usuarioController.selected.contrasena}" title="#{bundle.EditUsuarioTitle_contrasena}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_contrasena}"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_contrasena1}" for="contrasena1" />
+                        <p:password id="contrasena1" value="#{usuarioController.pass1}" title="#{bundle.EditUsuarioTitle_contrasena1}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_contrasena1}"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_contrasena2}" for="contrasena2" />
+                        <p:password id="contrasena2" value="#{usuarioController.pass2}" title="#{bundle.EditUsuarioTitle_contrasena2}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_contrasena2}"/>
+
                         <p:outputLabel value="#{bundle.EditUsuarioLabel_tipo}" for="tipo" />
-                        <p:inputText id="tipo" value="#{usuarioController.selected.tipo}" title="#{bundle.EditUsuarioTitle_tipo}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_tipo}"/>
+                        <p:selectOneMenu id="tipo" value="#{usuarioController.selected.tipo}" style="width: 155px" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_tipo}">  
+                            <f:selectItems value="#{usuarioController.tipoUsuarios}" />
+                        </p:selectOneMenu>
+
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuarioEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="UsuarioEditDialog.hide()"/>
+                    <div class="botonesDialog">
+                        <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuarioEditDialog');"/>
+                        <p:commandButton ajax="false" value="#{bundle.Cancel}" type="button" onclick="PF('UsuarioEditDialog').hide()"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

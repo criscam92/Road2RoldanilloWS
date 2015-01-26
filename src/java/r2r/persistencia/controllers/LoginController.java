@@ -14,10 +14,6 @@ import r2r.persistencia.entidades.Usuario;
 import r2r.persistencia.facades.UsuarioFacade;
 import r2r.util.JsfUtil;
 
-/**
- *
- * @author gurzaf
- */
 @ManagedBean(name = "loginController")
 @SessionScoped
 public class LoginController implements Serializable {

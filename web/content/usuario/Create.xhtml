@@ -16,11 +16,18 @@
                         <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="usuario" />
                         <p:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
 
-                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena1}" for="contrasena1" />
-                        <p:password id="contrasena1" value="#{usuarioController.pass1}" title="#{bundle.CreateUsuarioTitle_contrasena1}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena1}"/>
 
-                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena2}" for="contrasena2" />
-                        <p:password id="contrasena2" value="#{usuarioController.pass2}" title="#{bundle.CreateUsuarioTitle_contrasena2}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena2}"/>
+                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena1}" for="contrasena1"/>  
+                        <p:password id="contrasena1" value="#{usuarioController.pass}" match="contrasena2" weakLabel="Debil" feedback="true"
+                                    promptLabel="#{bundle.CreateUsuarioPromptLabel_contrasena1}" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena1}" validatorMessage="#{bundle.CreateUsuarioValidatorMessage_contrasena1}"
+                                    goodLabel="Buena" strongLabel="Excelente" title="#{bundle.CreateUsuarioTitle_contrasena1}">
+                            <f:validateRegex pattern="^|\S{5,16}$" for="contrasena1"/>
+                        </p:password>
+
+                        <p:outputLabel for="contrasena2" value="#{bundle.CreateUsuarioLabel_contrasena2}"/>  
+                        <p:password id="contrasena2" title="#{bundle.CreateUsuarioTitle_contrasena2}" value="#{usuarioController.pass}"
+                                    requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena2}"
+                                    validatorMessage="#{bundle.CreateUsuarioValidatorMessage_contrasena2}" />
 
                         <p:outputLabel value="#{bundle.CreateUsuarioLabel_tipo}" for="tipo" />
                         <p:selectOneMenu id="tipo" value="#{usuarioController.selected.tipo}" style="width: 155px" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_tipo}">  

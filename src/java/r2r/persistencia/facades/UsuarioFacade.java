@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import r2r.persistencia.entidades.Usuario;
+import r2r.seguridad.Encrypt;
 
 @Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> {
@@ -26,7 +27,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         try {
             Query query = getEntityManager().createNamedQuery("Usuario.findByUsuarioAndContrasena");
             query.setParameter("usuario", userName);
-            query.setParameter("contrasena", password);
+            query.setParameter("contrasena", Encrypt.getStringMessageDigest(password));
             usuario = (Usuario) query.getSingleResult();
         } catch (Exception e) {
             System.out.println("\n======================= ERROR CONSULTANDO EL USUARIO Y CONTRASENA ======================");

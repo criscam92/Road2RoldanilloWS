@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import r2r.persistencia.entidades.Usuario;
+import r2r.seguridad.Encrypt;
 import r2r.util.JsfUtil;
 import r2r.util.TipoUsuario;
 
@@ -27,7 +28,7 @@ public class UsuarioController implements Serializable {
     private UsuarioFacade ejbFacade;
     private List<Usuario> items = null;
     private Usuario selected;
-    private String pass1, pass2;
+    private String pass;
 
     public UsuarioController() {
     }
@@ -40,20 +41,12 @@ public class UsuarioController implements Serializable {
         this.selected = selected;
     }
 
-    public String getPass1() {
-        return pass1;
+    public String getPass() {
+        return pass;
     }
 
-    public void setPass1(String pass1) {
-        this.pass1 = pass1;
-    }
-
-    public String getPass2() {
-        return pass2;
-    }
-
-    public void setPass2(String pass2) {
-        this.pass2 = pass2;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     protected void setEmbeddableKeys() {
@@ -74,14 +67,12 @@ public class UsuarioController implements Serializable {
 
     public void create() {
         if (!getFacade().getUsuarioByNombre(selected)) {
-            if (pass1.equals(pass2)) {
-                selected.setContrasena(pass1);
+            if (verificarClave()) {
+                selected.setContrasena(pass);
                 persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioCreated"));
                 if (!JsfUtil.isValidationFailed()) {
                     items = null;
                 }
-            } else {
-                JsfUtil.addErrorMessage("Las contraseñas no coinciden");
             }
         } else {
             JsfUtil.addErrorMessage("El usuario " + selected.getUsuario() + " ya esta registrado");
@@ -90,11 +81,8 @@ public class UsuarioController implements Serializable {
 
     public void update() {
         if (!getFacade().getUsuarioByNombre(selected)) {
-            if (pass1.equals(pass2)) {
-                selected.setContrasena(pass1);
+            if (verificarClave()) {
                 persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("UsuarioUpdated"));
-            } else {
-                JsfUtil.addErrorMessage("Las contraseñas no coinciden");
             }
         } else {
             JsfUtil.addErrorMessage("El usuario " + selected.getUsuario() + " ya esta registrado");
@@ -198,6 +186,24 @@ public class UsuarioController implements Serializable {
 
     public Map<String, Integer> getTipoUsuarios() {
         return TipoUsuario.getMapTipoUsuarios();
+    }
+
+    private boolean verificarClave() {
+        if (selected.getId() == null) {
+            if (pass == null || pass.isEmpty()) {
+                JsfUtil.addErrorMessage("El campo clave es obligatorio");
+                return false;
+            } else {
+                String nuevaClave = Encrypt.getStringMessageDigest(pass);
+                selected.setContrasena(nuevaClave);
+            }
+        } else {
+            if (pass != null && !pass.isEmpty()) {
+                String nuevaClave = Encrypt.getStringMessageDigest(pass);
+                selected.setContrasena(nuevaClave);
+            }
+        }
+        return true;
     }
 
 }

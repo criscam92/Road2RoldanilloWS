@@ -294,18 +294,18 @@ public class FotoController implements Serializable {
 
     public void copyFile(String fileName, InputStream in) {
         try {
-            OutputStream out = new FileOutputStream(new File(System.getProperty("java.io.tmpdir") + FILE_SEPARATOR + fileName));
-            int read = 0;
-            byte[] bytes = new byte[1024];
-            while ((read = in.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
+            try (OutputStream out = new FileOutputStream(new File(System.getProperty("java.io.tmpdir") + FILE_SEPARATOR + fileName))) {
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                while ((read = in.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+                in.close();
+                out.flush();
+                out.close();
             }
-            in.close();
-            out.flush();
-            out.close();
-            System.out.println("Nueva foto creada");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("ERROR SUBIENDO LA IMAGEN: " + fileName);
         }
     }
 
@@ -323,10 +323,7 @@ public class FotoController implements Serializable {
         Date date = new Date();
 
         String newName = lugar + "." + dateFormat.format(date) + Extention;
-
-        System.out.println("=======New name=========");
-        System.out.println("New name: " + newName);
-        System.out.println("=======New name=========");
+        System.out.println("NUEVO NOMBRE: " + newName);
 
         return newName;
     }

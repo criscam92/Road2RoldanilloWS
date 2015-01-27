@@ -25,9 +25,6 @@ public class ImageServlet extends HttpServlet {
 
             String pathIngfo = request.getPathInfo();
             String[] parts = pathIngfo.split("/");
-            for (String part : parts) {
-                System.out.println(part);
-            }
 
             String size = "", type = "", fileName = "", ruta = "";
             if (parts.length == 4) {
@@ -44,12 +41,15 @@ public class ImageServlet extends HttpServlet {
             String extension = fileName.split("\\.")[fileName.split("\\.").length - 1];
 
             File f = new File(ruta);
-            System.out.println(f.getAbsolutePath());
-            BufferedImage bi = ImageIO.read(f);
-            ImageIO.write(bi, extension, out);
-            out.close();
-        }
 
+            try {
+                BufferedImage bi = ImageIO.read(f);
+                ImageIO.write(bi, extension, out);
+                out.close();
+            } catch (Exception e) {
+                System.out.println("ERROR CARGANDO IMAGEN: " + fileName);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

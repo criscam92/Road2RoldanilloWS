@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     <ui:composition>
 
@@ -20,16 +21,31 @@
                                      required="true"
                                      requiredMessage="#{bundle.CreateCategoriaRequiredMessage_nombre}"/>
 
-                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_mdpi}" for="mdpi" />
+                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_mdpi}" for="mdpi">
+                            
+                            <p:button id="helpMDPI" style="width: 15px; height: 15px" icon="ui-icon-help"/>
+                            <p:overlayPanel for="helpMDPI" showEvent="mouseover" hideEvent="mouseout" hideEffect="fade" >
+                                <h:outputLabel value="Debes subir una imagen de 36x48"/>
+                            </p:overlayPanel>
+
+                        </p:outputLabel>
+
                         <p:fileUpload value="#{categoriaController.mdpi}"                     
                                       id="mdpi"
                                       mode="simple"
                                       required="true"
                                       requiredMessage="#{bundle.CreateCategoriaRequiredMessage_mdpi}">
                             <f:validator validatorId="validatorMDPI"/>
-                        </p:fileUpload>                 
+                        </p:fileUpload>
 
-                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_hdpi}" for="hdpi" />
+                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_hdpi}" for="hdpi">
+                            
+                            <p:button id="helpHDPI" style="width: 15px; height: 15px" icon="ui-icon-help"/>
+                            <p:overlayPanel for="helpHDPI" showEvent="mouseover" hideEvent="mouseout" hideEffect="fade" >
+                                <h:outputLabel value="Debes subir una imagen de 54x72"/>
+                            </p:overlayPanel>
+
+                        </p:outputLabel>
                         <p:fileUpload value="#{categoriaController.hdpi}"
                                       id="hdpi"
                                       mode="simple"
@@ -38,7 +54,14 @@
                             <f:validator validatorId="validatorHDPI"/>
                         </p:fileUpload> 
 
-                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_xhdpi}" for="xhdpi" />
+                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_xhdpi}" for="hdpi">
+                            
+                            <p:button id="helpXHDPI" style="width: 15px; height: 15px" icon="ui-icon-help"/>
+                            <p:overlayPanel for="helpXHDPI" showEvent="mouseover" hideEvent="mouseout" hideEffect="fade" >
+                                <h:outputLabel value="Debes subir una imagen de 72x96"/>
+                            </p:overlayPanel>
+
+                        </p:outputLabel>
                         <p:fileUpload value="#{categoriaController.xhdpi}"
                                       id="xhdpi"
                                       mode="simple"
@@ -47,7 +70,14 @@
                             <f:validator validatorId="validatorXHDPI"/>
                         </p:fileUpload> 
 
-                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_xxhdpi}" for="xxhdpi"/>
+                        <p:outputLabel value="#{bundle.CreateCategoriaLabel_xxhdpi}" for="hdpi">
+                            
+                            <p:button id="helpXXHDPI" style="width: 15px; height: 15px" icon="ui-icon-help"/>
+                            <p:overlayPanel for="helpXXHDPI" showEvent="mouseover" hideEvent="mouseout" hideEffect="fade" >
+                                <h:outputLabel value="Debes subir una imagen de 108x144"/>
+                            </p:overlayPanel>
+
+                        </p:outputLabel>
                         <p:fileUpload value="#{categoriaController.xxhdpi}"
                                       id="xxhdpi"
                                       mode="simple"

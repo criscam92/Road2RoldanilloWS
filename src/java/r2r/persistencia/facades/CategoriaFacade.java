@@ -3,17 +3,29 @@ package r2r.persistencia.facades;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import r2r.persistencia.entidades.Categoria;
+import r2r.util.JsfUtil;
 
 @Stateless
 public class CategoriaFacade extends AbstractFacade<Categoria> {
 
     @PersistenceContext(unitName = "Road2RoldanilloWSPU")
     private EntityManager em;
+    @Resource
+    private SessionContext sessionContext;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -63,9 +75,10 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
             query.setParameter("borrado", 0);
             query.setMaxResults(1);
 
-//            if (query.getSingleResult() != null) {
-//                result = true;
-//            }
+            if (query.getSingleResult() != null) {
+                result = true;
+            }
+
         } catch (Exception e) {
             System.out.println("\n\n================== ERROR CONSULTANDO LA CATEGORIA POR NOMBRE =================");
 //            e.printStackTrace();
@@ -80,8 +93,8 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
             Query query = getEntityManager().createQuery("SELECT l FROM Lugar l WHERE l.categoria.id = :categoria AND l.borrado = :borrado");
             query.setParameter("categoria", id);
             query.setParameter("borrado", 0);
-
-            if (query.getResultList().size() >= 1) {
+            
+            if (query.getResultList() != null && !query.getResultList().isEmpty()) {
                 result = true;
             }
 
@@ -105,6 +118,20 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
             System.out.println("=================== ERROR OBTENIENDO EL NOMBRE DEL ICONO POR CATEGORIA =====================\n\n");
         }
         return nomIcono;
+    }
+
+    public boolean add(Categoria categoria) {
+        System.out.println("ENTRE AL METODO ADD");
+        boolean result = false;
+        try {
+            getEntityManager().persist(categoria);
+            result = true;
+        } catch (Exception e) {
+            System.out.println("============ ERROR GUARDANDO LA CATEGORIA ============");
+            e.printStackTrace();
+            System.out.println("============ ERROR GUARDANDO LA CATEGORIA ============");
+        }
+        return result;
     }
 
 }

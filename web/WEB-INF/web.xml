@@ -4,19 +4,33 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>bootstrap</param-value>
     </context-param>
+    
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>r2r.seguridad.FiltroSeguridad</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/faces/content/*</url-pattern>
+    </filter-mapping>
+    
     <context-param>
         <param-name>primefaces.UPLOADER</param-name>
-        <param-value>commons</param-value>
+        <param-value>auto</param-value>
     </context-param>
+    
     <servlet>
         <servlet-name>facesServlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
@@ -25,36 +39,34 @@
             <param-value>52428800</param-value>
         </init-param>
     </filter>
+    
     <filter-mapping>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <servlet-name>facesServlet</servlet-name>
     </filter-mapping>
+    
     <servlet>
         <servlet-name>ImageServlet</servlet-name>
         <servlet-class>r2r.servicios.ImageServlet</servlet-class>        
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>facesServlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/ImageServlet/*</url-pattern>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
-    </welcome-file-list>    
-    <filter>
-        <filter-name>AuthenticationFilter</filter-name>
-        <filter-class>r2r.seguridad.FiltroSeguridad</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthenticationFilter</filter-name>
-        <url-pattern>/faces/content/*</url-pattern>
-    </filter-mapping>
+    </welcome-file-list>
 </web-app>

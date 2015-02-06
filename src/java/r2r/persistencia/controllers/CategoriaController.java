@@ -33,9 +33,10 @@ public class CategoriaController implements Serializable {
     private Categoria selected;
     private UploadedFile mdpi, hdpi, xhdpi, xxhdpi;
     private final Map<String, UploadedFile> mapImagenes = new HashMap<>();
-    public static boolean imagenValida = true;
+    public static boolean imagenValida;
 
     public CategoriaController() {
+        imagenValida = true;
     }
 
     public Categoria getSelected() {
@@ -99,12 +100,9 @@ public class CategoriaController implements Serializable {
     }
 
     public void create() {
-        System.out.println("METODO CREAR");
         if (imagenValida) {
-            System.out.println("IMAGENES VALIDAS");
             if (!getFacade().getCategoriaByNombre(selected.getNombre())) {
-                System.out.println("NOMBRE NO EXISTE");
-                if (createAndUpdate(true)) {
+                if (createAndUpdate()) {
                     persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
                     if (!JsfUtil.isValidationFailed()) {
                         items = null;
@@ -113,7 +111,6 @@ public class CategoriaController implements Serializable {
                     }
                 }
             } else {
-                System.out.println("NOMBRE EXISTE");
                 JsfUtil.addErrorMessage("La categoria " + selected.getNombre() + " ya se encuentra creada");
             }
         }
@@ -122,7 +119,7 @@ public class CategoriaController implements Serializable {
     public void update() {
         if (imagenValida) {
             if (!getFacade().getCategoriaByNombre(selected.getNombre())) {
-                if (createAndUpdate(false)) {
+                if (createAndUpdate()) {
                     persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaUpdated"));
                     guardarImagenes(selected.getIcono());
                 }
@@ -133,7 +130,9 @@ public class CategoriaController implements Serializable {
     }
 
     public void destroy() {
+        System.out.println("ENTRE A DESTRUIR");
         if (!getFacade().getLugarByCategoria(selected.getId())) {
+            System.out.println("LUGAR NO EXISTE");
             Calendar fecha = Calendar.getInstance();
             selected.setFecha(fecha.getTime());
             selected.setBorrado(1);
@@ -144,6 +143,7 @@ public class CategoriaController implements Serializable {
                 itemsByBorrado = null;
             }
         } else {
+            System.out.println("LUGAR EXISTE");
             JsfUtil.addErrorMessage("No es posible borrar la categoria " + selected.getNombre() + " porque esta siendo utilizada por 1 o más lugares");
         }
     }
@@ -261,7 +261,7 @@ public class CategoriaController implements Serializable {
         mapImagenes.put("xxhdpi", getXxhdpi());
     }
 
-    private boolean createAndUpdate(boolean crear) {
+    private boolean createAndUpdate() {
         boolean result = false;
         if (getMdpi() != null && getHdpi() != null && getXhdpi() != null && getXxhdpi() != null) {
             llenarMapa();
@@ -269,16 +269,16 @@ public class CategoriaController implements Serializable {
             Calendar fecha = Calendar.getInstance();
             selected.setFecha(fecha.getTime());
 
-            System.out.println("\n\n========== DATOS CATEGORIA ==========");
-            System.out.println("NOMBRE: " + selected.getNombre());
-            System.out.println("ICONO: " + selected.getIcono());
-            System.out.println("BORRADO: " + selected.getBorrado());
-            System.out.println("FECHA: " + selected.getFecha());
-            System.out.println("MDPI: " + getMdpi().getFileName());
-            System.out.println("HDPI: " + getHdpi().getFileName());
-            System.out.println("XHDPI: " + getXhdpi().getFileName());
-            System.out.println("XXHDPI: " + getXxhdpi().getFileName());
-            System.out.println("========== DATOS CATEGORIA ==========\n\n");
+//            System.out.println("\n\n========== DATOS CATEGORIA ==========");
+//            System.out.println("NOMBRE: " + selected.getNombre());
+//            System.out.println("ICONO: " + selected.getIcono());
+//            System.out.println("BORRADO: " + selected.getBorrado());
+//            System.out.println("FECHA: " + selected.getFecha());
+//            System.out.println("MDPI: " + getMdpi().getFileName());
+//            System.out.println("HDPI: " + getHdpi().getFileName());
+//            System.out.println("XHDPI: " + getXhdpi().getFileName());
+//            System.out.println("XXHDPI: " + getXxhdpi().getFileName());
+//            System.out.println("========== DATOS CATEGORIA ==========\n\n");
 
             result = true;
         }

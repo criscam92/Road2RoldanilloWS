@@ -32,7 +32,9 @@
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{categoriaController.prepareCreate}" update=":CategoriaCreateForm" oncomplete="PF('CategoriaCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CategoriaViewForm" oncomplete="PF('CategoriaViewDialog').show()" disabled="#{empty categoriaController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CategoriaEditForm" oncomplete="PF('CategoriaEditDialog').show()" disabled="#{empty categoriaController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" disabled="#{empty categoriaController.selected}" oncomplete="PF('dialogoConfirmar').show()"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" update=":growl,datalist" actionListener="#{categoriaController.destroy}" disabled="#{empty categoriaController.selected}" oncomplete="PF('dialogoConfirmar').show()">
+                                <p:confirm header="#{bundle.confirmDialogHeader}" message="#{bundle.confirmDialogMessenger}"  icon="ui-icon-alert" />
+                            </p:commandButton>
                         </div>
                     </f:facet>
 
@@ -74,9 +76,9 @@
             </h:form>
 
             <h:form id="formulario_confirmar">
-                <p:confirmDialog widgetVar="dialogoConfirmar"  id="confirmDialog" message="#{bundle.confirmDialogMessenger}" appendTo="@(body)" header="#{bundle.confirmDialogHeader}">
-                    <p:commandButton styleClass="ui-confirmdialog-yes" actionListener="#{categoriaController.destroy()}"   value="Si" update=":growl,:CategoriaListForm:datalist" oncomplete="handleSubmit(args,'dialogoConfirmar');" icon="ui-icon-trash"/>  
-                    <p:commandButton styleClass="ui-confirmdialog-no"   value="No" onclick="PF('dialogoConfirmar').hide()" icon="ui-icon-close"/>
+                <p:confirmDialog global="true" appendTo="@(body)">
+                    <p:commandButton ajax="false" styleClass="ui-confirmdialog-yes" value="Si" icon="ui-icon-trash"/>  
+                    <p:commandButton ajax="false" styleClass="ui-confirmdialog-no"  value="No" icon="ui-icon-close"/>
                 </p:confirmDialog>
             </h:form>
 

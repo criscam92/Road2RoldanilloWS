@@ -6,7 +6,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import r2r.persistencia.entidades.Usuario;
 import r2r.seguridad.Encrypt;
-import r2r.util.JsfUtil;
 
 @Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> {
@@ -32,11 +31,9 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
             query.setMaxResults(1);
             usuario = (Usuario) query.getSingleResult();
         } catch (Exception e) {
-            System.out.println("======================= ERROR ======================");
+            System.out.println("\n======================= ERROR CONSULTANDO EL USUARIO Y CONTRASENA ======================");
             e.printStackTrace();
-            System.out.println("======================= ERROR ======================");
-            JsfUtil.addErrorMessage("Error consultando el usuario en la base de datos");
-            usuario = null;
+            System.out.println("======================= ERROR CONSULTANDO EL USUARIO Y CONTRASENA ======================\n");
         }
         return usuario;
     }

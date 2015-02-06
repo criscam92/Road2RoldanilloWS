@@ -14,7 +14,6 @@
 
         <ui:define name="body">
             <h:form id="CategoriaListForm">
-<!--                <p:panel header="#{bundle.ListCategoriaTitle}">-->
                 <p:dataTable styleClass="tabla" id="datalist" value="#{categoriaController.itemsByBorrado}" var="item"
                              selectionMode="single" selection="#{categoriaController.selected}"
                              paginator="true"
@@ -33,12 +32,12 @@
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{categoriaController.prepareCreate}" update=":CategoriaCreateForm" oncomplete="PF('CategoriaCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CategoriaViewForm" oncomplete="PF('CategoriaViewDialog').show()" disabled="#{empty categoriaController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CategoriaEditForm" oncomplete="PF('CategoriaEditDialog').show()" disabled="#{empty categoriaController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{categoriaController.destroy}" update=":growl,datalist" disabled="#{empty categoriaController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" disabled="#{empty categoriaController.selected}" oncomplete="PF('dialogoConfirmar').show()"/>
                         </div>
                     </f:facet>
 
-                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowSelect"   update="createButton deleteButton editButton viewButton"/>
+                    <p:ajax event="rowUnselect" update="createButton deleteButton editButton viewButton"/>
 
                     <p:column>
                         <f:facet name="header">
@@ -71,7 +70,14 @@
                         <p:commandButton icon="ui-icon-search" value="#{bundle.View2}"/>
                     </p:column>
                 </p:dataTable>
-                <!--</p:panel>-->
+
+            </h:form>
+
+            <h:form id="formulario_confirmar">
+                <p:confirmDialog widgetVar="dialogoConfirmar"  id="confirmDialog" message="#{bundle.confirmDialogMessenger}" appendTo="@(body)" header="#{bundle.confirmDialogHeader}">
+                    <p:commandButton styleClass="ui-confirmdialog-yes" actionListener="#{categoriaController.destroy()}"   value="Si" update=":growl,:CategoriaListForm:datalist" oncomplete="handleSubmit(args,'dialogoConfirmar');" icon="ui-icon-trash"/>  
+                    <p:commandButton styleClass="ui-confirmdialog-no"   value="No" onclick="PF('dialogoConfirmar').hide()" icon="ui-icon-close"/>
+                </p:confirmDialog>
             </h:form>
 
             <ui:include src="Create.xhtml"/>

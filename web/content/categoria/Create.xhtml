@@ -22,7 +22,7 @@
 
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_mdpi}" for="mdpi">
                             
-                            <p:button id="helpMDPI" style="width: 15px; height: 15px" icon="ui-icon-help"/>
+                            <p:button id="helpMDPI" style="width: 15px; height: 15px" icon="ui-icon-help" onclick="return false"/>
                             <p:overlayPanel for="helpMDPI" showEvent="mouseover" hideEvent="mouseout" hideEffect="fade" >
                                 <h:outputLabel value="Debes subir una imagen de 36x48"/>
                             </p:overlayPanel>
@@ -39,7 +39,7 @@
 
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_hdpi}" for="hdpi">
                             
-                            <p:button id="helpHDPI" style="width: 15px; height: 15px" icon="ui-icon-help"/>
+                            <p:button id="helpHDPI" style="width: 15px; height: 15px" icon="ui-icon-help" onclick="return false"/>
                             <p:overlayPanel for="helpHDPI" showEvent="mouseover" hideEvent="mouseout" hideEffect="fade" >
                                 <h:outputLabel value="Debes subir una imagen de 54x72"/>
                             </p:overlayPanel>
@@ -55,7 +55,7 @@
 
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_xhdpi}" for="hdpi">
                             
-                            <p:button id="helpXHDPI" style="width: 15px; height: 15px" icon="ui-icon-help"/>
+                            <p:button id="helpXHDPI" style="width: 15px; height: 15px" icon="ui-icon-help" onclick="return false"/>
                             <p:overlayPanel for="helpXHDPI" showEvent="mouseover" hideEvent="mouseout" hideEffect="fade" >
                                 <h:outputLabel value="Debes subir una imagen de 72x96"/>
                             </p:overlayPanel>
@@ -71,7 +71,7 @@
 
                         <p:outputLabel value="#{bundle.CreateCategoriaLabel_xxhdpi}" for="hdpi">
                             
-                            <p:button id="helpXXHDPI" style="width: 15px; height: 15px" icon="ui-icon-help"/>
+                            <p:button id="helpXXHDPI" style="width: 15px; height: 15px" icon="ui-icon-help" onclick="return false"/>
                             <p:overlayPanel for="helpXXHDPI" showEvent="mouseover" hideEvent="mouseout" hideEffect="fade" >
                                 <h:outputLabel value="Debes subir una imagen de 108x144"/>
                             </p:overlayPanel>
@@ -88,7 +88,7 @@
                     </p:panelGrid>
                 </h:panelGroup>
                 <div class="botonesDialog">
-                    <p:commandButton ajax="false" actionListener="#{categoriaController.create}" value="#{bundle.Save}" update="display,:CategoriaListForm:datalist,:growl" oncomplete="handleSubmit(args,'CategoriaCreateDialog');"/>
+                    <p:commandButton ajax="false" actionListener="#{categoriaController.create}" value="#{bundle.Save}" update="display,:CategoriaListForm:datalist,:growl,:createButton,:viewButton,:editButton,:deleteButton" oncomplete="handleSubmit(args,'CategoriaCreateDialog');"/>
                     <p:commandButton ajax="false" value="#{bundle.Cancel}" type="button" onclick="PF('CategoriaCreateDialog').hide()"/>
                 </div>
             </h:form>

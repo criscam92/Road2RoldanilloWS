@@ -13,23 +13,23 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
 
-                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usuario}" for="usuario" />
-                        <p:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
+                        <p:outputLabel styleClass="#{usuarioController.errorUser}" value="#{bundle.CreateUsuarioLabel_usuario}" for="usuario" />
+                        <p:inputText styleClass="#{usuarioController.errorUser}" id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.CreateUsuarioTitle_usuario}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usuario}"/>
 
-                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena1}" for="contrasena1" />
-                        <p:password id="contrasena1" value="#{usuarioController.pass1}" title="#{bundle.CreateUsuarioTitle_contrasena1}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena1}"/>
+                        <p:outputLabel styleClass="#{usuarioController.errorPass}" value="#{bundle.CreateUsuarioLabel_contrasena1}" for="contrasena1" />
+                        <p:password styleClass="#{usuarioController.errorPass}" id="contrasena1" value="#{usuarioController.pass1}" title="#{bundle.CreateUsuarioTitle_contrasena1}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena1}"/>
 
-                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena2}" for="contrasena2" />
-                        <p:password id="contrasena2" value="#{usuarioController.pass2}" title="#{bundle.CreateUsuarioTitle_contrasena2}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena2}"/>
+                        <p:outputLabel styleClass="#{usuarioController.errorPass}" value="#{bundle.CreateUsuarioLabel_contrasena2}" for="contrasena2" />
+                        <p:password styleClass="#{usuarioController.errorPass}" id="contrasena2" value="#{usuarioController.pass2}" title="#{bundle.CreateUsuarioTitle_contrasena2}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_contrasena2}"/>
 
                         <p:outputLabel value="#{bundle.CreateUsuarioLabel_tipo}" for="tipo" />
                         <p:selectOneMenu id="tipo" value="#{usuarioController.selected.tipo}" style="width: 155px" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_tipo}">  
-                            <f:selectItems value="#{usuarioController.tipoUsuarios}" />
+                            <f:selectItems value="#{usuarioController.tipoUsuarios}" var="tipo" itemValue="#{tipo.valor}" itemLabel="#{tipo.detalle}"/>
                         </p:selectOneMenu>
 
                     </p:panelGrid>
                     <div class="botonesDialog">
-                        <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args,'UsuarioCreateDialog');"/>
+                        <p:commandButton actionListener="#{usuarioController.create}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl"/>
                         <p:commandButton ajax="false" type="button" value="#{bundle.Cancel}" onclick="PF('UsuarioCreateDialog').hide()"/>
                     </div>
                 </h:panelGroup>

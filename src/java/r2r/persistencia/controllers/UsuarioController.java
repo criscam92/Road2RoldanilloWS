@@ -74,14 +74,6 @@ public class UsuarioController implements Serializable {
         this.disable = disable;
     }
 
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
     protected void setEmbeddableKeys() {
     }
 
@@ -279,24 +271,6 @@ public class UsuarioController implements Serializable {
 
     public void onRowUnselect(UnselectEvent event) {
         setDisable(true);
-    }
-
-    private boolean verificarClave() {
-        if (selected.getId() == null) {
-            if (pass == null || pass.isEmpty()) {
-                JsfUtil.addErrorMessage("El campo clave es obligatorio");
-                return false;
-            } else {
-                String nuevaClave = Encrypt.getStringMessageDigest(pass);
-                selected.setContrasena(nuevaClave);
-            }
-        } else {
-            if (pass != null && !pass.isEmpty()) {
-                String nuevaClave = Encrypt.getStringMessageDigest(pass);
-                selected.setContrasena(nuevaClave);
-            }
-        }
-        return true;
     }
 
 }

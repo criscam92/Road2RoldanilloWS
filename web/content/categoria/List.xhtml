@@ -49,27 +49,9 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListCategoriaTitle_mdpi}"/>
+                            <h:outputText value="#{bundle.CountSitesByCategoria}"/>
                         </f:facet>
-                        <p:commandButton icon="ui-icon-search" value="#{bundle.View2}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListCategoriaTitle_hdpi}"/>
-                        </f:facet>
-                        <p:commandButton icon="ui-icon-search" value="#{bundle.View2}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListCategoriaTitle_xhdpi}"/>
-                        </f:facet>
-                        <p:commandButton icon="ui-icon-search" value="#{bundle.View2}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListCategoriaTitle_xxhdpi}"/>
-                        </f:facet>
-                        <p:commandButton icon="ui-icon-search" value="#{bundle.View2}"/>
+                        <h:outputText value="#{categoriaController.getLugaresByCategoria(item)}"/>
                     </p:column>
                 </p:dataTable>
 

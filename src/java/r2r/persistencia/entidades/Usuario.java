@@ -10,15 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import r2r.util.TipoUsuario;
 
 @Entity
-@Table(catalog = "road2roldanillo", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"usuario"})})
+@Table(name = "usuario", catalog = "road2roldanillo", schema = "public")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
@@ -116,7 +114,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Usuario[ id=" + id + " ]";
+        return usuario;
     }
 
     public boolean isAdmin() {

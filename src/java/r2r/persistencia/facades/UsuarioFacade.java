@@ -2,6 +2,7 @@ package r2r.persistencia.facades;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import r2r.persistencia.entidades.Usuario;
@@ -25,15 +26,13 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public Usuario login(String userName, String password) {
         Usuario usuario = null;
         try {
-//            System.out.println("CONTRASEÑA: " + Encrypt.getStringMessageDigest(password));
+            System.out.println("CONTRASEÑA: " + Encrypt.getStringMessageDigest(password));
             Query query = getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.usuario = :usuario AND u.contrasena = :contrasena");
             query.setParameter("usuario", userName);
             query.setParameter("contrasena", Encrypt.getStringMessageDigest(password));
             usuario = (Usuario) query.getSingleResult();
-        } catch (Exception e) {
-            System.out.println("\n======================= ERROR CONSULTANDO EL USUARIO Y CONTRASENA ======================");
-            e.printStackTrace();
-            System.out.println("======================= ERROR CONSULTANDO EL USUARIO Y CONTRASENA ======================\n");
+        } catch (NoResultException nre) {
+            System.out.println("\n======================= No se encontro el usuario ======================");
         }
         return usuario;
     }
@@ -47,16 +46,14 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
             if (user != null) {
                 if (usuario.getId() != null) {
-                    result = user.getId().equals(usuario.getId());
+                    result = !user.getId().equals(usuario.getId());
                 } else {
                     result = true;
                 }
             }
 
-        } catch (Exception e) {
-            System.out.println("================ ERROR CONSULTANDO EL USUARIO POR NOMBRE ====================");
-            e.printStackTrace();
-            System.out.println("================ ERROR CONSULTANDO EL USUARIO POR NOMBRE ====================");
+        } catch (NoResultException e) {
+            System.out.println("================ El nombre de usuario no existe ====================");
         }
         return result;
     }

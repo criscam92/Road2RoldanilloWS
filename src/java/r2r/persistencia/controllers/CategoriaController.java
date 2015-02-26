@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.model.UploadedFile;
+import r2r.persistencia.entidades.Lugar;
 
 @ManagedBean(name = "categoriaController")
 @SessionScoped
@@ -268,21 +269,13 @@ public class CategoriaController implements Serializable {
             selected.setIcono(selected.getNombre().toLowerCase().replaceAll("\\s", "_") + ".png");
             Calendar fecha = Calendar.getInstance();
             selected.setFecha(fecha.getTime());
-
-//            System.out.println("\n\n========== DATOS CATEGORIA ==========");
-//            System.out.println("NOMBRE: " + selected.getNombre());
-//            System.out.println("ICONO: " + selected.getIcono());
-//            System.out.println("BORRADO: " + selected.getBorrado());
-//            System.out.println("FECHA: " + selected.getFecha());
-//            System.out.println("MDPI: " + getMdpi().getFileName());
-//            System.out.println("HDPI: " + getHdpi().getFileName());
-//            System.out.println("XHDPI: " + getXhdpi().getFileName());
-//            System.out.println("XXHDPI: " + getXxhdpi().getFileName());
-//            System.out.println("========== DATOS CATEGORIA ==========\n\n");
-
             result = true;
         }
         return result;
+    }
+    
+    public Long getLugaresByCategoria(Categoria c){
+        return getFacade().getCountLugaresByCategoria(c);
     }
 
 }

@@ -31,7 +31,7 @@
 
                             <p:outputLabel value="#{bundle.CreateLugarLabel_categoria}" for="categoria" />
                             <p:selectOneMenu style="width: 155px" id="categoria" value="#{lugarController.lugar.categoria}" required="true" requiredMessage="#{bundle.EditLugarRequiredMessage_categoria}">
-                                <f:selectItems value="#{categoriaController.itemsAvailableSelectOne}"
+                                <f:selectItems value="#{categoriaController.itemsByBorrado}"
                                                var="categoriaItem"
                                                itemValue="#{categoriaItem}"/>
                             </p:selectOneMenu>

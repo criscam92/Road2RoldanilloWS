@@ -31,14 +31,14 @@
                             Usuarios
                         </div>
                         <div id="acciones">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{usuarioController.prepareCreate}" oncomplete="PF('UsuarioCreateDialog').show()"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{usuarioController.destroy}" update=":growl,datalist" disabled="#{empty usuarioController.selected}"/>
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}"   actionListener="#{usuarioController.preparateEdit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{usuarioController.disable}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{usuarioController.destroy}"       update=":growl,datalist" disabled="#{usuarioController.disable}"/>
                         </div>
                     </f:facet>
 
-                    <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
+                    <p:ajax event="rowSelect"   listener="#{usuarioController.onRowSelect}"   update="createButton editButton deleteButton" />
+                    <p:ajax event="rowUnselect" listener="#{usuarioController.onRowUnselect}" update="createButton editButton deleteButton"/>
 
                     <p:column>
                         <f:facet name="header">

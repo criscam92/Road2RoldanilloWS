@@ -3,6 +3,7 @@
   <persistence-unit name="Road2RoldanilloWSPU" transaction-type="JTA">
     <jta-data-source>road2roldanillo</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <validation-mode>NONE</validation-mode>
     <properties/>
   </persistence-unit>
 </persistence>

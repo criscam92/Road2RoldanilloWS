@@ -24,6 +24,7 @@ import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
+import r2r.persistencia.entidades.Categoria;
 
 @ManagedBean(name = "lugarController")
 @SessionScoped
@@ -55,7 +56,7 @@ public class LugarController implements Serializable {
     public Lugar getLugar() {
         return lugar;
     }
-
+    
     public void setLugar(Lugar lugar) {
         this.lugar = lugar;
     }

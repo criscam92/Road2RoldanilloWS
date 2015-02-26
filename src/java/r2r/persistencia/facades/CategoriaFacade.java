@@ -133,5 +133,16 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
         }
         return result;
     }
+    
+    public Long getCountLugaresByCategoria(Categoria c){
+        try {
+            Query query = em.createQuery("SELECT COUNT(l) FROM Lugar l WHERE l.categoria.id= :cat");
+            query.setParameter("cat", c.getId());
+            return (Long) query.getSingleResult();            
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return 0l;
+    }
 
 }

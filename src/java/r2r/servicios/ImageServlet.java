@@ -28,9 +28,12 @@ public class ImageServlet extends HttpServlet {
             String[] parts = pathIngfo.split("/");
 
             String size = "", type = "", fileName = "", ruta = "";
+            System.out.println("Lenght-> "+parts.length);
+            
             if (parts.length == 4) {
-                size = parts[1];
-                type = parts[2];
+                size = parts[1];  
+                System.out.println("SIZE.> "+size);
+                type = parts[2];                
                 fileName = parts[3];
                 ruta = PATH + FILE_SEPARATOR + size + FILE_SEPARATOR + type + FILE_SEPARATOR + fileName;
             } else {
@@ -38,6 +41,10 @@ public class ImageServlet extends HttpServlet {
                 fileName = parts[2];
                 ruta = PATH + FILE_SEPARATOR + type + FILE_SEPARATOR + fileName;
             }
+            System.out.println("TYPE-> "+type);
+            System.out.println("fileName-> "+fileName);
+            System.out.println("Ruta-> "+ruta);
+            
 
             String extension = fileName.split("\\.")[fileName.split("\\.").length - 1];
 
@@ -47,8 +54,7 @@ public class ImageServlet extends HttpServlet {
                 BufferedImage bi = ImageIO.read(f);
                 ImageIO.write(bi, extension, out);
                 out.close();
-            } catch (Exception e) {
-                
+            } catch (Exception e) {                
                 System.out.println("ERROR CARGANDO IMAGEN: " + f.getAbsolutePath());
                 e.printStackTrace();
             }

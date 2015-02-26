@@ -10,16 +10,6 @@
         <param-value>bootstrap</param-value>
     </context-param>
     
-    <filter>
-        <filter-name>AuthenticationFilter</filter-name>
-        <filter-class>r2r.seguridad.FiltroSeguridad</filter-class>
-    </filter>
-    
-    <filter-mapping>
-        <filter-name>AuthenticationFilter</filter-name>
-        <url-pattern>/faces/content/*</url-pattern>
-    </filter-mapping>
-    
     <context-param>
         <param-name>primefaces.UPLOADER</param-name>
         <param-value>auto</param-value>
@@ -54,6 +44,16 @@
         <servlet-name>facesServlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>r2r.seguridad.FiltroSeguridad</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/faces/content/*</url-pattern>
+    </filter-mapping>
     
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>

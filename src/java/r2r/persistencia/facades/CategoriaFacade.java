@@ -3,29 +3,17 @@ package r2r.persistencia.facades;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 import r2r.persistencia.entidades.Categoria;
-import r2r.util.JsfUtil;
 
 @Stateless
 public class CategoriaFacade extends AbstractFacade<Categoria> {
 
     @PersistenceContext(unitName = "Road2RoldanilloWSPU")
     private EntityManager em;
-    @Resource
-    private SessionContext sessionContext;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -118,20 +106,6 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
             System.out.println("=================== ERROR OBTENIENDO EL NOMBRE DEL ICONO POR CATEGORIA =====================\n\n");
         }
         return nomIcono;
-    }
-
-    public boolean add(Categoria categoria) {
-        System.out.println("ENTRE AL METODO ADD");
-        boolean result = false;
-        try {
-            getEntityManager().persist(categoria);
-            result = true;
-        } catch (Exception e) {
-            System.out.println("============ ERROR GUARDANDO LA CATEGORIA ============");
-            e.printStackTrace();
-            System.out.println("============ ERROR GUARDANDO LA CATEGORIA ============");
-        }
-        return result;
     }
     
     public Long getCountLugaresByCategoria(Categoria c){

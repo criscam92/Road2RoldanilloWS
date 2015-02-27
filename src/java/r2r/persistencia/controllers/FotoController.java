@@ -118,7 +118,7 @@ public class FotoController implements Serializable {
                     File img = new File(ruta + f);
                     if (img.exists()) {
                         if (img.delete()) {
-                            System.out.println("La imagen " + f + " se a borrado satisfactoriamente");
+                            System.out.println("La imagen " + f + " se ha borrado satisfactoriamente");
                         } else {
                             System.out.println("La imagen " + f + " no se pudo borrar");
                         }
@@ -279,7 +279,7 @@ public class FotoController implements Serializable {
 
             if (getListFotos().add(file)) {
                 copyFile(file.getFileName(), file.getInputstream());
-                JsfUtil.addSuccessMessage(event.getFile().getFileName() + " Esta cargado");
+                JsfUtil.addSuccessMessage(event.getFile().getFileName() + " Imagen cargada");
             } else {
                 JsfUtil.addErrorMessage(event.getFile().getFileName() + " no se a cargado");
             }

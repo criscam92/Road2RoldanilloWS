@@ -60,8 +60,8 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
 
         boolean result = false;
         try {
-            Query query = getEntityManager().createQuery("SELECT c FROM Categoria c WHERE UPPER(c.nombre) = :nombre AND c.borrado = :borrado");
-            query.setParameter("nombre", categoria.getNombre().trim().toUpperCase());
+            Query query = getEntityManager().createQuery("SELECT c FROM Categoria c WHERE c.nombre = :nombre AND c.borrado = :borrado");
+            query.setParameter("nombre", categoria.getNombre().trim());
             query.setParameter("borrado", 0);
 
             Categoria cat = (Categoria) query.getSingleResult();

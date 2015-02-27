@@ -69,7 +69,7 @@ public class Lugar implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
-    private float puntaje;
+    private double puntaje;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -159,11 +159,11 @@ public class Lugar implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public float getPuntaje() {
+    public double getPuntaje() {
         return puntaje;
     }
 
-    public void setPuntaje(float puntaje) {
+    public void setPuntaje(double puntaje) {
         this.puntaje = puntaje;
     }
 

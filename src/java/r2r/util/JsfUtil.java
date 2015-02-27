@@ -157,11 +157,10 @@ public class JsfUtil {
         String[] simbolos = new String[]{"¨", "º", "-", "~", "#", "@", "|",
             "!", "\\", "·", "$", "%", "&", "/", "(", ")", "?", "'", "¡", "¿",
             "[", "^", "`", "]", "+", "}", "{", "¨", "´", ">", "< ", ";", ",",
-            ":", "."};
+            ":"};
 
         String output = input;
         for (String s : simbolos) {
-            System.out.println("SIMBOLO ELIMINADO: " + s);
             output = output.replace("" + s, "");
         }
 

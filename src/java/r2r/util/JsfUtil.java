@@ -99,6 +99,7 @@ public class JsfUtil {
     }
 
     public static void validarImagen(int WIDTH, int HEIGHT, UploadedFile file, String tNombre) {
+        System.out.println("VALIDATE");
         String nomFile = "", ext = "";
         try {
             nomFile = file.getFileName();
@@ -125,7 +126,6 @@ public class JsfUtil {
     }
 
     public static void copyFile(UploadedFile img, String rDestino) throws IOException {
-
         try {
             InputStream is = img.getInputstream();
             OutputStream out = new FileOutputStream(new File(rDestino));
@@ -141,6 +141,31 @@ public class JsfUtil {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static String removeCaracteresEspeciales(String input) {
+        String original = "áàäéèëíìïóòöúùuñçÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑÇ";
+        String ascii = "aaaeeeiiiooouuuncAAAEEEIIIOOOUUUNC";
+        String output = input;
+        for (int i = 0; i < original.length(); i++) {
+            output = output.replace(original.charAt(i), ascii.charAt(i));
+        }
+        return simbolos(output);
+    }
+
+    public static String simbolos(String input) {
+        String[] simbolos = new String[]{"¨", "º", "-", "~", "#", "@", "|",
+            "!", "\\", "·", "$", "%", "&", "/", "(", ")", "?", "'", "¡", "¿",
+            "[", "^", "`", "]", "+", "}", "{", "¨", "´", ">", "< ", ";", ",",
+            ":", "."};
+
+        String output = input;
+        for (String s : simbolos) {
+            System.out.println("SIMBOLO ELIMINADO: " + s);
+            output = output.replace("" + s, "");
+        }
+
+        return output;
     }
 
 }

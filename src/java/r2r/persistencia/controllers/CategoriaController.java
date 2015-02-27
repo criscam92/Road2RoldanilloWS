@@ -1,5 +1,7 @@
 package r2r.persistencia.controllers;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.string;
+import java.io.File;
 import r2r.persistencia.entidades.Categoria;
 import r2r.util.JsfUtil;
 import r2r.util.JsfUtil.PersistAction;
@@ -20,8 +22,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 import org.primefaces.model.UploadedFile;
-import r2r.persistencia.entidades.Lugar;
 
 @ManagedBean(name = "categoriaController")
 @SessionScoped
@@ -35,8 +39,12 @@ public class CategoriaController implements Serializable {
     private UploadedFile mdpi, hdpi, xhdpi, xxhdpi;
     private final Map<String, UploadedFile> mapImagenes = new HashMap<>();
     public static boolean imagenValida;
+    public boolean disable;
+    private String nomImgTMP;
 
     public CategoriaController() {
+        selected = new Categoria();
+        disable = true;
         imagenValida = true;
     }
 
@@ -46,6 +54,14 @@ public class CategoriaController implements Serializable {
 
     public void setSelected(Categoria selected) {
         this.selected = selected;
+    }
+
+    public boolean isDisable() {
+        return disable;
+    }
+
+    public void setDisable(boolean disable) {
+        this.disable = disable;
     }
 
     public UploadedFile getMdpi() {
@@ -100,51 +116,57 @@ public class CategoriaController implements Serializable {
         return selected;
     }
 
+    public void prepareEdit() {
+        nomImgTMP = selected.getIcono();
+    }
+
     public void create() {
-        if (imagenValida) {
-            if (!getFacade().getCategoriaByNombre(selected.getNombre())) {
+        if (!getFacade().getCategoriaByNombre(selected)) {
+            if (imagenValida) {
                 if (createAndUpdate()) {
                     persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaCreated"));
                     if (!JsfUtil.isValidationFailed()) {
                         items = null;
                         itemsByBorrado = null;
                         guardarImagenes(selected.getIcono());
+                        setDisable(true);
                     }
                 }
-            } else {
-                JsfUtil.addErrorMessage("La categoria " + selected.getNombre() + " ya se encuentra creada");
             }
+        } else {
+            JsfUtil.addErrorMessage("La categoria " + selected.getNombre() + " ya se encuentra creada");
         }
     }
 
     public void update() {
-        if (imagenValida) {
-            if (!getFacade().getCategoriaByNombre(selected.getNombre())) {
+        if (!getFacade().getCategoriaByNombre(selected)) {
+            if (imagenValida) {
                 if (createAndUpdate()) {
                     persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaUpdated"));
                     guardarImagenes(selected.getIcono());
+                    setDisable(false);
                 }
-            } else {
-                JsfUtil.addErrorMessage("La categoria " + selected.getNombre() + " ya se encuentra creada");
             }
+        } else {
+            JsfUtil.addErrorMessage("La categoria " + selected.getNombre() + " ya se encuentra creada");
         }
     }
 
     public void destroy() {
-        System.out.println("ENTRE A DESTRUIR");
+        String nomImg = selected.getIcono();
         if (!getFacade().getLugarByCategoria(selected.getId())) {
-            System.out.println("LUGAR NO EXISTE");
             Calendar fecha = Calendar.getInstance();
             selected.setFecha(fecha.getTime());
             selected.setBorrado(1);
             persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CategoriaDeleted"));
             if (!JsfUtil.isValidationFailed()) {
+                removeImagenes(nomImg);
                 selected = null;
                 items = null;
                 itemsByBorrado = null;
+                setDisable(true);
             }
         } else {
-            System.out.println("LUGAR EXISTE");
             JsfUtil.addErrorMessage("No es posible borrar la categoria " + selected.getNombre() + " porque esta siendo utilizada por 1 o más lugares");
         }
     }
@@ -199,6 +221,20 @@ public class CategoriaController implements Serializable {
         return getFacade().findAll();
     }
 
+    private void removeImagenes(String nomImg) {
+        String[] keys = new String[]{"mdpi", "hdpi", "xhdpi", "xxhdpi"};
+        String ruta = ResourceBundle.getBundle("/Bundle").getString("Uploaded") + FILE_SEPARATOR + "%KEY%" + FILE_SEPARATOR + "categoria" + FILE_SEPARATOR + nomImg;
+
+        for (String key : keys) {
+            String rutaTMP = ruta.replaceAll("%KEY%", key);
+            File f = new File(rutaTMP);
+
+            if (!f.delete()) {
+                System.out.println("ERROR ELIMINANDO LA IMAGEN: " + rutaTMP);
+            }
+        }
+    }
+
     @FacesConverter(forClass = Categoria.class)
     public static class CategoriaControllerConverter implements Converter {
 
@@ -244,7 +280,7 @@ public class CategoriaController implements Serializable {
             for (Map.Entry<String, UploadedFile> entrySet : getMapImagenes().entrySet()) {
                 String key = entrySet.getKey();
                 UploadedFile value = entrySet.getValue();
-                String path = ResourceBundle.getBundle("/Bundle").getString("Uploaded") + FILE_SEPARATOR + key + FILE_SEPARATOR + "categoria" + FILE_SEPARATOR + nombreImagen.toLowerCase().replaceAll("\\s", "_");
+                String path = ResourceBundle.getBundle("/Bundle").getString("Uploaded") + FILE_SEPARATOR + key + FILE_SEPARATOR + "categoria" + FILE_SEPARATOR + JsfUtil.removeCaracteresEspeciales(nombreImagen.toLowerCase().replaceAll("\\s", "_"));
                 System.out.println("PATH: " + path);
                 JsfUtil.copyFile(value, path);
             }
@@ -266,16 +302,23 @@ public class CategoriaController implements Serializable {
         boolean result = false;
         if (getMdpi() != null && getHdpi() != null && getXhdpi() != null && getXxhdpi() != null) {
             llenarMapa();
-            selected.setIcono(selected.getNombre().toLowerCase().replaceAll("\\s", "_") + ".png");
+            selected.setIcono(JsfUtil.removeCaracteresEspeciales(selected.getNombre().toLowerCase().replaceAll("\\s", "_")) + ".png");
             Calendar fecha = Calendar.getInstance();
             selected.setFecha(fecha.getTime());
             result = true;
         }
         return result;
     }
-    
-    public Long getLugaresByCategoria(Categoria c){
+
+    public Long getLugaresByCategoria(Categoria c) {
         return getFacade().getCountLugaresByCategoria(c);
     }
 
+    public void onRowSelect(SelectEvent event) {
+        setDisable(false);
+    }
+
+    public void onRowUnselect(UnselectEvent event) {
+        setDisable(true);
+    }
 }

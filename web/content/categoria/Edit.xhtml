@@ -20,8 +20,8 @@
                                      required="true"
                                      requiredMessage="#{bundle.EditCategoriaRequiredMessage_nombre}"/>
 
-                        <p:outputLabel value="#{bundle.EditCategoriaLabel_mdpi}" for="mdpi" />
-                        <p:fileUpload value="#{categoriaController.mdpi}"                     
+                        <p:outputLabel styleClass="#{categoriaController}" value="#{bundle.EditCategoriaLabel_mdpi}" for="mdpi" />
+                        <p:fileUpload  value="#{categoriaController.mdpi}"                     
                                       id="mdpi"
                                       mode="simple"
                                       required="true"
@@ -58,8 +58,8 @@
 
                     </p:panelGrid>
                     <div class="botonesDialog">
-                        <p:commandButton ajax="false" actionListener="#{categoriaController.update}" value="#{bundle.Save}" update="display,:CategoriaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CategoriaEditDialog');"/>
-                        <p:commandButton ajax="false" value="#{bundle.Cancel}" type="button" onclick="PF('CategoriaEditDialog').hide()"/>
+                        <p:commandButton ajax="false" actionListener="#{categoriaController.update}" value="#{bundle.Save}" update="display,:CategoriaListForm:datalist,:growl"/>
+                        <p:commandButton value="#{bundle.Cancel}" type="button" onclick="PF('CategoriaEditDialog').hide()"/>
                     </div>
                 </h:panelGroup>
             </h:form>

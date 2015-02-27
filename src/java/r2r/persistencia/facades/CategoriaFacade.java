@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import r2r.persistencia.entidades.Categoria;
@@ -55,22 +56,26 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
         return categorias;
     }
 
-    public boolean getCategoriaByNombre(String nombre) {
+    public boolean getCategoriaByNombre(Categoria categoria) {
+
         boolean result = false;
         try {
-            Query query = getEntityManager().createQuery("SELECT c FROM Categoria c WHERE c.nombre = :nombre AND c.borrado = :borrado");
-            query.setParameter("nombre", nombre.trim());
+            Query query = getEntityManager().createQuery("SELECT c FROM Categoria c WHERE UPPER(c.nombre) = :nombre AND c.borrado = :borrado");
+            query.setParameter("nombre", categoria.getNombre().trim().toUpperCase());
             query.setParameter("borrado", 0);
-            query.setMaxResults(1);
 
-            if (query.getSingleResult() != null) {
-                result = true;
+            Categoria cat = (Categoria) query.getSingleResult();
+
+            if (cat != null) {
+                if (categoria.getId() != null) {
+                    result = !cat.getId().equals(categoria.getId());
+                } else {
+                    result = true;
+                }
             }
 
-        } catch (Exception e) {
-            System.out.println("\n\n================== ERROR CONSULTANDO LA CATEGORIA POR NOMBRE =================");
-//            e.printStackTrace();
-            System.out.println("================== ERROR CONSULTANDO LA CATEGORIA POR NOMBRE =================\n\n");
+        } catch (NoResultException e) {
+            System.out.println("================ El nombre de la categoria no existe ====================");
         }
         return result;
     }
@@ -81,7 +86,7 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
             Query query = getEntityManager().createQuery("SELECT l FROM Lugar l WHERE l.categoria.id = :categoria AND l.borrado = :borrado");
             query.setParameter("categoria", id);
             query.setParameter("borrado", 0);
-            
+
             if (query.getResultList() != null && !query.getResultList().isEmpty()) {
                 result = true;
             }
@@ -107,12 +112,12 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
         }
         return nomIcono;
     }
-    
-    public Long getCountLugaresByCategoria(Categoria c){
+
+    public Long getCountLugaresByCategoria(Categoria c) {
         try {
             Query query = em.createQuery("SELECT COUNT(l) FROM Lugar l WHERE l.categoria.id= :cat");
             query.setParameter("cat", c.getId());
-            return (Long) query.getSingleResult();            
+            return (Long) query.getSingleResult();
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

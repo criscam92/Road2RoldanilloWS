@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -27,7 +28,7 @@ import org.primefaces.model.map.Marker;
 import r2r.persistencia.entidades.Categoria;
 
 @ManagedBean(name = "lugarController")
-@SessionScoped
+@ViewScoped
 public class LugarController implements Serializable {
 
     private MapModel draggableModel;
@@ -42,7 +43,7 @@ public class LugarController implements Serializable {
 
     public void onMarkerDrag(MarkerDragEvent event) {
         marker = event.getMarker();
-        JsfUtil.addSuccessMessage("Marcador fijado\n Lat:" + marker.getLatlng().getLat() + ", Lng:" + marker.getLatlng().getLng());
+        JsfUtil.addSuccessMessage("Marcador fijado\n Lat:" + marker.getLatlng().getLat() + ", \nLng:" + marker.getLatlng().getLng());
     }
 
     @EJB

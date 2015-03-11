@@ -1,6 +1,13 @@
 package r2r.servicios;
 
 import com.google.gson.Gson;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -49,7 +56,7 @@ public class r2rServicio {
     //================== METODOS CATEGORIA ==================
     @GET
     @Path("/categoria/get/{timestamp}")
-    @Produces("application/json")
+    @Produces("application/json; charset=UTF-8")
     public String getCategoriaJson(@PathParam("timestamp") Long timeStamp) {
         Gson gson = new Gson();
         String json = gson.toJson(getCategoriaFacade().getListCategoriasByFecha(timeStamp));
@@ -59,7 +66,7 @@ public class r2rServicio {
     //================== METODOS LUGAR ==================
     @GET
     @Path("/lugar/get/{timestamp}")
-    @Produces("application/json")
+    @Produces("application/json; charset=UTF-8")
     public String getLugarJson(@PathParam("timestamp") Long timeStamp) {
         Gson gson = new Gson();
         String json = gson.toJson(getLugarFacade().getListaLugaresTMP(timeStamp));
@@ -77,7 +84,7 @@ public class r2rServicio {
     //================== METODOS COMENTARIOS ==================
     @GET
     @Path("/comentario/get/{timestamp}")
-    @Produces("application/json")
+    @Produces("application/json; charset=UTF-8")
     public String getComentarioJson(@PathParam("timestamp") Long timeStamp) {
         Gson gson = new Gson();
         String json = gson.toJson(getComentarioFacade().getComentariosJsonsTMP(timeStamp));
@@ -94,7 +101,7 @@ public class r2rServicio {
     //================== METODOS FOTO ==================
     @GET
     @Path("/foto/get/{timestamp}")
-    @Produces("application/json")
+    @Produces("application/json; charset=UTF-8")
     public String getFotoJson(@PathParam("timestamp") Long timeStamp) {
         Gson gson = new Gson();
         String json = gson.toJson(getFotoFacade().getListaFotosTMP(timeStamp));

@@ -14,13 +14,14 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 @ManagedBean(name = "comentarioController")
-@SessionScoped
+@ViewScoped
 public class ComentarioController implements Serializable {
 
     @EJB

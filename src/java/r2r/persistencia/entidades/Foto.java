@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Foto.findAll", query = "SELECT f FROM Foto f"),
     @NamedQuery(name = "Foto.findById", query = "SELECT f FROM Foto f WHERE f.id = :id"),
     @NamedQuery(name = "Foto.findByFoto", query = "SELECT f FROM Foto f WHERE f.foto = :foto"),
-    @NamedQuery(name = "Foto.findByLugar", query = "SELECT f.foto FROM Foto f WHERE f.lugar.id = :lugar"),
+    @NamedQuery(name = "Foto.findByLugar", query = "SELECT f FROM Foto f WHERE f.lugar.id = :lugar AND f.borrado = :borrado"),
     @NamedQuery(name = "Foto.findByFecha", query = "SELECT f FROM Foto f WHERE f.fecha >= :fecha"),
     @NamedQuery(name = "Foto.findByBorrado", query = "SELECT f FROM Foto f WHERE f.borrado = :borrado"),
     @NamedQuery(name = "Foto.findGroupByLugar", query = "SELECT f.lugar FROM Foto f WHERE f.borrado = :borrado GROUP BY f.lugar")})

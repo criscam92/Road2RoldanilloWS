@@ -40,7 +40,7 @@ public class FotoController implements Serializable {
     private FotoFacade ejbFacade;
     private List<Foto> items = null, itemsGroupByLugar = null;
     private Foto selected;
-    private List<String> nomFotos = null;
+    private List<Foto> nomFotos = null;
     private final List<String> fotosTMP;
     private List<UploadedFile> listFotos;
     private Lugar lugar;
@@ -164,7 +164,7 @@ public class FotoController implements Serializable {
         return itemsGroupByLugar;
     }
 
-    public List<String> getNomFotos() {
+    public List<Foto> getNomFotos() {
         nomFotos = null;
         if (getLugar() != null) {
             nomFotos = getFacade().getFotosByLugar(getLugar());
@@ -343,6 +343,13 @@ public class FotoController implements Serializable {
             System.out.println("==========ERROR==========");
             e.printStackTrace();
             System.out.println("==========ERROR==========");
+        }
+    }
+
+    public void deleteFoto(Integer f) {
+        System.out.println("Foto: " + f);
+        if (getFacade().removeFoto(f)) {
+
         }
     }
 

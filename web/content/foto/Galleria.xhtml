@@ -8,9 +8,11 @@
     <ui:composition>
         <p:dialog id="FotosDlg" widgetVar="FotosDialog" modal="true" width="535" height="380" draggable="false" resizable="false" appendTo="@(body)" header="Galeria">
             <h:form id="galleriaForm">
-                <p:galleria id="gelleria" value="#{fotoController.nomFotos}" var="image" panelWidth="500" panelHeight="313">
-                    <p:graphicImage url="/ImageServlet/lugar/#{image}" width="500" height="313"/>
-                </p:galleria>
+                <p:galleria id="gelleria" autoPlay="false" value="#{fotoController.nomFotos}" var="image" panelWidth="500" panelHeight="313">
+                    <h:inputHidden binding="#{img}" value="#{image}"/>
+                    <p:commandButton style="position: fixed; background: red;" icon="ui-icon ui-icon-trash"   update="gelleria" value="#{image.id}" actionListener="#{fotoController.deleteFoto(img.value)}"/>
+                    <p:graphicImage url="/ImageServlet/lugar/#{image.foto}" width="500" height="313"/>                    
+                </p:galleria>                
             </h:form>
         </p:dialog>
     </ui:composition>

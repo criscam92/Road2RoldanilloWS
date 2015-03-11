@@ -2,6 +2,7 @@ package r2r.persistencia.facades;
 
 import r2r.entityjson.FotoJson;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -95,12 +96,12 @@ public class FotoFacade extends AbstractFacade<Foto> {
         return fotos;
     }
 
-    public List<String> getFotosByLugar(Lugar lugar) {
-        System.out.println("LugarID: " + lugar.getId());
-        List<String> nomfotos = new ArrayList<>();
+    public List<Foto> getFotosByLugar(Lugar lugar) {
+        List<Foto> nomfotos = new ArrayList<>();
         try {
             Query query = getEntityManager().createNamedQuery("Foto.findByLugar");
             query.setParameter("lugar", lugar.getId());
+            query.setParameter("borrado", 0);
             nomfotos = query.getResultList();
         } catch (Exception e) {
             System.out.println("======================= ERROR ======================");
@@ -115,18 +116,32 @@ public class FotoFacade extends AbstractFacade<Foto> {
     public List<FotoJson> getListaFotosTMP(Long timeStamp) {
         List<Foto> fotos = getFotosByFecha(timeStamp);
         List<FotoJson> fotosJsons = new ArrayList<>();
-       
+
         for (Foto foto : fotos) {
             FotoJson fotoJson = new FotoJson();
             fotoJson.setBorrado(foto.getBorrado());
 //            fotoJson.setFecha(foto.getFecha());
             fotoJson.setFoto(foto.getFoto());
             fotoJson.setId(foto.getId());
-            
+
             fotosJsons.add(fotoJson);
         }
-        
+
         return fotosJsons;
+    }
+
+    public boolean removeFoto(Integer foto) {
+        try {
+            Calendar fec = Calendar.getInstance();
+            Query q = getEntityManager().createQuery("UPDATE Foto f SET f.borrado = :borrado, f.fecha = :fecha WHERE f.foto.id = :id");
+            q.setParameter("borrado", 1);
+            q.setParameter("fecha", fec.getTime());
+            q.setParameter("id", foto);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

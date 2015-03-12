@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -25,7 +24,6 @@ import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
-import r2r.persistencia.entidades.Categoria;
 
 @ManagedBean(name = "lugarController")
 @ViewScoped
@@ -36,16 +34,6 @@ public class LugarController implements Serializable {
     private LatLng coordenadaPrincipal;
     private double latitud = 0, longitud = 0;
     private boolean arrastrarMarker;
-
-    public MapModel getDraggableModel() {
-        return draggableModel;
-    }
-
-    public void onMarkerDrag(MarkerDragEvent event) {
-        marker = event.getMarker();
-        JsfUtil.addSuccessMessage("Marcador fijado\n Lat:" + marker.getLatlng().getLat() + ", \nLng:" + marker.getLatlng().getLng());
-    }
-
     @EJB
     private LugarFacade lugarFacade;
     private List<Lugar> items = null, itemsByBorrado = null;
@@ -57,7 +45,16 @@ public class LugarController implements Serializable {
     public Lugar getLugar() {
         return lugar;
     }
-    
+
+    public MapModel getDraggableModel() {
+        return draggableModel;
+    }
+
+    public void onMarkerDrag(MarkerDragEvent event) {
+        marker = event.getMarker();
+        JsfUtil.addSuccessMessage("Marcador fijado\n Lat:" + marker.getLatlng().getLat() + ", \nLng:" + marker.getLatlng().getLng());
+    }
+
     public void setLugar(Lugar lugar) {
         this.lugar = lugar;
     }
@@ -99,22 +96,27 @@ public class LugarController implements Serializable {
         Calendar fecha = Calendar.getInstance();
         lugar.setFecha(fecha.getTime());
         lugar.setPuntaje(0);
-        lugar.setLongitud(marker.getLatlng().getLng());
-        lugar.setLatitud(marker.getLatlng().getLat());
-
+        lugar.setLongitud(marker.getLatlng() != null ? marker.getLatlng().getLng() : longitud);
+        lugar.setLatitud(marker.getLatlng() != null ? marker.getLatlng().getLat() : latitud);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("LugarCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;
             itemsByBorrado = null;
+            lugar = null;
         }
     }
 
     public void update() {
         Calendar fecha = Calendar.getInstance();
         lugar.setFecha(fecha.getTime());
-        lugar.setLongitud(marker.getLatlng().getLng());
-        lugar.setLatitud(marker.getLatlng().getLat());
+        lugar.setLongitud(marker.getLatlng() != null ? marker.getLatlng().getLng() : lugar.getLongitud());
+        lugar.setLatitud(marker.getLatlng() != null ? marker.getLatlng().getLat() : lugar.getLatitud());
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LugarUpdated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;
+            itemsByBorrado = null;
+            lugar = null;
+        }
     }
 
     public void destroy() {
@@ -123,9 +125,9 @@ public class LugarController implements Serializable {
         lugar.setBorrado(1);
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("LugarDeleted"));
         if (!JsfUtil.isValidationFailed()) {
-            lugar = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
             itemsByBorrado = null;
+            lugar = null; // Remove selection
         }
     }
 
@@ -228,11 +230,11 @@ public class LugarController implements Serializable {
         }
 
     }
-    
-    public String getDescripcion(String desc){
-        if (desc.length() >  76 ) {
+
+    public String getDescripcion(String desc) {
+        if (desc.length() > 76) {
             return desc.substring(0, 76) + "...";
-        }else{
+        } else {
             return desc;
         }
     }

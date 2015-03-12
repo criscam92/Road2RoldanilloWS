@@ -35,11 +35,12 @@
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" actionListener="#{lugarController.getCoordenadas(false)}" update=":LugarViewForm" oncomplete="PF('LugarViewDialog').show()" disabled="#{empty lugarController.lugar}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" actionListener="#{lugarController.getCoordenadas(true)}" update=":LugarEditForm" oncomplete="PF('LugarEditDialog').show()" disabled="#{empty lugarController.lugar}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{lugarController.destroy}" update=":growl,datalist" disabled="#{empty lugarController.lugar}"/>
+                            <p:commandButton id="exportButton" icon="ui-icon-document" value="Exportar" oncomplete="PF('ExporterDialog').show()"/>
                         </div>
                     </f:facet>
 
-                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton exportButton"/>
+                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton exportButton"/>
 
                     <p:column>
                         <f:facet name="header">
@@ -96,7 +97,20 @@
                         <h:outputText value="#{item.categoria.nombre}"/>
                     </p:column>
                 </p:dataTable>
-                <!--</p:panel>-->
+
+                <p:dialog id="ExporterDlg" widgetVar="ExporterDialog" draggable="false" modal="true" resizable="false" appendTo="@(body)" header="Exportar">
+                    <div style="margin-bottom: 12px">
+                        <h:commandLink style="margin-right: 10px;">
+                            <p:graphicImage name="src/pdf.png" />
+                            <p:dataExporter type="pdf" target="datalist" fileName="Lugares" pageOnly="true" />
+                        </h:commandLink>
+                        <h:commandLink>
+                            <p:graphicImage name="src/excel.png" />
+                            <p:dataExporter type="xls" target="datalist" fileName="Lugares" pageOnly="true" />
+                        </h:commandLink>
+                    </div>
+                </p:dialog>
+
             </h:form>
 
             <ui:include src="Create.xhtml"/>

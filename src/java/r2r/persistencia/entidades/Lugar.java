@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Lugar.findByTelefono", query = "SELECT l FROM Lugar l WHERE l.telefono = :telefono"),
     @NamedQuery(name = "Lugar.findBySitio", query = "SELECT l FROM Lugar l WHERE l.sitio = :sitio"),
     @NamedQuery(name = "Lugar.findByFecha", query = "SELECT l FROM Lugar l WHERE l.fecha >= :fecha"),
-    @NamedQuery(name = "Lugar.findByBorrado", query = "SELECT l FROM Lugar l WHERE l.borrado = :borrado")})
+    @NamedQuery(name = "Lugar.findByBorrado", query = "SELECT l FROM Lugar l WHERE l.borrado = :borrado ORDER BY l.categoria.id, l.puntaje")})
 public class Lugar implements Serializable {
 
     private static final long serialVersionUID = 1L;

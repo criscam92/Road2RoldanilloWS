@@ -349,7 +349,6 @@ public class FotoController implements Serializable {
     public void deleteFoto(Integer f) {
         System.out.println("Foto: " + f);
         if (getFacade().removeFoto(f)) {
-
         }
     }
 

@@ -4,10 +4,12 @@ import r2r.entityjson.LugarJson;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import r2r.persistencia.entidades.Foto;
 import r2r.persistencia.entidades.Lugar;
 
 @Stateless
@@ -15,6 +17,9 @@ public class LugarFacade extends AbstractFacade<Lugar> {
 
     @PersistenceContext(unitName = "Road2RoldanilloWSPU")
     private EntityManager em;
+    
+    @EJB
+    private FotoFacade fotoFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -88,7 +93,8 @@ public class LugarFacade extends AbstractFacade<Lugar> {
             lugarJson.setDescripcion(lugar.getDescripcion());
             lugarJson.setSitio(lugar.getSitio());
             lugarJson.setTelefono(lugar.getTelefono());
-            lugarJson.setFotos(lugar.getFotoList());
+            List<Foto> fotos = fotoFacade.getFotosByLugar(lugar);
+            lugarJson.setFotos(fotos);
             lugaresJsons.add(lugarJson);
         }
         return lugaresJsons;

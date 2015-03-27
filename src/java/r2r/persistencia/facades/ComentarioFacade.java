@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import r2r.persistencia.entidades.Comentario;
-import r2r.persistencia.entidades.Foto;
 
 @Stateless
 public class ComentarioFacade extends AbstractFacade<Comentario> {
@@ -21,12 +20,13 @@ public class ComentarioFacade extends AbstractFacade<Comentario> {
         return em;
     }
     
-    public List<Comentario> getComentariosByFecha(Long timeStamp){
+    public List<Comentario> getComentariosByFecha(Integer idLugar, Long timeStamp){
         List<Comentario> comentarios = new ArrayList<>();
         try {
             Date fecha = new Date(timeStamp);
             Query query = getEntityManager().createNamedQuery("Comentario.findByFecha");
             query.setParameter("fecha", fecha);
+            query.setParameter("lugar", idLugar);
             comentarios = query.getResultList();
 
         } catch (Exception e) {
@@ -34,13 +34,12 @@ public class ComentarioFacade extends AbstractFacade<Comentario> {
         }
         return comentarios;
     }
-
     public ComentarioFacade() {
         super(Comentario.class);
     }
     
-    public List<ComentarioJson> getComentariosJsonsTMP(Long timeStamp){
-        List<Comentario> comentarios = getComentariosByFecha(timeStamp);
+    public List<ComentarioJson> getComentariosJsonsTMP(Integer idLugar, Long timeStamp){
+        List<Comentario> comentarios = getComentariosByFecha(idLugar, timeStamp);
         List<ComentarioJson> comentariosJsons = new ArrayList<>();
         
         for (Comentario comentario : comentarios) {
@@ -50,8 +49,10 @@ public class ComentarioFacade extends AbstractFacade<Comentario> {
             comentarioJson.setId(comentario.getId());
             comentarioJson.setLugar(comentario.getLugar().getId());
             comentarioJson.setPuntaje(comentario.getPuntaje());
-            comentarioJson.setUsuarioId(comentario.getUsuarioId());
+            comentarioJson.setUsuario(comentario.getUsuarioId());
             comentarioJson.setUsuarioNombre(comentario.getUsuarioNombre());
+            comentarioJson.setBorrado(comentario.getBorrado());
+            comentarioJson.setSubido(1);
             
             comentariosJsons.add(comentarioJson);
         }

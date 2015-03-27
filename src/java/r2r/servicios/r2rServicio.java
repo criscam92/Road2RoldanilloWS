@@ -83,11 +83,11 @@ public class r2rServicio {
 
     //================== METODOS COMENTARIOS ==================
     @GET
-    @Path("/comentario/get/{timestamp}")
+    @Path("/comentario/get/{idlugar}/{timestamp}")
     @Produces("application/json; charset=UTF-8")
-    public String getComentarioJson(@PathParam("timestamp") Long timeStamp) {
+    public String getComentarioJson(@PathParam("idlugar") Integer idLugar,@PathParam("timestamp") Long timeStamp) {
         Gson gson = new Gson();
-        String json = gson.toJson(getComentarioFacade().getComentariosJsonsTMP(timeStamp));
+        String json = gson.toJson(getComentarioFacade().getComentariosJsonsTMP(idLugar,timeStamp));
         return json;
     }
 

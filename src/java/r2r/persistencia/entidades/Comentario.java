@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comentario.findAll", query = "SELECT c FROM Comentario c"),
     @NamedQuery(name = "Comentario.findById", query = "SELECT c FROM Comentario c WHERE c.id = :id"),
     @NamedQuery(name = "Comentario.findByDetalle", query = "SELECT c FROM Comentario c WHERE c.detalle = :detalle"),
-    @NamedQuery(name = "Comentario.findByFecha", query = "SELECT c FROM Comentario c WHERE c.fecha >= :fecha"),
+    @NamedQuery(name = "Comentario.findByFecha", query = "SELECT c FROM Comentario c WHERE c.fecha >= :fecha AND c.lugar.id = :lugar"),
     @NamedQuery(name = "Comentario.findByPuntaje", query = "SELECT c FROM Comentario c WHERE c.puntaje = :puntaje")})
 public class Comentario implements Serializable {
 
@@ -62,6 +62,10 @@ public class Comentario implements Serializable {
     @JoinColumn(name = "lugar", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Lugar lugar;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private int borrado;
 
     public Comentario() {
     }
@@ -155,6 +159,14 @@ public class Comentario implements Serializable {
     @Override
     public String toString() {
         return "r2r.persistencia.controllers.Comentario[ id=" + id + " ]";
+    }
+
+    public int getBorrado() {
+        return borrado;
+    }
+
+    public void setBorrado(int borrado) {
+        this.borrado = borrado;
     }
 
 }
